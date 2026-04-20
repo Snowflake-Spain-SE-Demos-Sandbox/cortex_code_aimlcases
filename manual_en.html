@@ -179,31 +179,18 @@
     <h2><span class="step-num">3</span> Opening Cortex Code in Snowsight</h2>
     <p>Cortex Code is integrated across several surfaces in Snowsight. Here are the ways to access it:</p>
 
-    <h3>Option A &mdash; From Worksheets (SQL)</h3>
+    <h3>Option A &mdash; From Workspaces</h3>
     <ol>
-      <li>Go to <strong>Snowsight</strong> &rarr; <strong>Projects</strong> &rarr; <strong>Worksheets</strong></li>
-      <li>Open a new or existing worksheet</li>
+      <li>Go to <strong>Snowsight</strong> &rarr; <strong>Projects</strong> &rarr; <strong>Workspaces</strong></li>
+      <li>Create or open an existing workspace</li>
       <li>Click the <strong>Cortex</strong> icon (&#10024;) in the right sidebar, or use the shortcut <kbd>Cmd+Shift+Space</kbd> (Mac) / <kbd>Ctrl+Shift+Space</kbd> (Windows)</li>
       <li>The Cortex Code panel will open to the right of the editor</li>
     </ol>
 
     <div class="callout">
-      <p><strong>Tip:</strong> The Cortex Code panel maintains the context of your worksheet. If you have tables referenced in the editor, Cortex Code will use them as context to generate more precise code.</p>
+      <p><strong>Tip:</strong> The Cortex Code panel maintains the context of your workspace. If you have tables referenced in the editor, Cortex Code will use them as context to generate more precise code.</p>
     </div>
 
-    <h3>Option B &mdash; From Notebooks</h3>
-    <ol>
-      <li>Go to <strong>Snowsight</strong> &rarr; <strong>Projects</strong> &rarr; <strong>Notebooks</strong></li>
-      <li>Create or open a notebook</li>
-      <li>In any cell, click the &#10024; icon or type your prompt directly in a Markdown cell and Cortex Code will generate the code in the next cell</li>
-    </ol>
-
-    <h3>Option C &mdash; From Streamlit</h3>
-    <ol>
-      <li>Go to <strong>Snowsight</strong> &rarr; <strong>Projects</strong> &rarr; <strong>Streamlit</strong></li>
-      <li>Create a new Streamlit app</li>
-      <li>Use Cortex Code in the side editor to generate components</li>
-    </ol>
   </div>
 
   <!-- SECTION 4 -->
@@ -269,7 +256,7 @@
     <h2><span class="step-num">6</span> Running a Use Case Step by Step</h2>
     <p>Let's walk through the complete process with a practical example:</p>
 
-    <h3>5.1 &mdash; Select industry and use case</h3>
+    <h3>6.1 &mdash; Select industry and use case</h3>
     <ol>
       <li>Go to the <a href="index.html" style="color:#29B5E8;">industry catalog</a></li>
       <li>Choose an industry (for example, <strong>Banking</strong>)</li>
@@ -277,17 +264,17 @@
       <li>Read the <strong>&laquo;Problem&raquo;</strong> section to understand the business pain point</li>
     </ol>
 
-    <h3>5.2 &mdash; Read the Guide</h3>
+    <h3>6.2 &mdash; Read the Guide</h3>
     <ol>
       <li>Click <strong>&laquo;View Guide&raquo;</strong></li>
       <li>Read the sections: <em>Context, Focus, Challenge, Objectives, Features, Data, Stratification and How to Use</em></li>
       <li>This gives you the conceptual framework before generating code</li>
     </ol>
 
-    <h3>5.3 &mdash; Run the Prompts</h3>
+    <h3>6.3 &mdash; Run the Prompts</h3>
     <ol>
       <li>Click <strong>&laquo;View Prompts&raquo;</strong></li>
-      <li>In Snowsight, open a <strong>SQL worksheet</strong> and activate <strong>Cortex Code</strong></li>
+      <li>In Snowsight, open a <strong>workspace</strong> and activate <strong>Cortex Code</strong></li>
       <li>For each step:
         <ul>
           <li>Click <strong>&laquo;Copy&raquo;</strong> on the prompt</li>
@@ -362,24 +349,15 @@ USE WAREHOUSE BANKING_WH;</div>
     <h2><span class="step-num">8</span> Deploying Streamlit Dashboards</h2>
     <p>Almost all use cases include a prompt to generate a Streamlit dashboard. Here is how to deploy it:</p>
 
-    <h3>7.1 &mdash; Generate the Streamlit code</h3>
+    <h3>8.1 &mdash; Generate the Streamlit app</h3>
     <ol>
       <li>Run the &laquo;Dashboard&raquo; prompt (usually the second-to-last step)</li>
       <li>Cortex Code will generate Python code with Streamlit</li>
-      <li>Copy the generated code</li>
+      <li>Go to <strong>Snowsight</strong> &rarr; <strong>Projects</strong> &rarr; <strong>Streamlit</strong></li>
     </ol>
 
-    <h3>7.2 &mdash; Create the app in Snowsight</h3>
-    <ol>
-      <li>Go to <strong>Projects</strong> &rarr; <strong>Streamlit</strong></li>
-      <li>Click <strong>&laquo;+ Streamlit App&raquo;</strong></li>
-      <li>Select the database and schema for the use case</li>
-      <li>Select the warehouse</li>
-      <li>Paste the generated code in the editor</li>
-      <li>Click <strong>&laquo;Run&raquo;</strong></li>
-    </ol>
 
-    <h3>7.3 &mdash; Verify and share</h3>
+    <h3>8.3 &mdash; Verify and share</h3>
     <ol>
       <li>Check that all charts and tables load correctly</li>
       <li>If there are errors, verify the tables and views exist (created in previous steps)</li>
