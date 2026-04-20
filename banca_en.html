@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <title>Snowflake — AI/ML Solutions for Banking & Financial Services</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+    }
+
+    /* ── HEADER ──────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, #003545, #11567F);
+      color: #fff;
+      padding: 32px 48px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .hero-left { flex: 1; }
+
+    .logos {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .logo-snowflake {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 2px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 6px;
+    }
+
+    .hero-tagline {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .stats-box {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px 28px;
+      text-align: center;
+      color: #1a1a1a;
+      min-width: 160px;
+      flex-shrink: 0;
+    }
+
+    .stats-box .stat-number {
+      font-size: 40px;
+      font-weight: 700;
+      color: #29B5E8;
+      line-height: 1;
+    }
+
+    .stats-box .stat-label {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 14px;
+    }
+
+    .stats-box .stat-time {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1;
+    }
+
+    .stats-box .stat-time-label {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .stats-divider {
+      border: none;
+      border-top: 1px solid #e8e8e8;
+      margin: 10px 0;
+    }
+
+    /* ── SECTION INTRO ───────────────────────────────────── */
+    .intro {
+      background: #fff;
+      text-align: center;
+      padding: 48px 24px 32px;
+    }
+
+    .intro h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #11567F;
+      margin-bottom: 14px;
+    }
+
+    .intro p {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 14px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    /* ── FILTERS ─────────────────────────────────────────── */
+    .filters-bar {
+      background: #fff;
+      padding: 20px 48px 0;
+      border-bottom: 1px solid #e8e8e8;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filters-left {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 80px;
+      border: 1.5px solid #ccc;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 500;
+      color: #444;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover { border-color: #29B5E8; color: #29B5E8; }
+
+    .filter-btn.active {
+      background: #29B5E8;
+      border-color: #29B5E8;
+      color: #fff;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid #ccc;
+      border-radius: 80px;
+      padding: 7px 14px;
+      gap: 8px;
+      min-width: 200px;
+      background: #fff;
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      font-size: 13px;
+      color: #444;
+      width: 100%;
+      background: transparent;
+    }
+    .search-box input::placeholder { color: #aaa; }
+
+    /* ── RESULTS COUNT ────────────────────────────────────── */
+    .results-count {
+      padding: 14px 48px 8px;
+      font-size: 13px;
+      color: #666;
+      background: #f5f5f5;
+    }
+
+    /* ── CARDS GRID ──────────────────────────────────────── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 24px;
+      padding: 16px 48px 48px;
+      background: #f5f5f5;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid #e2e2e2;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s;
+    }
+
+    .card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.1); }
+
+    .card-header {
+      padding: 16px 18px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-badges { display: flex; gap: 6px; align-items: center; }
+
+    .badge-id {
+      font-size: 11px;
+      font-weight: 700;
+      color: #888;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-cat {
+      background: #E0F4FD;
+      color: #11567F;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 50px;
+    }
+    .badge-cat.riesgo       { background: #FDE8F0; color: #D45B90; }
+    .badge-cat.cliente      { background: #E0F4FD; color: #11567F; }
+    .badge-cat.operaciones  { background: #EDE6FF; color: #7D44CF; }
+    .badge-cat.inteligencia { background: #FFF5E6; color: #E08520; }
+
+    .card-time {
+      font-size: 12px;
+      color: #888;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .card-title {
+      padding: 0 18px 12px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #11567F;
+      line-height: 1.3;
+    }
+
+    .pain-point {
+      margin: 0 18px 14px;
+      background: #F0F7FA;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .pain-point-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #29B5E8;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .pain-point p {
+      font-size: 13px;
+      color: #2a2a2a;
+      line-height: 1.55;
+    }
+
+    .card-desc {
+      padding: 0 18px 14px;
+      font-size: 13px;
+      color: #555;
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .card-features {
+      padding: 0 18px 16px;
+      list-style: none;
+    }
+
+    .card-features li {
+      font-size: 13px;
+      color: #444;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .card-features li::before {
+      content: '\2713';
+      color: #29B5E8;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .card-actions {
+      padding: 14px 18px 18px;
+      display: flex;
+      gap: 10px;
+      border-top: 1px solid #f0f0f0;
+      flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      padding: 10px;
+      background: #29B5E8;
+      color: #fff;
+      border: none;
+      border-radius: 80px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s;
+      text-decoration: none;
+      display: block;
+    }
+    .btn-secondary:hover { background: #11567F; }
+
+    .btn-tertiary {
+      flex: 1;
+      padding: 10px;
+      background: #003545;
+      color: #29B5E8;
+      border: none;
+      border-radius: 80px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s;
+      text-decoration: none;
+      display: block;
+    }
+    .btn-tertiary:hover { background: #11567F; }
+
+    .prompt-step { margin-bottom: 18px; }
+    .prompt-step-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .prompt-step-num { background: #003545; color: #29B5E8; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+    .prompt-step-title { font-size: 13px; font-weight: 600; color: #333; }
+    .prompt-step-desc { font-size: 12px; color: #666; margin-bottom: 6px; line-height: 1.5; }
+    .prompt-code { position: relative; background: #003545; color: #e0e0e0; border-radius: 8px; padding: 12px 14px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12.5px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+    .prompt-code .copy-btn { position: absolute; top: 6px; right: 8px; background: rgba(255,255,255,0.1); border: none; color: #aaa; font-size: 11px; padding: 3px 8px; border-radius: 4px; cursor: pointer; }
+    .prompt-code .copy-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
+    .prompt-code .kw { color: #29B5E8; }
+    .modal-box .prompt-intro { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid #eee; }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 700px;
+      width: 92%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 32px 28px;
+      position: relative;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: #888;
+      line-height: 1;
+    }
+    .modal-close:hover { color: #29B5E8; }
+    .modal-box h2 { color: #11567F; font-size: 20px; margin-bottom: 6px; }
+    .modal-box h3 { font-size: 15px; color: #333; margin: 18px 0 8px; }
+    .modal-box p, .modal-box li { font-size: 13px; line-height: 1.7; color: #444; }
+    .modal-box ul { padding-left: 20px; margin: 6px 0; }
+    .modal-box .guide-badge { display: inline-block; background: #E0F4FD; color: #11567F; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 50px; margin-bottom: 10px; }
+    .modal-box .guide-footer { margin-top: 20px; padding-top: 14px; border-top: 1px solid #eee; font-size: 12px; color: #888; }
+
+    @media (max-width: 700px) {
+      .hero { flex-direction: column; padding: 24px 20px; }
+      .cards-grid { grid-template-columns: 1fr; padding: 16px 16px 48px; }
+      .filters-bar { padding: 16px 16px 0; }
+      .results-count { padding: 12px 16px 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ──────────────────────────────────────────────── -->
+<header class="hero">
+  <div class="hero-left">
+    <div class="logos">
+      <div class="logo-snowflake">
+        <img src="bug-white.png" alt="Snowflake" width="32" height="32" />
+        Snowflake
+      </div>
+    </div>
+    <a href="index_en.html" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:rgba(255,255,255,0.75);text-decoration:none;margin-bottom:8px;transition:color 0.15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="12,4 6,10 12,16"/></svg>Back to Industry Index</a>
+    <p class="hero-eyebrow">Banking × Snowflake</p>
+    <h1 class="hero-title">AI/ML Solutions for Banking</h1>
+    <p class="hero-subtitle">Cortex Code Guides & Prompts ready to deploy for banking and financial services teams</p>
+    <p class="hero-tagline">Built with Snowflake Cortex AI | Immediate Impact</p>
+  </div>
+
+  <div class="stats-box">
+    <div class="stat-number">20</div>
+    <div class="stat-label">Use Cases</div>
+    <hr class="stats-divider"/>
+    <div class="stat-time">8-15 min</div>
+    <div class="stat-time-label">Setup Time</div>
+  </div>
+</header>
+
+<!-- ── INTRO ──────────────────────────────────────────────── -->
+<section class="intro">
+  <h2>Accelerate Your Analytics with Pre-configured AI Solutions for Banking</h2>
+  <p>Each solution includes Snowflake Cortex Code Prompts with synthetic data, step-by-step guides
+     and SQL-first implementations with Cortex AI/ML. All processing stays within Snowflake,
+     no external dependencies, ready to customize with your own data.</p>
+</section>
+
+<!-- ── FILTERS ───────────────────────────────────────────── -->
+<div class="filters-bar">
+  <div class="filters-left" id="filterBtns">
+    <button class="filter-btn active" data-filter="all">All (20)</button>
+    <button class="filter-btn" data-filter="riesgo">Risk & Compliance (6)</button>
+    <button class="filter-btn" data-filter="cliente">Customer & Business (7)</button>
+    <button class="filter-btn" data-filter="operaciones">Operations & Markets (4)</button>
+    <button class="filter-btn" data-filter="inteligencia">Advanced Intelligence (3)</button>
+  </div>
+  <div class="search-box">
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round">
+      <circle cx="9" cy="9" r="7"/><line x1="15" y1="15" x2="19" y2="19"/>
+    </svg>
+    <input id="searchInput" type="text" placeholder="Search use cases…" />
+  </div>
+</div>
+
+<!-- ── RESULTS COUNT ─────────────────────────────────────── -->
+<div class="results-count" id="resultsCount">Showing 20 of 20 use cases</div>
+
+<!-- ── CARDS ─────────────────────────────────────────────── -->
+<main class="cards-grid" id="cardsGrid"></main>
+
+<!-- ── MODALS ─────────────────────────────────────────────── -->
+<div class="modal-overlay" id="guiaModal"><div class="modal-box" id="guiaModalBox"></div></div>
+<div class="modal-overlay" id="promptsModal"><div class="modal-box" id="promptsModalBox" style="max-width:780px;"></div></div>
+
+<script>
+const USE_CASES = [
+  {
+    id:"UC01", cat:"riesgo", catLabel:"Risk & Compliance", time:"12 min",
+    title:"Real-Time Transaction Fraud Detection",
+    pain:"Billions are lost annually to banking transaction fraud. Manual detection barely covers 2% of operations in real time.",
+    desc:"ML.CLASSIFICATION on 50K transactions with amount z-score, new device, anomalous location and time. Differentiated thresholds: BLOCK (≥80%), REVIEW (≥50%), APPROVE. Real-time monitoring dashboard.",
+    features:["SNOWFLAKE.ML.CLASSIFICATION","Z-Score per customer with STDDEV()","GENERATOR() for 50,000 transactions","Streamlit alert dashboard"]
+  },
+  {
+    id:"UC02", cat:"riesgo", catLabel:"Risk & Compliance", time:"14 min",
+    title:"Dynamic Credit Risk Scoring",
+    pain:"Manual credit decisions are slow, inconsistent and fail to meet regulatory explainability requirements (EBA, GDPR).",
+    desc:"ML.CLASSIFICATION + CORTEX.COMPLETE for credit scoring with debt-to-income ratio, bureau score, historical defaults. AI explanation for each decision for regulatory compliance.",
+    features:["SNOWFLAKE.ML.CLASSIFICATION","CORTEX.COMPLETE() for explainability","NTILE() for risk bands","5,000 applicants with credit history"]
+  },
+  {
+    id:"UC03", cat:"riesgo", catLabel:"Risk & Compliance", time:"13 min",
+    title:"Anti-Money Laundering (AML) Detection",
+    pain:"Compliance teams receive thousands of false alerts that overwhelm investigation capacity. Real money laundering goes undetected in the noise.",
+    desc:"ML.CLASSIFICATION with structuring patterns (amounts below $3,000 threshold), smurfing and transaction networks. Alerts classified by severity: CRITICAL/HIGH/MEDIUM/LOW.",
+    features:["SNOWFLAKE.ML.CLASSIFICATION","Structuring and smurfing analysis","80,000 synthetic operations","Severity alerts (AML regulations)"]
+  },
+  {
+    id:"UC04", cat:"riesgo", catLabel:"Risk & Compliance", time:"15 min",
+    title:"Stress Testing & Scenario Simulation",
+    pain:"Regulatory stress testing exercises require weeks of manual work. Projections are not updated as frequently as the regulator demands.",
+    desc:"ML.FORECAST at 24 months with adverse (1.5x) and severely adverse (2.2x) multipliers. Projection by portfolio: Mortgages, Consumer, Corporate, Cards. AI-generated narrative report.",
+    features:["SNOWFLAKE.ML.FORECAST multi-series","CORTEX.COMPLETE() for reports","Base/Adverse/Severe scenarios","Basel III/IV compliance"]
+  },
+  {
+    id:"UC05", cat:"riesgo", catLabel:"Risk & Compliance", time:"12 min",
+    title:"Regulatory Compliance Monitoring",
+    pain:"Manual monitoring of dozens of regulations creates compliance gaps resulting in multi-million dollar fines and reputational damage.",
+    desc:"CORTEX.COMPLETE + CORTEX.SUMMARIZE + CORTEX.SENTIMENT for MiFID II, PSD2, DORA, Basel, GDPR, AML documents. Automatic gap analysis and action prioritization.",
+    features:["CORTEX.COMPLETE() for analysis","CORTEX.SENTIMENT() for urgency","50 obligations, 150 controls","Automatic gap detection"]
+  },
+  {
+    id:"UC06", cat:"riesgo", catLabel:"Risk & Compliance", time:"11 min",
+    title:"Credit Application Fraud Detection",
+    pain:"Synthetic identities and inflated income in credit applications generate losses that materialize months after approval.",
+    desc:"ML.CLASSIFICATION with digital signals: form completion time, application hour, VPN, temporary emails, prepaid phone. Thresholds: BLOCK (≥75%), INVESTIGATE (≥40%), APPROVE.",
+    features:["SNOWFLAKE.ML.CLASSIFICATION","Synthetic identity signals","8,000 applications with verification","Origination anti-fraud alerts"]
+  },
+  {
+    id:"UC07", cat:"cliente", catLabel:"Customer & Business", time:"13 min",
+    title:"Customer Churn Prediction",
+    pain:"Acquiring a customer costs 5-7x more than retaining one. Without predictive signals, churn is detected when the customer has already left.",
+    desc:"ML.CLASSIFICATION with banking features: average balance, products, NPS, complaints, digital banking, tenure. Personalized retention recommendations with AI.",
+    features:["SNOWFLAKE.ML.CLASSIFICATION","CORTEX.COMPLETE() for retention","6-month activity trends","5,000 customers with engagement"]
+  },
+  {
+    id:"UC08", cat:"cliente", catLabel:"Customer & Business", time:"12 min",
+    title:"Hyper-Personalized Next-Best-Offer Engine",
+    pain:"Generic cross-selling campaigns have conversion rates below 3%. Customers receive irrelevant offers that erode the relationship.",
+    desc:"ML.CLASSIFICATION product propensity + CORTEX.COMPLETE for personalized recommendation by customer profile. Ranking by deciles with NTILE(10).",
+    features:["SNOWFLAKE.ML.CLASSIFICATION","CORTEX.COMPLETE() sales scripts","NTILE(10) for deciles","3,000 customers with full profile"]
+  },
+  {
+    id:"UC09", cat:"cliente", catLabel:"Customer & Business", time:"14 min",
+    title:"Advanced Segmentation & Customer LTV",
+    pain:"Static product-based segmentation does not capture true customer value. Commercial resources are allocated without profitability criteria.",
+    desc:"RFM with NTILE(5) + ML.FORECAST for LTV. Segments: Champions, Loyal, At Risk, Regular. 12-month revenue prediction with AI-generated narrative profiles.",
+    features:["SNOWFLAKE.ML.FORECAST multi-series","CORTEX.COMPLETE() for profiles","NTILE(5) for RFM quintiles","4,000 customers, 24 months of data"]
+  },
+  {
+    id:"UC10", cat:"cliente", catLabel:"Customer & Business", time:"10 min",
+    title:"Complaint Sentiment Analysis",
+    pain:"Thousands of complaints are managed with equal priority. The most dissatisfied customers do not receive preferential attention, worsening the situation.",
+    desc:"CORTEX.SENTIMENT + CORTEX.COMPLETE with LISTAGG for topic extraction. Automatic prioritization and AI-generated draft responses.",
+    features:["CORTEX.SENTIMENT() scoring","CORTEX.COMPLETE() responses","1,000 complaints","URGENT/HIGH/MEDIUM/LOW prioritization"]
+  },
+  {
+    id:"UC11", cat:"cliente", catLabel:"Customer & Business", time:"15 min",
+    title:"Financial Intelligence Chatbot",
+    pain:"Business teams depend on the data team for basic queries. Ad-hoc report requests overwhelm the BI queue.",
+    desc:"Cortex Analyst with YAML semantic model over PRODUCT_SALES and RISK_INDICATORS. Natural language queries with conversational interface.",
+    features:["Cortex Analyst NL-to-SQL","Semantic YAML models","CORTEX.COMPLETE() context","Streamlit chat interface"]
+  },
+  {
+    id:"UC12", cat:"cliente", catLabel:"Customer & Business", time:"11 min",
+    title:"Product Demand Forecasting",
+    pain:"Commercial planning is based on manual estimates. Unanticipated demand spikes create operational bottlenecks.",
+    desc:"ML.FORECAST for mortgage, loan, card, fund, insurance demand at 12 months. Automatic seasonality detection.",
+    features:["SNOWFLAKE.ML.FORECAST multi-series","Product seasonality","Confidence intervals","36 months historical, 12 projected"]
+  },
+  {
+    id:"UC13", cat:"cliente", catLabel:"Customer & Business", time:"12 min",
+    title:"Loan Pricing Optimizer",
+    pain:"Static pricing does not optimize the balance between margin and volume. Competitors with dynamic pricing capture the best customers.",
+    desc:"GENERATOR() + POWER() for APR vs acceptance rate elasticity curves. Simulation of 3 pricing strategies: Aggressive, Competitive, Conservative.",
+    features:["ML.CLASSIFICATION acceptance","POWER() monthly payment calc","3 scenario simulation","10,000 historical applications"]
+  },
+  {
+    id:"UC14", cat:"operaciones", catLabel:"Operations & Markets", time:"12 min",
+    title:"Early Delinquency Prediction",
+    pain:"Delinquency is detected when default has already occurred. Provisions are booked late, impacting the income statement.",
+    desc:"ML.CLASSIFICATION with missed_payments, days_past_due, payment_to_income_ratio for pre-delinquency detection at 90 days. Early alerts by risk level.",
+    features:["SNOWFLAKE.ML.CLASSIFICATION","First 3-month signals","6,000 recent loans","HIGH/MEDIUM/LOW alerts"]
+  },
+  {
+    id:"UC15", cat:"operaciones", catLabel:"Operations & Markets", time:"13 min",
+    title:"Market Operations Anomaly Detection",
+    pain:"Market manipulation (MAR) generates multi-million dollar fines. Manual supervision covers less than 5% of traded volume.",
+    desc:"Statistical z-score on volume per trader. Severity: CRITICAL (z>3), HIGH (z>2), NORMAL. Market abuse detection per MAR regulation.",
+    features:["STDDEV(), AVG(), PERCENTILE_CONT()","ML.CLASSIFICATION anomalies","100,000 operations in 20 instruments","CRITICAL/HIGH/NORMAL alerts"]
+  },
+  {
+    id:"UC16", cat:"operaciones", catLabel:"Operations & Markets", time:"14 min",
+    title:"Branch Network Optimization",
+    pain:"Over-dimensioned branch networks generate unsustainable fixed costs. Closing without analysis causes loss of high-value customers.",
+    desc:"ST_DISTANCE geospatial + business rules (pct_digital, monthly_visits). Decisions: Close/Expand/Optimize/Maintain with AI recommendations.",
+    features:["ST_DISTANCE(), ST_MAKEPOINT()","ML.CLASSIFICATION profitability","CORTEX.COMPLETE() recommendations","200 branches in 10 cities"]
+  },
+  {
+    id:"UC17", cat:"operaciones", catLabel:"Operations & Markets", time:"11 min",
+    title:"Document Analysis Automation",
+    pain:"Manual processing of banking documents (contracts, IDs, payslips) consumes hours per file and generates transcription errors.",
+    desc:"CORTEX.COMPLETE for JSON field extraction and VALID/INCOMPLETE/SUSPICIOUS validation of banking documents. File summaries with CORTEX.SUMMARIZE.",
+    features:["CORTEX.COMPLETE() JSON extraction","CORTEX.SUMMARIZE() summaries","500 files, 1,500 documents","Automatic cross-validation"]
+  },
+  {
+    id:"UC18", cat:"inteligencia", catLabel:"Advanced Intelligence", time:"10 min",
+    title:"Reputational Risk Monitor",
+    pain:"Reputational crises on social media escalate within minutes. Without automated monitoring, the response comes too late.",
+    desc:"CORTEX.SENTIMENT with reach > 10,000 threshold for CRISIS_ALERT. Multi-source monitoring: Twitter, LinkedIn, Press, Forums. Automatic executive reports.",
+    features:["CORTEX.SENTIMENT() scoring","CORTEX.COMPLETE() reports","2,000 multi-source mentions","Real-time crisis alerts"]
+  },
+  {
+    id:"UC19", cat:"inteligencia", catLabel:"Advanced Intelligence", time:"12 min",
+    title:"Banking Competitive Intelligence",
+    pain:"Competitive intelligence is gathered manually and arrives weeks late. Strategic decisions are made without updated data.",
+    desc:"CORTEX.COMPLETE with LISTAGG for threat analysis by competitor: major banks and digital challengers. Automated executive briefings.",
+    features:["CORTEX.SENTIMENT() competitors","CORTEX.COMPLETE() briefings","8 competitor banks analyzed","500 news articles and mentions"]
+  },
+  {
+    id:"UC20", cat:"inteligencia", catLabel:"Advanced Intelligence", time:"15 min",
+    title:"Banking Regulation RAG Assistant",
+    pain:"Compliance teams spend hours searching through hundreds of regulatory documents. Inconsistent answers create regulatory risk.",
+    desc:"Cortex Search + CORTEX.COMPLETE RAG pattern with LISTAGG over regulations: MiFID II, PSD2, Basel, DORA, AML. Evidence-based answers with citations.",
+    features:["Cortex Search semantic search","CORTEX.COMPLETE() RAG answers","100 regulatory fragments","Answers with source citations"]
+  }
+];
+
+const TOTAL = 20;
+
+function renderCards(list) {
+  const grid = document.getElementById('cardsGrid');
+  const count = document.getElementById('resultsCount');
+  grid.innerHTML = '';
+  count.textContent = `Showing ${list.length} of ${TOTAL} use cases`;
+  list.forEach(uc => {
+    const catClass = uc.cat;
+    grid.innerHTML += `
+      <article class="card">
+        <div class="card-header">
+          <div class="card-badges">
+            <span class="badge-id">${uc.id}</span>
+            <span class="badge-cat ${catClass}">${uc.catLabel}</span>
+          </div>
+          <span class="card-time">
+            <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="#aaa" stroke-width="2">
+              <circle cx="10" cy="10" r="8"/><polyline points="10,5 10,10 13,13"/>
+            </svg>
+            ${uc.time}
+          </span>
+        </div>
+        <h3 class="card-title">${uc.title}</h3>
+        <div class="pain-point">
+          <div class="pain-point-label">Problem</div>
+          <p>${uc.pain}</p>
+        </div>
+        <p class="card-desc">${uc.desc}</p>
+        <ul class="card-features">
+          ${uc.features.map(f => `<li>${f}</li>`).join('')}
+        </ul>
+        <div class="card-actions">
+          <a href="#" class="btn-secondary" onclick="verGuia('${uc.id}');return false;">View Guide</a>
+          <a href="#" class="btn-tertiary" onclick="verPrompts('${uc.id}');return false;">Cortex Code Prompts</a>
+        </div>
+      </article>`;
+  });
+}
+
+let activeFilter = 'all';
+let searchTerm = '';
+
+function applyFilters() {
+  let result = USE_CASES;
+  if (activeFilter !== 'all') result = result.filter(u => u.cat === activeFilter);
+  if (searchTerm) result = result.filter(u =>
+    u.title.toLowerCase().includes(searchTerm) ||
+    u.desc.toLowerCase().includes(searchTerm) ||
+    u.pain.toLowerCase().includes(searchTerm)
+  );
+  renderCards(result);
+}
+
+document.getElementById('filterBtns').addEventListener('click', e => {
+  if (!e.target.matches('.filter-btn')) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  activeFilter = e.target.dataset.filter;
+  applyFilters();
+});
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchTerm = e.target.value.toLowerCase().trim();
+  applyFilters();
+});
+
+renderCards(USE_CASES);
+
+
+const GUIAS = {
+  UC01: {
+    title: 'Real-Time Transaction Fraud Detection',
+    contexto: 'This Cortex Code workflow demonstrates banking transaction fraud detection using Snowflake Cortex ML. Transaction fraud generates billions in annual losses.',
+    foco: 'Binary classification model on 50,000 transactions with behavioral features: amount z-score, new device, anomalous location.',
+    reto: 'Build a system that detects fraud with high precision while minimizing false positives that block legitimate transactions.',
+    objetivos: ['Train ML.CLASSIFICATION model on labeled transactions','Calculate z-score per customer to detect anomalous amounts','Apply differentiated thresholds: BLOCK (>=80%), REVIEW (>=50%), APPROVE','Real-time monitoring dashboard with Streamlit'],
+    funcionalidades: ['SNOWFLAKE.ML.CLASSIFICATION for predictive model','GENERATOR() for 50,000 synthetic transactions','STDDEV() and AVG() for z-score calculation','OBJECT_CONSTRUCT for inline prediction','Streamlit for interactive dashboard'],
+    datos: ['Customers: 2,000 profiles with demographics and products','Transactions: 50,000 operations (5% fraud) with channel, location, time','Features: amount z-score, ratio vs average, new device','Predictions: fraud probability with action (BLOCK/REVIEW/APPROVE)'],
+    como_usar: ['Execute prompts sequentially','Setup creates isolated database TRANSACTION_FRAUD_DB','Synthetic data generates 50,000 transactions automatically','Model trains in 1-2 minutes','Dashboard shows KPIs and alert table']
+  },
+  UC02: {
+    title: 'Dynamic Credit Risk Scoring',
+    contexto: 'This Cortex Code workflow builds a credit scoring system with ML and AI explainability. Banking regulation requires transparent and traceable decisions.',
+    foco: 'Automatic credit application evaluation with multi-level classification (APPROVED/CONDITIONAL/REJECTED) and AI-generated explanations.',
+    reto: 'Automate credit decisions while meeting regulatory requirements (EBA, GDPR) for transparency and explainability.',
+    objetivos: ['Train ML.CLASSIFICATION on credit history','Calculate financial ratios as predictive features (DTI, payment history)','Generate AI explanations with CORTEX.COMPLETE for each decision','Application management dashboard with Streamlit'],
+    funcionalidades: ['SNOWFLAKE.ML.CLASSIFICATION for risk model','CORTEX.COMPLETE() for natural language explainability','NTILE() for risk band segmentation','5,000 applicants with 15,000 history records'],
+    datos: ['Applicants: 5,000 profiles with income, employment, assets','Credit history: 15,000 records of previous credits','Applications: 5,000 with amount, term, purpose','Decisions: APPROVED/CONDITIONAL/REJECTED with AI explanation'],
+    como_usar: ['Execute sequentially','Model evaluates multiple algorithms automatically','AI explanations are generated for a sample of applications','Dashboard allows filtering by decision and viewing explanations']
+  },
+  UC03: {
+    title: 'Anti-Money Laundering (AML) Detection',
+    contexto: 'This Cortex Code workflow implements an AML detection system compliant with international anti-money laundering regulations.',
+    foco: 'Detection of structuring (splitting operations below regulatory thresholds of $3,000 and $10,000) and suspicious transfer patterns.',
+    reto: 'Identify suspicious activity while minimizing false alerts that overwhelm the compliance team.',
+    objetivos: ['Detect structuring patterns with threshold analysis','Classify operations by severity (CRITICAL/HIGH/MEDIUM/LOW)','Analyze destination concentration in high-risk jurisdictions','Investigation dashboard for compliance team'],
+    funcionalidades: ['SNOWFLAKE.ML.CLASSIFICATION for suspicious operation detection','Window functions for transaction velocity analysis','GENERATOR() for 80,000 synthetic banking operations','Alerts classified by severity'],
+    datos: ['Accounts: 3,000 accounts with holder profile','Operations: 80,000 transactions (3% suspicious)','Beneficiaries: 500 destinations with jurisdiction and risk level','Alerts: classified by severity with probability'],
+    como_usar: ['Execute sequentially','Data includes realistic structuring patterns','Alerts are classified into 4 severity levels','Dashboard allows filtering by severity and investigating operations']
+  },
+  UC04: {
+    title: 'Stress Testing & Scenario Simulation',
+    contexto: 'This Cortex Code workflow simulates the impact of adverse macroeconomic scenarios on the credit portfolio, per EBA/ECB regulatory requirements.',
+    foco: 'Three scenarios (Base, Adverse, Severely Adverse) with delinquency projection using ML.FORECAST and AI-generated narrative reports.',
+    reto: 'Meet regulatory stress testing requirements and anticipate capital needs.',
+    objetivos: ['Project delinquency rates with SNOWFLAKE.ML.FORECAST','Simulate 3 macroeconomic scenarios with impact multipliers','Calculate expected losses and provisions by segment','Generate automated narrative reports with CORTEX.COMPLETE'],
+    funcionalidades: ['SNOWFLAKE.ML.FORECAST for time series projection','CORTEX.COMPLETE() for executive reports','GENERATOR() for portfolio and macro time series data','Chained CTEs for provision calculations'],
+    datos: ['Portfolio: 10,000 credits (Mortgages, Consumer, Corporate, Cards)','Macro series: 36 months of GDP, unemployment, rates, CPI','Delinquency: 36 months historical by segment','Scenarios: Base, Adverse (-1.5% GDP), Severe (-4% GDP)'],
+    como_usar: ['Execute sequentially','Forecast trains on 36 months of historical data','Scenarios apply differentiated multipliers by segment','AI report is generated automatically with the results']
+  },
+  UC05: {
+    title: 'Regulatory Compliance Monitoring',
+    contexto: 'This Cortex Code workflow automates banking regulatory compliance monitoring using AI to analyze regulatory texts and detect gaps.',
+    foco: 'Automatic analysis of obligations from ECB, EBA, SEC, and financial regulators with compliance gap detection.',
+    reto: 'Reduce regulatory fine risk by automating continuous compliance monitoring.',
+    objetivos: ['Analyze regulatory texts with CORTEX.COMPLETE()','Classify obligations by type and urgency','Detect gaps between obligations and implemented controls','Compliance status dashboard'],
+    funcionalidades: ['CORTEX.COMPLETE() for regulation analysis and summarization','CORTEX.SENTIMENT() to detect urgency tone','50 regulatory obligations with 150 associated controls','Risk-based gap prioritization system'],
+    datos: ['Obligations: 50 requirements from 5 regulators','Controls: 150 controls with results and frequency','Assessments: 200 historical evaluations','Gaps: prioritized by severity and deadline proximity'],
+    como_usar: ['Execute sequentially','AI analysis summarizes each obligation in 3 lines','Gaps are calculated by cross-referencing obligations with controls','Dashboard shows overall status and priority gaps']
+  },
+  UC06: {
+    title: 'Credit Application Fraud Detection',
+    contexto: 'This Cortex Code workflow detects fraudulent credit applications at origination stage, identifying synthetic identities and inflated income.',
+    foco: 'Classification model on discrepancies between applicant-declared data and externally verified data.',
+    reto: 'Prevent losses from approving fraudulent credits (first-party fraud).',
+    objetivos: ['Detect discrepancies between declared and verified data','Train ML.CLASSIFICATION on fraud features','Apply thresholds: BLOCK (>=75%), INVESTIGATE (>=40%), APPROVE','Anti-fraud alert dashboard'],
+    funcionalidades: ['SNOWFLAKE.ML.CLASSIFICATION for fraud detection','ABS() and ratios for discrepancy calculation','8,000 applications with cross-verifications','Alert system with prioritization'],
+    datos: ['Applications: 8,000 (7% fraudulent)','Verifications: verified income, employer, address, ID','Features: income discrepancy, bureau score, total discrepancies','Alerts: BLOCK/INVESTIGATE/APPROVE with probability'],
+    como_usar: ['Execute sequentially','Data includes realistic document fraud patterns','Model detects discrepancies between declared and verified','Dashboard shows alerts prioritized by probability']
+  },
+  UC07: {
+    title: 'Customer Churn Prediction',
+    contexto: 'This Cortex Code workflow predicts which banking customers have high probability of leaving within the next 90 days.',
+    foco: 'Predictive model based on transaction activity trends, digital engagement and product usage.',
+    reto: 'Retain high-value customers before they leave (acquisition cost is 5-7x retention cost).',
+    objetivos: ['Predict churn with ML.CLASSIFICATION','Calculate activity trends (last 2 months vs previous 4)','Generate retention recommendations with CORTEX.COMPLETE()','Retention dashboard with priority actions'],
+    funcionalidades: ['SNOWFLAKE.ML.CLASSIFICATION for churn prediction','CORTEX.COMPLETE() for personalized recommendations','Window functions for activity trends','5,000 customers with 6 months of activity'],
+    datos: ['Customers: 5,000 with segment, products, balances','Activity: 6 months of transactions, logins, transfers','Features: transaction trend, balance decline, engagement','Recommendations: AI-personalized retention actions'],
+    como_usar: ['Execute sequentially','Churners show activity decline in last 2 months','AI recommendations are generated for high-risk customers','Dashboard shows at-risk balance and priority actions']
+  },
+  UC08: {
+    title: 'Hyper-Personalized Next-Best-Offer Engine',
+    contexto: 'This Cortex Code workflow builds a recommendation engine suggesting the best product for each customer based on purchase propensity.',
+    foco: 'Propensity model for investment products with AI-generated sales scripts.',
+    reto: 'Increase cross-selling and share-of-wallet with relevant and personalized offers.',
+    objetivos: ['Predict purchase propensity with ML.CLASSIFICATION','Segment customers by propensity deciles with NTILE()','Generate sales scripts with CORTEX.COMPLETE()','Commercial opportunities dashboard'],
+    funcionalidades: ['SNOWFLAKE.ML.CLASSIFICATION for propensity model','CORTEX.COMPLETE() for personalized sales scripts','NTILE(10) for decile ranking','3,000 customers with complete financial profile'],
+    datos: ['Customers: 3,000 with age, segment, income, products','Features: savings/income ratio, segment level, current products','Propensity: probability and decile for investment product','Sales scripts: AI-personalized sales texts'],
+    como_usar: ['Execute sequentially','Model predicts propensity to purchase investment','Sales scripts are generated for top 20%','Dashboard shows opportunities ordered by propensity']
+  },
+  UC09: {
+    title: 'Advanced Segmentation & Customer LTV',
+    contexto: 'This Cortex Code workflow calculates Customer Lifetime Value and segments customers by value using RFM analysis and ML projections.',
+    foco: 'RFM segmentation (Recency, Frequency, Monetary) with future revenue projection by segment.',
+    reto: 'Optimally allocate commercial resources based on current and projected customer value.',
+    objetivos: ['Calculate historical LTV with advanced SQL','Segment customers with RFM analysis and NTILE()','Project future value with SNOWFLAKE.ML.FORECAST','Generate segment profiles with CORTEX.COMPLETE()'],
+    funcionalidades: ['SNOWFLAKE.ML.FORECAST for revenue projection','CORTEX.COMPLETE() for narrative segment profiles','NTILE(5) for RFM quintiles','4,000 customers with 24 months of revenue'],
+    datos: ['Customers: 4,000 with signup date, segment, products','Revenue: 24 months of commissions, interest, insurance','RFM: recency, frequency and monetary value scores','Profiles: narrative descriptions per value segment'],
+    como_usar: ['Execute sequentially','LTV is calculated by aggregating 24 months of revenue','RFM quintiles create 4 segments: VIP, High Value, Medium, Low','Forecast projects 12 additional months per segment']
+  },
+  UC10: {
+    title: 'Complaint Sentiment Analysis',
+    contexto: 'This Cortex Code workflow analyzes sentiment of banking complaints to prioritize attention and generate automated responses.',
+    foco: 'Sentiment scoring, category classification and AI-generated draft response creation.',
+    reto: 'Improve response times and customer satisfaction in complaint management.',
+    objetivos: ['Analyze sentiment with CORTEX.SENTIMENT()','Classify complaints by category with CORTEX.COMPLETE()','Prioritize by urgency combining sentiment and category','Generate automated draft responses'],
+    funcionalidades: ['CORTEX.SENTIMENT() for sentiment scoring (-1 to +1)','CORTEX.COMPLETE() for classification and response generation','1,000 complaints with realistic text','Prioritization system: URGENT/HIGH/MEDIUM/LOW'],
+    datos: ['Complaints: 1,000 texts via 5 channels','Sentiment: score from -1 to +1 with level (Crisis/Negative/Neutral/Positive)','Categories: Fees, Service, Digital, Fraud, Other','Responses: AI-generated drafts per priority'],
+    como_usar: ['Execute sequentially','Sentiment is calculated automatically for each complaint','Prioritization combines sentiment + category','Dashboard allows filtering by priority and viewing AI responses']
+  },
+  UC11: {
+    title: 'Financial Intelligence Chatbot',
+    contexto: 'This Cortex Code workflow builds a conversational chatbot that allows querying banking financial data in natural language.',
+    foco: 'YAML semantic model for Cortex Analyst with interactive chat interface.',
+    reto: 'Democratize access to financial data without requiring SQL knowledge.',
+    objetivos: ['Build YAML semantic model for Cortex Analyst','Enable natural language queries over financial data','Create conversational interface with CORTEX.COMPLETE()','Deploy self-service analytics for non-technical users'],
+    funcionalidades: ['Cortex Analyst for NL-to-SQL translation','Semantic YAML models with banking metrics','CORTEX.COMPLETE() for contextualized answers','Streamlit for interactive chat interface'],
+    datos: ['Operations: 12 months of daily data by product and branch','Products: Mortgages, Loans, Funds, Insurance, Cards','Branches: 8 main branches','Targets: commercial targets by product and branch'],
+    como_usar: ['Execute sequentially','Semantic model defines dimensions and metrics','Example questions show system capabilities','Chatbot answers business questions in real time']
+  },
+  UC12: {
+    title: 'Product Demand Forecasting',
+    contexto: 'This Cortex Code workflow projects banking product demand at 12 months using ML.FORECAST multi-series.',
+    foco: 'Sales forecast by product with automatic seasonality detection (more mortgages in spring, insurance in autumn).',
+    reto: 'Optimize resources and planning by anticipating demand peaks and valleys.',
+    objetivos: ['Project demand with SNOWFLAKE.ML.FORECAST multi-series','Analyze seasonality in product sales','Generate confidence intervals for planning','Forecast vs actual dashboard'],
+    funcionalidades: ['SNOWFLAKE.ML.FORECAST with SERIES_COLNAME for multi-product','GENERATOR() for 36 months of historical data','Built-in seasonality by product','Confidence intervals upper/lower bound'],
+    datos: ['Sales: 36 months by 6 products and 4 channels','Products: Mortgages, Loans, Funds, Insurance, Cards, Accounts','Channels: Branch, App, Web, Phone','Forecast: 12 months projected with confidence intervals'],
+    como_usar: ['Execute sequentially','Data includes realistic seasonality','Forecast is generated for each product independently','Dashboard allows comparing historical vs projection by product']
+  },
+  UC13: {
+    title: 'Loan Pricing Optimizer',
+    contexto: 'This Cortex Code workflow optimizes loan interest rates balancing margin vs volume.',
+    foco: 'Acceptance model that predicts the probability a customer accepts an offer given the interest rate.',
+    reto: 'Maximize margin while maintaining a competitive volume of origination.',
+    objetivos: ['Predict acceptance with ML.CLASSIFICATION','Simulate pricing scenarios (Aggressive/Competitive/Conservative)','Calculate monthly payment with POWER()','Pricing simulation dashboard'],
+    funcionalidades: ['SNOWFLAKE.ML.CLASSIFICATION for acceptance model','Simulation of 3 pricing strategies','POWER() for IRR and monthly payment calculations','10,000 applications with interest rate and outcome'],
+    datos: ['Applications: 10,000 with interest rate and acceptance/rejection','Segments: Premium, Retail, Young, Corporate','Features: interest rate, DTI, score, monthly payment','Scenarios: Aggressive (-1%), Competitive (base), Conservative (+1%)'],
+    como_usar: ['Execute sequentially','Model learns the interest rate to acceptance relationship','Scenarios show margin vs volume trade-off','Dashboard compares the 3 strategies']
+  },
+  UC14: {
+    title: 'Early Delinquency Prediction',
+    contexto: 'This Cortex Code workflow predicts first-payment default risk within the first 90 days after loan origination.',
+    foco: 'Early delinquency signals: payment behavior in first 3 months, card usage, balance evolution.',
+    reto: 'Intervene before first default to reduce provisions and credit losses.',
+    objetivos: ['Predict early delinquency with ML.CLASSIFICATION','Identify default signals in first 90 days','Create alert system by risk level','Portfolio monitoring dashboard'],
+    funcionalidades: ['SNOWFLAKE.ML.CLASSIFICATION for delinquency prediction','6,000 loans with 3-month behavior','Features: timely payments, card usage, account balance','Alerts: HIGH/MEDIUM/LOW risk'],
+    datos: ['Portfolio: 6,000 recent loans (12% delinquency)','Behavior: month 1/2/3 payment, card usage, average balance','Origination score: scoring at credit approval time','Alerts: delinquency probability with risk level'],
+    como_usar: ['Execute sequentially','Data simulates first 3 months behavior','Model identifies patterns prior to first default','Dashboard shows amount at risk and priority alerts']
+  },
+  UC15: {
+    title: 'Market Operations Anomaly Detection',
+    contexto: 'This Cortex Code workflow detects anomalous market operations to comply with Market Abuse Regulation (MAR).',
+    foco: 'Statistical analysis of price and volume with z-scores and percentiles to identify outliers.',
+    reto: 'Detect potential market manipulation while minimizing false alerts that consume investigation resources.',
+    objetivos: ['Detect anomalous operations with statistical analysis','Calculate price and volume z-scores per instrument','Classify anomalies by severity with ML.CLASSIFICATION','Market surveillance dashboard'],
+    funcionalidades: ['SNOWFLAKE.ML.CLASSIFICATION for anomaly classification','STDDEV(), AVG(), PERCENTILE_CONT() for statistical analysis','100,000 operations in 20 financial instruments','Alerts: CRITICAL/HIGH/NORMAL'],
+    datos: ['Operations: 100,000 in 20 market instruments','Features: price z-score, volume z-score, 95th percentile','Traders: 50 traders in 5 trading desks','Alerts: classified by severity with probability'],
+    como_usar: ['Execute sequentially','Data includes 2% anomalous operations','Statistical analysis identifies outliers by instrument','Dashboard shows critical alerts for investigation']
+  },
+  UC16: {
+    title: 'Branch Network Optimization',
+    contexto: 'This Cortex Code workflow evaluates profitability and geographic coverage of the branch network for opening/closing decisions.',
+    foco: 'Geospatial analysis with ST_DISTANCE to detect overlap and profitability model with ML.',
+    reto: 'Optimize network costs while maintaining adequate customer coverage.',
+    objetivos: ['Analyze geographic coverage with ST_DISTANCE and ST_MAKEPOINT','Classify branches by profitability with ML.CLASSIFICATION','Detect overlap between nearby branches (<2km)','Generate recommendations with CORTEX.COMPLETE()'],
+    funcionalidades: ['ST_DISTANCE(), ST_MAKEPOINT() for geospatial analysis','SNOWFLAKE.ML.CLASSIFICATION for profitability prediction','CORTEX.COMPLETE() for strategic recommendations','200 branches with real city coordinates'],
+    datos: ['Branches: 200 in 10 cities with lat/lon, employees, area','Metrics: assigned customers, transactions, revenue, costs','Distances: distance matrix between same-city branches','Recommendations: Maintain/Resize/Close/Digitize'],
+    como_usar: ['Execute sequentially','Coordinates are realistic for major cities','Overlap detection finds branches within 2km','AI recommendations consider revenue/cost ratio and customers']
+  },
+  UC17: {
+    title: 'Document Analysis Automation',
+    contexto: 'This Cortex Code workflow automates information extraction from banking documents (contracts, IDs, payslips) using AI.',
+    foco: 'Key data extraction, type classification and cross-validation between documents in a file.',
+    reto: 'Reduce document processing time from hours to minutes.',
+    objetivos: ['Extract key data with CORTEX.COMPLETE()','Classify documents by type automatically','Generate file summaries with CORTEX.SUMMARIZE()','Document processing dashboard'],
+    funcionalidades: ['CORTEX.COMPLETE() for extraction and classification','CORTEX.SUMMARIZE() for file summaries','500 files with 3-4 documents each','Types: Contract, ID, Payslip, Statement, Deed'],
+    datos: ['Documents: 1,500 texts in 5 types with simulated content','Files: 500 document groupings','Extractions: AI-extracted JSON data (holder, amount, date)','Summaries: complete file synthesis'],
+    como_usar: ['Execute sequentially','Texts simulate real banking documents','Extraction generates structured JSON per document','Dashboard shows processing status and extractions']
+  },
+  UC18: {
+    title: 'Reputational Risk Monitor',
+    contexto: 'This Cortex Code workflow monitors media and social media mentions to detect banking reputational crises.',
+    foco: 'Mention sentiment analysis with negative spike detection and crisis alerts.',
+    reto: 'Detect and respond to reputational crises before they escalate.',
+    objetivos: ['Monitor sentiment with CORTEX.SENTIMENT()','Detect crises via negative sentiment alerts','Classify by source, topic and impact','Generate executive reports with CORTEX.COMPLETE()'],
+    funcionalidades: ['CORTEX.SENTIMENT() for sentiment scoring','CORTEX.COMPLETE() for executive reports','2,000 media and social media mentions','Alerts: HIGH/MEDIUM/LOW by reach and sentiment'],
+    datos: ['Mentions: 2,000 texts from Twitter, Press, LinkedIn, Forums','Topics: Service, Products, Sustainability, Scandal, Technology','Sentiment: score -1 to +1 with level (Crisis/Negative/Neutral/Positive)','Alerts: prioritized by reach x negative sentiment'],
+    como_usar: ['Execute sequentially','Texts simulate real banking media mentions','Sentiment is calculated automatically','Executive report is generated with a data summary']
+  },
+  UC19: {
+    title: 'Banking Competitive Intelligence',
+    contexto: 'This Cortex Code workflow analyzes competitive positioning against 8 national and digital competitor banks.',
+    foco: 'Comparison of products, pricing, market share and competitor media sentiment.',
+    reto: 'Anticipate competitor moves and adjust commercial strategy.',
+    objetivos: ['Compare products and pricing between institutions','Analyze competitor sentiment with CORTEX.SENTIMENT()','Generate competitive briefings with CORTEX.COMPLETE()','Benchmarking dashboard'],
+    funcionalidades: ['CORTEX.SENTIMENT() for competitor sentiment','CORTEX.COMPLETE() for executive briefings','8 competitor banks with products and metrics','500 news articles/mentions about competitors'],
+    datos: ['Competitors: JPMorgan, BofA, Wells Fargo, Citi, Goldman, Morgan Stanley, Revolut, Nubank','Products: mortgages, accounts, funds, cards with pricing','News: 500 headlines about competitors','Benchmarks: market share, satisfaction, branches'],
+    como_usar: ['Execute sequentially','Competitor data is representative of the banking market','Sentiment analyzes public perception of each bank','Briefing generates an executive summary for the board']
+  },
+  UC20: {
+    title: 'Banking Regulation RAG Assistant',
+    contexto: 'This Cortex Code workflow builds a RAG (Retrieval-Augmented Generation) system for querying banking regulations in natural language.',
+    foco: 'Regulatory document indexing with Cortex Search and evidence-based answers with CORTEX.COMPLETE().',
+    reto: 'Provide instant access to relevant regulations without manually reviewing hundreds of documents.',
+    objetivos: ['Build RAG system with Cortex Search','Index 100 banking regulation fragments','Answer questions with relevant document context','Regulation query interface with Streamlit'],
+    funcionalidades: ['Cortex Search for semantic indexing and search','CORTEX.COMPLETE() for context-based answer generation','100 fragments from CRR III, MiFID II, AML, GDPR, DORA','Example banking regulation questions'],
+    datos: ['Regulations: 100 fragments from 8 regulations (CRR, MiFID, AML, GDPR, DORA)','Categories: Capital, Liquidity, Conduct, AML/CFT, Data, Digital','Questions: 5 frequent compliance queries','Answers: generated with relevant regulatory context'],
+    como_usar: ['Execute sequentially','Cortex Search Service indexes the regulations','Questions automatically find relevant fragments','Answers cite the specific applicable regulation']
+  }
+};
+
+function verGuia(ucId) {
+  const g = GUIAS[ucId];
+  if (!g) { alert('Guide not yet available for ' + ucId); return; }
+  const box = document.getElementById('guiaModalBox');
+  let h = `<button class="modal-close" onclick="cerrarModal('guiaModal')">&times;</button>`;
+  h += `<span class="guide-badge">${ucId}</span>`;
+  h += `<h2>${g.title}</h2>`;
+  h += `<h3>Business Context</h3><p>${g.contexto}</p>`;
+  h += `<p><strong>Focus:</strong> ${g.foco}</p>`;
+  h += `<p><strong>Business Challenge:</strong> ${g.reto}</p>`;
+  h += `<h3>Learning Objectives</h3><ul>${g.objetivos.map(o=>`<li>${o}</li>`).join('')}</ul>`;
+  h += `<h3>Snowflake Features</h3><ul>${g.funcionalidades.map(f=>`<li>${f}</li>`).join('')}</ul>`;
+  h += `<h3>Generated Data</h3><ul>${g.datos.map(d=>`<li>${d}</li>`).join('')}</ul>`;
+  h += `<h3>How to Use the Notebook</h3><ul>${g.como_usar.map(c=>`<li>${c}</li>`).join('')}</ul>`;
+  h += `<p class="guide-footer">Notebook ready to run in Snowflake — includes synthetic data and dashboard</p>`;
+  box.innerHTML = h;
+  document.getElementById('guiaModal').classList.add('active');
+}
+
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('active');
+});
+function cerrarModal(id) { document.getElementById(id).classList.remove('active'); }
+
+const PROMPTS = {
+  UC01: {
+    title: 'Real-Time Transaction Fraud Detection',
+    intro: 'Open Cortex Code in Snowsight and execute these prompts sequentially to build a transaction fraud detector with ML.CLASSIFICATION.',
+    steps: [
+      { title: 'Set up environment', desc: 'Create database and warehouse.', prompt: 'Create a database TRANSACTION_FRAUD_DB with schema PUBLIC and a warehouse COMPUTE_WH size SMALL with auto-suspend of 60 seconds and auto-resume enabled. Add a descriptive comment. Set the session context with USE DATABASE, USE SCHEMA and USE WAREHOUSE.' },
+      { title: 'Generate customers', desc: '2,000 banking customers with profile.', prompt: 'Generate a table customers with 2,000 records using GENERATOR(). Columns: customer_id (prefix CUS + 5 digits with LPAD), age (22-75), gender (M/F), city (10 major cities), annual_income (15,000-120,000 with realistic distribution), tenure_years (1-20), num_products (1-5). Define PRIMARY KEY on customer_id.' },
+      { title: 'Generate transactions', desc: '50,000 transactions with 5% fraud.', prompt: 'Generate table transactions with 50,000 records with FOREIGN KEY to customers. For the 5% marked as fraud (is_fraud=TRUE): high amounts between 500-15,000, suspicious locations, local_hour between 0-5 AM, and new_device=TRUE. For the 95% legitimate: low amounts 5-300, normal cities, daytime hours. Channels: ATM, POS, Online, Transfer.' },
+      { title: 'Feature engineering', desc: 'Z-scores and ratios per customer.', prompt: 'Create table fraud_features with JOIN between transactions and customers. Calculate per transaction: amount, local_hour, new_device (0/1), is_online (0/1), is_atm (0/1), ratio_vs_average (amount / AVG OVER PARTITION BY customer_id), amount_zscore ((amount - AVG) / NULLIF(STDDEV,0) per customer using window functions), distinct_channels and distinct_locations (COUNT DISTINCT in time window), age and tenure. All numeric fields as FLOAT.' },
+      { title: 'Split train/test', desc: 'Separate 80/20 with anti-join.', prompt: 'Create table training with SAMPLE(80) from fraud_features using SYSTEM. Create table test with remaining records using NOT IN or anti-join. Show record counts and actual fraud rate for each set to validate similar distribution.' },
+      { title: 'Train model', desc: 'ML.CLASSIFICATION with target is_fraud.', prompt: 'Train a SNOWFLAKE.ML.CLASSIFICATION model called fraud_detector using the training table. Specify TARGET_COLNAME = \'is_fraud\' and as INPUT_COLNAMES all numeric features except id and target column.' },
+      { title: 'Evaluate performance', desc: 'Metrics, confusion matrix and importance.', prompt: 'Execute three model evaluations: SHOW_EVALUATION_METRICS for precision, recall and AUC-ROC; SHOW_CONFUSION_MATRIX for true positives, false negatives and false positives; SHOW_FEATURE_IMPORTANCE to identify which variables have most weight in fraud detection.' },
+      { title: 'Score and classify', desc: 'Predictions with three action levels.', prompt: 'Create table fraud_predictions using fraud_detector!PREDICT passing OBJECT_CONSTRUCT(*) on the test table. Extract fraud probability and classify each transaction as: BLOCK if probability >= 80%, REVIEW if 50-80%, APPROVE if < 50%. Show summary with count and percentage by action.' },
+      { title: 'Streamlit dashboard', desc: 'Real-time monitoring panel.', prompt: 'Create Streamlit dashboard with: 3 KPIs in columns (total transactions, suspicious REVIEW+BLOCK, blocked), bar chart of transactions by action with red/orange/green colors, filterable table of suspicious transactions with customer_id, amount, channel, hour, fraud_probability and action, sorted by probability descending. Add CSV download button.' },
+      { title: 'Cleanup (optional)', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS TRANSACTION_FRAUD_DB CASCADE as SQL comment for optional cleanup. Also add DROP WAREHOUSE IF EXISTS COMPUTE_WH commented out.' }
+    ]
+  },
+  UC02: {
+    title: 'Dynamic Credit Risk Scoring',
+    intro: 'Prompts to build a credit scoring system with ML.CLASSIFICATION and AI explainability using CORTEX.COMPLETE.',
+    steps: [
+      { title: 'Set up environment', desc: 'Scoring database.', prompt: 'Create database CREDIT_SCORING_DB with schema PUBLIC and warehouse COMPUTE_WH size SMALL.' },
+      { title: 'Create tables', desc: 'Normalized credit data structure.', prompt: 'Create three tables: applicants (applicant_id PK, age, monthly_income, monthly_expenses, current_debt, employment_years, employment_type, marital_status, dependents, housing, bank_tenure_years), credit_history (credit_id PK, applicant_id FK, credit_type, amount, start_date, status, on_time_payment_pct, defaults_30d, defaults_90d), applications (application_id PK, applicant_id FK, date, requested_amount, term_months, purpose, is_defaulter BOOLEAN).' },
+      { title: 'Generate data', desc: '5,000 applicants with realistic history.', prompt: 'Generate 5,000 applicants, 15,000 credit history records (3 per applicant) and 5,000 applications with 20% defaulters. Employment types: Permanent (40%), Temporary (25%), Self-employed (20%), Civil_Servant (10%), Unemployed (5%). Defaulters have higher current_debt, more defaults_90d and lower on_time_payment_pct.' },
+      { title: 'Feature engineering', desc: 'Standard industry credit variables.', prompt: 'Create table credit_features with JOIN. Calculate: dti_ratio (current_debt / annual_income), employment_stability (employment_years / age-18), stable_employment (1 if Permanent or Civil_Servant), avg_payment_history, total_defaults, bank_tenure. All as FLOAT, is_defaulter as INTEGER 0/1.' },
+      { title: 'Train model', desc: '80/20 split defaulter classifier.', prompt: 'Create train and test tables with SAMPLE(80). Train SNOWFLAKE.ML.CLASSIFICATION called credit_scorer with TARGET_COLNAME=\'is_defaulter\'. Run SHOW_EVALUATION_METRICS and SHOW_CONFUSION_MATRIX.' },
+      { title: 'Score applications', desc: 'Three-level credit decisions.', prompt: 'Create table credit_decisions using credit_scorer!PREDICT on test. Extract default_probability and classify: REJECTED (>= 60%), CONDITIONAL (30-60%, requires guarantees), APPROVED (< 30%). Show summary with count, total amount and approval rate by category.' },
+      { title: 'AI explainability', desc: 'Natural language explanation generation.', prompt: 'For the 50 most relevant applications (25 rejected + 25 approved), create explanations table using SNOWFLAKE.CORTEX.COMPLETE(\'llama3.1-70b\') where the prompt includes actual dti_ratio, payment history, total_defaults and requested_amount. Generate a 2-3 sentence explanation justifying the decision.' },
+      { title: 'Dashboard', desc: 'Decision panel with AI explanations.', prompt: 'Create Streamlit dashboard with: 4 KPIs (total applications, approved, rejected, approval rate), bar chart by decision, table with application_id, amount, decision, default_probability and AI explanation. Add amount range and decision type filters.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS CREDIT_SCORING_DB CASCADE commented out for optional cleanup.' }
+    ]
+  },
+  UC03: {
+    title: 'Anti-Money Laundering (AML) Detection',
+    intro: 'Prompts to build an AML detection system with severity alerts using ML.CLASSIFICATION and structuring patterns.',
+    steps: [
+      { title: 'Set up environment', desc: 'AML database.', prompt: 'Create database AML_DETECTION_DB with schema PUBLIC and warehouse COMPUTE_WH size SMALL.' },
+      { title: 'Create tables', desc: 'Accounts, operations and beneficiaries.', prompt: 'Create three tables: accounts (account_id PK, holder, account_type, risk_profile LOW/MEDIUM/HIGH, declared_income, country_of_residence), operations (operation_id PK, source_account FK, destination_account, timestamp, amount, operation_type, channel, destination_country, is_suspicious BOOLEAN), beneficiaries (beneficiary_id PK, name, country, jurisdiction_risk_level LOW/MEDIUM/HIGH/VERY_HIGH).' },
+      { title: 'Generate data', desc: '80,000 operations with structuring patterns.', prompt: 'Generate 3,000 accounts, 500 beneficiaries and 80,000 operations. For the 3% suspicious: structuring (amounts between 2,800-2,999 to avoid 3,000 threshold), smurfing (multiple small operations same day), high-risk jurisdiction destinations (Panama, Cayman Islands, UAE, Bermuda). HIGH risk profile accounts have higher suspicious operation probability.' },
+      { title: 'Feature engineering', desc: 'Standard AML risk indicators.', prompt: 'Create table aml_features with JOIN. Calculate per operation: ops_under_3k_threshold (COUNT same-customer 2,500-3,000 operations in 7 days), ops_under_10k_threshold (same for 9,000-10,000), high_risk_country (boolean), volume_to_income_ratio, customer_risk_level (numeric 1-3), distinct_beneficiaries_30d. All as FLOAT.' },
+      { title: 'Train model', desc: 'Suspicious operation detector.', prompt: 'Split 80/20. Train SNOWFLAKE.ML.CLASSIFICATION called aml_detector with TARGET_COLNAME=\'is_suspicious\'. Evaluate with SHOW_EVALUATION_METRICS and SHOW_FEATURE_IMPORTANCE. Pay attention to recall (capture the most real suspicious operations).' },
+      { title: 'Generate alerts', desc: 'Classify by four severity levels.', prompt: 'Create table aml_alerts using aml_detector!PREDICT on test. Classify: CRITICAL (>= 80%), HIGH (60-80%), MEDIUM (40-60%), LOW (< 40%). Include: source_account, amount, operation_type, destination_country, probability and alert_level.' },
+      { title: 'Dashboard', desc: 'Investigation panel for compliance team.', prompt: 'Create Streamlit dashboard with: 4 KPIs (total operations, critical alerts, high alerts, detection rate), alert distribution by severity chart, filterable table by level with account, amount, country, probability columns. Add date and alert level filters.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS AML_DETECTION_DB CASCADE commented out for optional cleanup.' }
+    ]
+  },
+  UC04: {
+    title: 'Stress Testing & Scenario Simulation',
+    intro: 'Prompts to simulate macroeconomic stress scenarios on the credit portfolio with ML.FORECAST and provision impact analysis.',
+    steps: [
+      { title: 'Set up environment', desc: 'Stress testing database.', prompt: 'Create database STRESS_TESTING_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Create tables', desc: 'Credit portfolio and macro series.', prompt: 'Create three tables: credit_portfolio (credit_id PK, segment Mortgages/Consumer/Corporate/Cards, outstanding_amount, interest_rate, rating AAA/AA/A/BB/B, maturity_date), macro_series (date PK, gdp_growth, unemployment_rate, base_rate, cpi, confidence_index), historical_delinquency (date, segment, delinquency_rate, provisions_millions, PK(date, segment)).' },
+      { title: 'Generate data', desc: '10,000 credits and 36 months of macro data.', prompt: 'Generate 10,000 credits distributed across 4 segments (Mortgages 40%, Consumer 30%, Corporate 20%, Cards 10%), 36 months of macro series with realistic business cycle, and historical delinquency by segment correlated with macro variables.' },
+      { title: 'Forecast delinquency', desc: 'ML.FORECAST projection by segment.', prompt: 'Train SNOWFLAKE.ML.FORECAST called delinquency_forecast with SERIES_COLNAME=\'segment\', TIMESTAMP_COLNAME=\'date\', TARGET_COLNAME=\'delinquency_rate\'. Project 12 months forward. Save results with forecast, lower_bound and upper_bound per segment.' },
+      { title: 'Simulate scenarios', desc: 'Three scenarios: Base, Adverse, Severe.', prompt: 'Create table stress_scenarios with differentiated multipliers by segment: BASE (1.0x, normal macro assumptions), ADVERSE (1.5x-2.0x, unemployment +3pp, GDP -1.5%), SEVERE (2.5x-3.5x, unemployment +6pp, GDP -4%, rate +200bp). Calculate: projected_delinquency, expected_loss (delinquency x amount x LGD 0.45), additional_provisions required.' },
+      { title: 'AI report', desc: 'Executive summary generated by CORTEX.COMPLETE.', prompt: 'Use SNOWFLAKE.CORTEX.COMPLETE(\'llama3.1-70b\') to generate a 5-paragraph stress testing executive summary covering: (1) methodology, (2) results by segment in adverse scenario, (3) total provision impact, (4) most vulnerable segments identified, (5) capital and risk management recommendations.' },
+      { title: 'Dashboard', desc: 'Visual scenario comparison.', prompt: 'Create Streamlit dashboard with: 3 KPIs per scenario (average projected delinquency, total expected loss, additional provisions required), grouped bar chart comparing delinquency by segment across 3 scenarios, line chart of 12m projected delinquency with confidence intervals, expandable AI report.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS STRESS_TESTING_DB CASCADE commented out.' }
+    ]
+  },
+  UC05: {
+    title: 'Regulatory Compliance Monitoring',
+    intro: 'Prompts to automate banking regulatory compliance monitoring with AI obligation analysis and gap detection.',
+    steps: [
+      { title: 'Set up environment', desc: 'Compliance database.', prompt: 'Create database COMPLIANCE_MONITOR_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Create tables', desc: 'Regulatory obligations, controls and assessments.', prompt: 'Create three tables: regulatory_obligations (obligation_id PK, regulator, regulation, area, title, description TEXT, deadline DATE, severity CRITICAL/HIGH/MEDIUM/LOW, status), controls (control_id PK, obligation_id FK, name, type, responsible, frequency, last_result, last_control_date), assessments (assessment_id PK, obligation_id FK, date, assessor, result COMPLIANT/PARTIAL/NON_COMPLIANT, findings TEXT, corrective_actions TEXT).' },
+      { title: 'Generate data', desc: '50 obligations from major financial regulators.', prompt: 'Generate 50 regulatory obligations from: Federal Reserve (12, on capital and liquidity), SEC (8, on reporting), FINRA (7, on conduct), FinCEN (8, on AML), OCC (10, on supervision), GDPR (5, on data). Generate 150 controls and 200 historical assessments: 60% COMPLIANT, 25% PARTIAL, 15% NON_COMPLIANT.' },
+      { title: 'AI obligation analysis', desc: 'Summarize and contextualize each obligation.', prompt: 'For each obligation, use CORTEX.COMPLETE to generate a 3-line analysis: (1) what is exactly required, (2) non-compliance risk for the bank, (3) concrete actions the compliance team must take.' },
+      { title: 'Detect compliance gaps', desc: 'Identify non-compliance by risk level.', prompt: 'Create table compliance_gaps cross-referencing obligations with controls and latest assessment. Classify each gap: CRITICAL (last assessment NON_COMPLIANT AND deadline within 30 days or severity CRITICAL), HIGH, MEDIUM, LOW. Include days_to_deadline and control responsible.' },
+      { title: 'Dashboard', desc: 'Executive compliance panel.', prompt: 'Create Streamlit dashboard with: 4 KPIs (total obligations, critical gaps, global compliance rate %), gap distribution chart by level and regulator, priority gaps table with deadline, responsible and AI analysis. Add area and regulator filters.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS COMPLIANCE_MONITOR_DB CASCADE commented out.' }
+    ]
+  },
+  UC06: {
+    title: 'Credit Application Fraud Detection',
+    intro: 'Prompts to detect fraudulent applications at origination by analyzing discrepancies between declared and verified data.',
+    steps: [
+      { title: 'Set up environment', desc: 'Origination fraud database.', prompt: 'Create database APPLICATION_FRAUD_DB with schema PUBLIC and warehouse COMPUTE_WH size SMALL.' },
+      { title: 'Create tables', desc: 'Applications, verifications and blocklists.', prompt: 'Create three tables: credit_applications (application_id PK, customer_id, date, requested_amount, term_months, purpose, declared_income, declared_employer, ssn, bureau_score, is_fraud BOOLEAN), verifications (verification_id PK, application_id FK, verified_income, employer_verifiable BOOLEAN, ssn_valid BOOLEAN, source, verification_date), blocklists (ssn PK, name, reason, inclusion_date).' },
+      { title: 'Generate data', desc: '8,000 applications with realistic fraud patterns.', prompt: 'Generate 8,000 applications with 7% fraudulent. Fraudulent applications show: income discrepancy >40% between declared and verified, unverifiable employer, bureau_score below 400, or SSN matching blocklist. Generate verifications for 70% and 200 blocklist entries.' },
+      { title: 'Fraud features', desc: 'Calculate discrepancies and red flags.', prompt: 'Create table application_fraud_features with JOIN. Calculate: income_discrepancy, unverified_employer (0/1), invalid_ssn (0/1), normalized bureau_score, on_blocklist (JOIN), total_discrepancies (sum of flags). All as FLOAT.' },
+      { title: 'Train model', desc: 'Origination fraud classifier.', prompt: 'Split 80/20. Train SNOWFLAKE.ML.CLASSIFICATION called application_fraud_detector with TARGET_COLNAME=\'is_fraud\'. Evaluate with metrics, confusion matrix and feature importance.' },
+      { title: 'Score applications', desc: 'Three-level classification.', prompt: 'Create table application_decisions using PREDICT. Classify: BLOCK (>= 75%), INVESTIGATE (40-75%), APPROVE (< 40%). Show summary table.' },
+      { title: 'Anti-fraud dashboard', desc: 'Origination monitoring panel.', prompt: 'Create Streamlit dashboard with: 4 KPIs (total applications, auto-blocked, under investigation, detected fraud rate), bar chart by decision type, filterable suspicious applications table sorted by probability descending. Add CSV export.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS APPLICATION_FRAUD_DB CASCADE commented out.' }
+    ]
+  },
+  UC07: {
+    title: 'Customer Churn Prediction',
+    intro: 'Prompts to predict banking customer churn using activity trends and generate retention recommendations with CORTEX.COMPLETE.',
+    steps: [
+      { title: 'Set up environment', desc: 'Churn prediction database.', prompt: 'Create database CUSTOMER_CHURN_DB with schema PUBLIC and warehouse COMPUTE_WH size SMALL.' },
+      { title: 'Generate data', desc: '5,000 customers with 6 months of monthly activity.', prompt: 'Generate table churn_customers (customer_id PK, segment, tenure_years, num_products, average_balance, primary_channel, is_churner BOOLEAN) with 5,000 customers. Generate monthly_activity with 6 months per customer. Churners (15%) show >30% transaction decline and >50% increase in outgoing transfers in last 2 months vs previous 4.' },
+      { title: 'Churn features', desc: 'Activity trends and disengagement signals.', prompt: 'Create table churn_features separating last 2 months from previous 4. Calculate: transaction_trend, volume_trend, outgoing_transfer_ratio, balance_change, num_products, tenure_years, average_balance, is_churner (0/1).' },
+      { title: 'Train model', desc: 'Churn classifier with metric validation.', prompt: 'Split 80/20. Train ML.CLASSIFICATION called churn_predictor with TARGET_COLNAME=\'is_churner\'. Evaluate with metrics and feature importance.' },
+      { title: 'Score customers', desc: 'Segment by churn risk level.', prompt: 'Create table churn_scores using PREDICT. Classify: HIGH RISK (>= 70%), MEDIUM RISK (40-70%), LOW RISK (< 40%). Show at-risk balance totals by level.' },
+      { title: 'AI recommendations', desc: 'Personalized retention actions with CORTEX.COMPLETE.', prompt: 'For the 50 highest-balance HIGH RISK customers, use CORTEX.COMPLETE to generate 3 personalized retention actions based on segment, tenure, products and activity trend.' },
+      { title: 'Dashboard', desc: 'Customer retention management panel.', prompt: 'Create Streamlit dashboard with: at-risk balance KPI, risk distribution donut chart, high-risk customer table with balance, trend and AI recommendations. Add segment filter.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS CUSTOMER_CHURN_DB CASCADE commented out.' }
+    ]
+  },
+  UC08: {
+    title: 'Hyper-Personalized Next-Best-Offer Engine',
+    intro: 'Prompts to build a personalized product recommendation engine based on ML propensity and AI sales scripts.',
+    steps: [
+      { title: 'Set up environment', desc: 'NBO engine database.', prompt: 'Create database NBO_ENGINE_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Generate data', desc: '3,000 customers with financial profile and products.', prompt: 'Generate table nbo_customers with 3,000 records including has_mortgage, has_life_insurance, has_home_insurance, has_investment_fund, has_pension_plan, purchased_investment BOOLEAN (30% TRUE as label).' },
+      { title: 'Propensity features', desc: 'Product affinity variables.', prompt: 'Create table nbo_features with: savings_income_ratio, segment_level (1-4), insurance_coverage, has_mortgage (0/1), normalized_age, normalized_income, purchased_investment (0/1 label). All as FLOAT.' },
+      { title: 'Train model', desc: 'Investment propensity classifier.', prompt: 'Split 80/20. Train ML.CLASSIFICATION called investment_propensity with TARGET_COLNAME=\'purchased_investment\'. Run SHOW_EVALUATION_METRICS and SHOW_FEATURE_IMPORTANCE.' },
+      { title: 'Ranking and deciles', desc: 'Order customers by propensity with NTILE.', prompt: 'Create table nbo_ranking using PREDICT. Add propensity_decile with NTILE(10). Show lift table by decile.' },
+      { title: 'AI sales scripts', desc: 'Personalized sales texts for top 20%.', prompt: 'For top-decile customers, use CORTEX.COMPLETE to generate a 3-sentence commercial pitch mentioning segment, savings ratio and 2 relevant investment benefits.' },
+      { title: 'Dashboard', desc: 'Commercial opportunities panel for advisors.', prompt: 'Create Streamlit dashboard with: potential KPI, decile distribution chart, opportunities table with customer_id, segment, probability and AI sales script. Add segment and decile filters.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS NBO_ENGINE_DB CASCADE commented out.' }
+    ]
+  },
+  UC09: {
+    title: 'Advanced Segmentation & Customer LTV',
+    intro: 'Prompts to calculate Customer Lifetime Value, segment by RFM and project future revenue with ML.FORECAST.',
+    steps: [
+      { title: 'Set up environment', desc: 'Segmentation and LTV database.', prompt: 'Create database SEGMENTATION_LTV_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Generate data', desc: '4,000 customers with 24 months of detailed revenue.', prompt: 'Generate table ltv_customers (4,000) and monthly_revenue with 24 months per customer including commission_revenue, interest_revenue, insurance_revenue, total_revenue. VIP segments generate 3-5x more monthly revenue than Mass segment.' },
+      { title: 'Calculate LTV and RFM', desc: 'Value metrics and quadrant segmentation.', prompt: 'Create table ltv_rfm_scores with: historical_ltv_24m, avg_monthly_revenue, recency, frequency, r_score NTILE(5), f_score NTILE(5), m_score NTILE(5). Classify into ltv_segment: VIP (all scores >=4), HIGH_VALUE, MEDIUM_VALUE, LOW_VALUE.' },
+      { title: 'Forecast LTV', desc: '12-month revenue projection by segment.', prompt: 'Train SNOWFLAKE.ML.FORECAST called ltv_forecast with SERIES_COLNAME=\'ltv_segment\'. Project 12 months with forecast, lower_bound and upper_bound.' },
+      { title: 'AI narrative profiles', desc: 'Description and strategy per segment.', prompt: 'For each LTV segment, use CORTEX.COMPLETE to generate a profile with: typical customer description, key value drivers, recommended growth/retention strategy, 3 concrete commercial actions.' },
+      { title: 'Dashboard', desc: 'Portfolio value panel with projections.', prompt: 'Create Streamlit dashboard with: 2 KPIs (historical 24m LTV and projected 12m), distribution bar chart, forecast line chart with confidence band per segment, AI narrative profiles table.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS SEGMENTATION_LTV_DB CASCADE commented out.' }
+    ]
+  },
+  UC10: {
+    title: 'Complaint Sentiment Analysis',
+    intro: 'Prompts to analyze banking complaint sentiment with CORTEX.SENTIMENT, classify by urgency and generate automatic responses.',
+    steps: [
+      { title: 'Set up environment', desc: 'Complaint analysis database.', prompt: 'Create database COMPLAINT_SENTIMENT_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Generate complaints', desc: '1,000 realistic texts via 5 banking channels.', prompt: 'Generate table complaints with 1,000 records across Email/App/Branch/Phone/Web channels. Use varied templates about: undisclosed fees, app failures, duplicate charges, excessive wait times, incorrectly blocked operations.' },
+      { title: 'Sentiment analysis and categorization', desc: 'Automatic scoring and AI classification.', prompt: 'Add sentiment_score using CORTEX.SENTIMENT, classify sentiment (Very_Negative/Negative/Neutral/Positive), and categorize with CORTEX.COMPLETE into Fees, Digital_Service, Customer_Service, Fraud, Operational_Errors, Other.' },
+      { title: 'Prioritization and auto-responses', desc: 'Assign urgency and generate AI draft responses.', prompt: 'Create prioritized_complaints with urgency_level: URGENT (score < -0.7 OR category = Fraud), HIGH (score < -0.4), MEDIUM (score < 0), LOW (rest). For URGENT and HIGH, generate draft_response with CORTEX.COMPLETE including personalized greeting, problem acknowledgment, 48h resolution proposal and formal apology.' },
+      { title: 'Dashboard', desc: 'Customer satisfaction monitoring panel.', prompt: 'Create Streamlit dashboard with: average sentiment KPI, sentiment distribution by channel stacked bar chart, urgent/high complaints table with original text and AI draft response. Add channel, category and urgency filters.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS COMPLAINT_SENTIMENT_DB CASCADE commented out.' }
+    ]
+  },
+  UC11: {
+    title: 'Financial Intelligence Chatbot',
+    intro: 'Prompts to build a financial intelligence chatbot with semantic model for Cortex Analyst and natural language responses.',
+    steps: [
+      { title: 'Set up environment', desc: 'Financial chatbot database.', prompt: 'Create database FINANCIAL_CHATBOT_DB with schema PUBLIC and warehouse COMPUTE_WH. Create internal stage CHATBOT_STAGE for YAML semantic model.' },
+      { title: 'Create tables', desc: 'Daily operations and commercial targets.', prompt: 'Create two tables: daily_operations (date, product, branch, channel, num_operations, volume_usd, commissions_usd) and commercial_targets (month, product, target_volume, target_commissions, target_num_operations).' },
+      { title: 'Generate data', desc: '12 months of operations by product, branch and channel.', prompt: 'Generate 365 days x 6 products (Mortgages, Consumer_Loans, Funds, Insurance, Cards, Accounts) x 8 branches with realistic monthly seasonality. Generate 72 monthly target records.' },
+      { title: 'Semantic model', desc: 'YAML file for Cortex Analyst.', prompt: 'Generate YAML semantic model with: tables daily_operations and commercial_targets, dimensions (date with time_grain DAY/MONTH/YEAR, product, branch, channel), calculated metrics (total_operations, total_volume_usd, total_commissions_usd, target_attainment_ratio). Include 5 verified_queries. Upload YAML to stage.' },
+      { title: 'Natural language queries', desc: 'Q&A with real data context.', prompt: 'Create table example_questions with 10 banking questions in natural language. For each, use CORTEX.COMPLETE with real data context to generate structured responses with exact numbers, trends and target comparisons.' },
+      { title: 'Chatbot dashboard', desc: 'Conversational Streamlit interface with KPIs.', prompt: 'Create Streamlit with: free text input, 5 example question buttons, AI-generated response with real data, current month KPI table, monthly evolution chart for selected product.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP STAGE and DROP DATABASE commented out.' }
+    ]
+  },
+  UC12: {
+    title: 'Product Demand Forecasting',
+    intro: 'Prompts to build a banking product demand forecasting system by channel using ML.FORECAST with multiple series.',
+    steps: [
+      { title: 'Set up environment', desc: 'Demand forecasting database.', prompt: 'Create database PRODUCT_DEMAND_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Generate data', desc: '36 months of sales with seasonality by channel.', prompt: 'Generate table monthly_sales with 36 months x 6 products x 4 channels. Include realistic seasonality and 15% annual digital channel growth trend.' },
+      { title: 'Train forecast model', desc: 'ML.FORECAST multi-series by product.', prompt: 'Aggregate by product and month. Train SNOWFLAKE.ML.FORECAST called demand_forecast with SERIES_COLNAME=\'product\'. Project 12 months forward with confidence intervals.' },
+      { title: 'Analyze results', desc: 'Compare forecasts and identify opportunities.', prompt: 'Create summary table with: product, total_projected_12m, expected_growth_pct, average_confidence_interval, peak_demand_month. Order by growth potential.' },
+      { title: 'Planning dashboard', desc: 'Interactive forecast panel by product.', prompt: 'Create Streamlit dashboard with: product selector, combined bar (historical) + line with shaded band (forecast) chart, projected total KPI, comparative table for all products with color coding.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS PRODUCT_DEMAND_DB CASCADE commented out.' }
+    ]
+  },
+  UC13: {
+    title: 'Loan Pricing Optimizer',
+    intro: 'Prompts to optimize loan interest rates maximizing acceptance and margin through scenario simulation with ML.CLASSIFICATION.',
+    steps: [
+      { title: 'Set up environment', desc: 'Loan pricing database.', prompt: 'Create database LOAN_PRICING_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Generate historical data', desc: '10,000 applications with offered rate and acceptance outcome.', prompt: 'Generate table pricing_applications with 10,000 records. Acceptance probability decreases with interest rate following logistic function. AAA rating accepts up to 4.5%, B only up to 8.5%.' },
+      { title: 'Acceptance model', desc: 'ML.CLASSIFICATION to predict acceptance by rate.', prompt: 'Create pricing_features. Split 80/20. Train ML.CLASSIFICATION called acceptance_model with TARGET_COLNAME=\'accepted\'. Evaluate metrics.' },
+      { title: 'Simulate pricing scenarios', desc: 'Compare Aggressive, Competitive, Conservative strategies.', prompt: 'Create simulation table with 3 strategies for each test record: AGGRESSIVE (-0.5% from base), COMPETITIVE (market base), CONSERVATIVE (+0.75%). Use acceptance_model!PREDICT for each. Calculate estimated_acceptances, margin_per_deal, total_estimated_revenue per strategy.' },
+      { title: 'Simulation dashboard', desc: 'Scenario comparison panel.', prompt: 'Create Streamlit dashboard with: strategy comparison table with key KPIs, grouped bar chart by rating showing estimated acceptance rate per strategy, amount and term selector for real-time pricing recommendation.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS LOAN_PRICING_DB CASCADE commented out.' }
+    ]
+  },
+  UC14: {
+    title: 'Early Delinquency Prediction',
+    intro: 'Prompts to predict first-payment default within 90 days using early behavioral signals.',
+    steps: [
+      { title: 'Set up environment', desc: 'Early delinquency database.', prompt: 'Create database EARLY_DELINQUENCY_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Generate data', desc: '6,000 recent loans with early behavioral signals.', prompt: 'Generate table new_loans with 6,000 records including month1/2/3 payment status, card usage progression, month3 account balance, and is_delinquent_90d BOOLEAN (12%). Delinquent show at least 1 missed payment, card usage exceeding 85%, and low month 3 balance.' },
+      { title: 'Features and early warning model', desc: 'Behavioral variables + classifier.', prompt: 'Create delinquency_features with: timely_payments_3m, card_usage_trend, max_card_usage, account_balance_m3, normalized origination_score, payment_amount. Split 80/20 and train ML.CLASSIFICATION delinquency_predictor. Evaluate metrics.' },
+      { title: 'Early warning alerts', desc: 'Classify at-risk loans with exposure amount.', prompt: 'Create delinquency_alerts using PREDICT with levels: HIGH RISK (>= 60%), MEDIUM (30-60%), LOW (< 30%). Calculate amount_at_risk per level. Show top 20 highest-risk loans.' },
+      { title: 'Monitoring dashboard', desc: 'New portfolio tracking panel.', prompt: 'Create Streamlit dashboard with: total high/medium risk amount KPI, alert distribution donut chart, high-risk loans table with activated warning signals, risk distribution by origination month bar chart.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS EARLY_DELINQUENCY_DB CASCADE commented out.' }
+    ]
+  },
+  UC15: {
+    title: 'Market Operations Anomaly Detection',
+    intro: 'Prompts to detect anomalous market operations using statistical z-scores and ML.CLASSIFICATION.',
+    steps: [
+      { title: 'Set up environment', desc: 'Market surveillance database.', prompt: 'Create database MARKET_SURVEILLANCE_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Generate data', desc: '100,000 market operations in 20 instruments.', prompt: 'Generate table market_operations with 100,000 records across 20 instruments. 2% anomalous with volume >10x instrument average, price outside ±5 std devs, or unusual broker-instrument pairing.' },
+      { title: 'Statistical analysis with window functions', desc: 'Z-scores and percentiles per instrument.', prompt: 'Create market_features with: price_zscore, volume_zscore, above_p95_volume, volume_to_average_ratio using AVG(), STDDEV() and PERCENTILE_CONT() window functions.' },
+      { title: 'Detection model and alerts', desc: 'ML.CLASSIFICATION + severity classification.', prompt: 'Split 80/20. Train ML.CLASSIFICATION called anomaly_detector. Create market_alerts with PREDICT and levels: CRITICAL (>= 70%), HIGH (40-70%), NORMAL (< 40%). Show distribution by instrument and broker.' },
+      { title: 'Surveillance dashboard', desc: 'Real-time market monitoring panel.', prompt: 'Create Streamlit dashboard with: active critical alerts KPI, anomaly distribution by instrument bar chart, suspicious operations table with z-scores and alert level, instrument price chart with red dots marking anomalies.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS MARKET_SURVEILLANCE_DB CASCADE commented out.' }
+    ]
+  },
+  UC16: {
+    title: 'Branch Network Optimization',
+    intro: 'Prompts to analyze branch profitability with geospatial analysis, ML classification and AI strategic recommendations.',
+    steps: [
+      { title: 'Set up environment', desc: 'Branch network database.', prompt: 'Create database BRANCH_NETWORK_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Generate branch data', desc: '200 branches in 10 cities with coordinates.', prompt: 'Generate table branches with 200 records including city, latitude, longitude (realistic coordinates), area_sqft, num_employees, active_customers, annual_revenue, annual_costs, branch_type (Premium/Standard/Digital).' },
+      { title: 'Geospatial overlap analysis', desc: 'Calculate distances with ST_DISTANCE.', prompt: 'Use ST_DISTANCE(ST_MAKEPOINT(lon1, lat1), ST_MAKEPOINT(lon2, lat2)) to calculate distances between all same-city branch pairs. Create overlaps table for branches within 2,000 meters. Calculate nearby_branches and avg_neighbor_distance per branch.' },
+      { title: 'Profitability model', desc: 'Predict 2-year profitability.', prompt: 'Create branch_features with: revenue_cost_ratio, revenue_per_customer, customers_per_employee, overlap_score, type_score, is_profitable (ratio > 1.15). Train ML.CLASSIFICATION profitability_predictor.' },
+      { title: 'AI strategic recommendations', desc: 'One recommendation per branch with CORTEX.COMPLETE.', prompt: 'For each branch, use CORTEX.COMPLETE with context of its metrics to generate a one-sentence recommendation: MAINTAIN AND OPTIMIZE, TRANSFORM TO DIGITAL, MERGE WITH NEIGHBOR (specifying which), or CLOSE with brief justification.' },
+      { title: 'Management dashboard', desc: 'Strategic network decision panel.', prompt: 'Create Streamlit dashboard with: recommendation distribution donut chart, estimated savings KPI from recommended closures/mergers, filterable branch table with city, type, revenue/cost ratio, overlap and AI recommendation. Add city and recommendation type filters.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS BRANCH_NETWORK_DB CASCADE commented out.' }
+    ]
+  },
+  UC17: {
+    title: 'Document Analysis Automation',
+    intro: 'Prompts to automate banking document processing using CORTEX.COMPLETE for extraction and CORTEX.SUMMARIZE for file summaries.',
+    steps: [
+      { title: 'Set up environment', desc: 'Document processing database.', prompt: 'Create database DOCUMENT_ANALYSIS_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Generate document corpus', desc: '1,500 documents in 500 files with realistic text.', prompt: 'Generate table documents with 1,500 records grouped in 500 files. Types: Contract, ID, Payslip, Statement, Deed. Texts simulate realistic content per type: contracts with clauses and rates; payslips with gross, net, employer; statements with transactions; IDs with name and number; deeds with address and valuation.' },
+      { title: 'Structured AI extraction', desc: 'Extract key fields and detect incomplete documents.', prompt: 'Create processed_documents adding: extracted_data_json using CORTEX.COMPLETE to extract structured JSON per doc type (contract: {amount, term, interest_rate}; payslip: {net_amount, employer, date}; ID: {name, id_number}), classification_confidence, is_incomplete (TRUE if text < 50 words or missing key info).' },
+      { title: 'File summaries', desc: 'Executive synthesis per file with CORTEX.SUMMARIZE.', prompt: 'Use LISTAGG to concatenate all documents per file ordered by type. Apply CORTEX.SUMMARIZE to generate a 3-4 sentence executive summary. Save in file_summaries table.' },
+      { title: 'Processing dashboard', desc: 'Document workflow management panel.', prompt: 'Create Streamlit dashboard with: processed documents and incomplete documents KPIs, document type distribution bar chart, file table with doc count, completeness status and expandable AI summary. Add type and completeness filters.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS DOCUMENT_ANALYSIS_DB CASCADE commented out.' }
+    ]
+  },
+  UC18: {
+    title: 'Reputational Risk Monitor',
+    intro: 'Prompts to monitor banking reputation in media and social networks with CORTEX.SENTIMENT and automatic executive report generation.',
+    steps: [
+      { title: 'Set up environment', desc: 'Reputational monitoring database.', prompt: 'Create database REPUTATIONAL_RISK_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Generate media corpus', desc: '2,000 media and social media mentions.', prompt: 'Generate table media_mentions with 2,000 records from Twitter/Digital_Press/LinkedIn/Forums/YouTube. Topics: Fees, Digitalization, Sustainability, Results, Customer_Service, Scandal. Mix of positive (40%), neutral (30%) and negative (30%). Higher reach for fee and scandal topics.' },
+      { title: 'Sentiment analysis and alerts', desc: 'Automatic scoring and alert classification.', prompt: 'Add sentiment_score using CORTEX.SENTIMENT. Classify alert_level: HIGH if reach > 100,000 AND sentiment < -0.5, MEDIUM if sentiment < -0.3 OR (reach > 50,000 AND sentiment < 0), LOW otherwise. Aggregate by topic: total mentions, average sentiment, total high alerts.' },
+      { title: 'AI executive report', desc: '4-section report generated by CORTEX.COMPLETE.', prompt: 'Use CORTEX.COMPLETE with aggregated data context to generate a reputation monitoring executive report with 4 sections: (1) Period summary with key metrics, (2) Main risks identified by topic, (3) Sources with highest negative impact, (4) Recommended communication and PR actions.' },
+      { title: 'Monitoring dashboard', desc: 'Real-time reputational surveillance panel.', prompt: 'Create Streamlit dashboard with: average sentiment and total high alerts KPIs, stacked bar chart of mentions by source and sentiment, high alert table with headline, source, reach and score. Add expandable AI executive report section.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS REPUTATIONAL_RISK_DB CASCADE commented out.' }
+    ]
+  },
+  UC19: {
+    title: 'Banking Competitive Intelligence',
+    intro: 'Prompts to analyze competitive positioning against major banks with product analysis, media sentiment and AI briefing.',
+    steps: [
+      { title: 'Set up environment', desc: 'Competitive intelligence database.', prompt: 'Create database COMPETITIVE_INTEL_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Generate competitor data', desc: '8 banks with products, pricing and news.', prompt: 'Generate three tables: competitors (8 banks with market_share, employees, branches), competitor_products (per bank: product_type, offered_apr, maintenance_fee, requirements, customer_satisfaction 1-10), banking_news (500 articles over 6 months with bank_id, headline, source, estimated_reach).' },
+      { title: 'Competitive sentiment analysis', desc: 'Image scoring per bank in media.', prompt: 'Apply CORTEX.SENTIMENT to all headlines. Aggregate by bank: avg_sentiment, positive_count, negative_count, total_reach. Identify top 3 topics per bank. Create competitive_ranking view ordered by avg_sentiment.' },
+      { title: 'AI strategic briefing', desc: '4-section competitive report with CORTEX.COMPLETE.', prompt: 'Use CORTEX.COMPLETE with competition data context (market shares, average APR, customer satisfaction, media sentiment) to generate strategic briefing: (1) Current competitive landscape, (2) Threat analysis by competitor, (3) Differentiation opportunities in pricing and products, (4) Product and communication recommendations.' },
+      { title: 'Benchmarking dashboard', desc: 'Competitor comparison panel.', prompt: 'Create Streamlit dashboard with: product comparison table by bank (APR, fees, satisfaction) with color coding, media sentiment by bank bar chart, expandable AI strategic briefing, competitor ranking by satisfaction with our bank highlighted.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS COMPETITIVE_INTEL_DB CASCADE commented out.' }
+    ]
+  },
+  UC20: {
+    title: 'Banking Regulation RAG Assistant',
+    intro: 'Prompts to build a banking regulation assistant with semantic search using Cortex Search and evidence-based RAG answers.',
+    steps: [
+      { title: 'Set up environment', desc: 'RAG regulation assistant database.', prompt: 'Create database REGULATION_RAG_DB with schema PUBLIC and warehouse COMPUTE_WH.' },
+      { title: 'Create regulatory corpus', desc: '100 banking regulation fragments.', prompt: 'Generate table regulation_chunks (chunk_id PK, regulation, category, title, content TEXT) with 100 fragments covering: CRR III (12 on capital, liquidity, solvency), MiFID II (10 on market conduct), AML (12 on money laundering, due diligence), GDPR (10 on data protection), DORA (8 on digital resilience), Basel IV (10 on credit and market risk), PSD2 (8 on payments, open banking). Content should be realistic 4-6 line technical paragraphs.' },
+      { title: 'Create Cortex Search Service', desc: 'Semantic search index over regulations.', prompt: 'Create a Cortex Search Service called regulation_search on regulation_chunks with: SEARCH_COLUMN = \'content\', ATTRIBUTE_COLUMNS = (\'regulation\', \'category\', \'title\'), TARGET_LAG = \'1 hour\', WAREHOUSE = COMPUTE_WH.' },
+      { title: 'RAG Q&A system', desc: 'Evidence-based answers citing source regulations.', prompt: 'Create table regulation_questions with 8 real compliance questions. For each: retrieve 3 most relevant chunks with Cortex Search, build context prompt, use CORTEX.COMPLETE to generate an answer that cites the specific regulation and article. Store question, retrieved_context, answer and cited_sources.' },
+      { title: 'Query interface', desc: 'Streamlit regulation assistant.', prompt: 'Create Streamlit with: question text input, 5 example question buttons, answer area with source citations highlighted, sidebar with available regulations and categories as filters.' },
+      { title: 'Cleanup', desc: 'Remove all project objects.', prompt: 'Generate DROP DATABASE IF EXISTS REGULATION_RAG_DB CASCADE commented out.' }
+    ]
+  }
+};
+
+function verPrompts(ucId) {
+  const data = PROMPTS[ucId];
+  if (!data) { alert('Prompts not yet available for ' + ucId); return; }
+  const box = document.getElementById('promptsModalBox');
+  let html = `<button class="modal-close" onclick="cerrarModal('promptsModal')">&times;</button>`;
+  html += `<span class="guide-badge">${ucId}</span>`;
+  html += `<h2>${data.title} — Cortex Code Prompts</h2>`;
+  html += `<p class="prompt-intro">${data.intro}</p>`;
+  data.steps.forEach((s, i) => {
+    const escaped = s.prompt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    html += `<div class="prompt-step">`;
+    html += `<div class="prompt-step-header"><span class="prompt-step-num">${i+1}</span><span class="prompt-step-title">${s.title}</span></div>`;
+    html += `<div class="prompt-step-desc">${s.desc}</div>`;
+    html += `<div class="prompt-code" id="prompt_${ucId}_${i}"><button class="copy-btn" onclick="copiarPrompt('prompt_${ucId}_${i}')">Copy</button>${escaped}</div>`;
+    html += `</div>`;
+  });
+  html += `<p class="guide-footer">Execute each prompt sequentially in Cortex Code (Snowsight)</p>`;
+  box.innerHTML = html;
+  document.getElementById('promptsModal').classList.add('active');
+}
+
+function copiarPrompt(id) {
+  const el = document.getElementById(id);
+  const btn = el.querySelector('.copy-btn');
+  const text = el.textContent.replace('Copy', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+renderCards(USE_CASES);
+</script>
+</body>
+</html>

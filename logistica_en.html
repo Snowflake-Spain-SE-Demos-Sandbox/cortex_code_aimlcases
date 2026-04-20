@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <title>Snowflake — AI/ML Solutions for Logistics and Transportation</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #003545, #11567F);
+      color: #fff;
+      padding: 32px 48px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .hero-left { flex: 1; }
+
+    .logos {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .logo-snowflake {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 2px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 6px;
+    }
+
+    .hero-tagline {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .stats-box {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px 28px;
+      text-align: center;
+      color: #1a1a1a;
+      min-width: 160px;
+      flex-shrink: 0;
+    }
+
+    .stats-box .stat-number {
+      font-size: 40px;
+      font-weight: 700;
+      color: #399AA6;
+      line-height: 1;
+    }
+
+    .stats-box .stat-label {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 14px;
+    }
+
+    .stats-box .stat-time {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1;
+    }
+
+    .stats-box .stat-time-label {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .stats-divider {
+      border: none;
+      border-top: 1px solid #e8e8e8;
+      margin: 10px 0;
+    }
+
+    .intro {
+      background: #fff;
+      text-align: center;
+      padding: 48px 24px 32px;
+    }
+
+    .intro h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #11567F;
+      margin-bottom: 14px;
+    }
+
+    .intro p {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 14px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .filters-bar {
+      background: #fff;
+      padding: 20px 48px 0;
+      border-bottom: 1px solid #e8e8e8;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filters-left {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 80px;
+      border: 1.5px solid #ccc;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 500;
+      color: #444;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover { border-color: #29B5E8; color: #29B5E8; }
+
+    .filter-btn.active {
+      background: #29B5E8;
+      border-color: #29B5E8;
+      color: #fff;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid #ccc;
+      border-radius: 80px;
+      padding: 7px 14px;
+      gap: 8px;
+      min-width: 200px;
+      background: #fff;
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      font-size: 13px;
+      color: #444;
+      width: 100%;
+      background: transparent;
+    }
+    .search-box input::placeholder { color: #aaa; }
+
+    .results-count {
+      padding: 14px 48px 8px;
+      font-size: 13px;
+      color: #666;
+      background: #f5f5f5;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 24px;
+      padding: 16px 48px 48px;
+      background: #f5f5f5;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid #e2e2e2;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s;
+    }
+
+    .card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.1); }
+
+    .card-header {
+      padding: 16px 18px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-badges { display: flex; gap: 6px; align-items: center; }
+
+    .badge-id {
+      font-size: 11px;
+      font-weight: 700;
+      color: #888;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-cat {
+      background: #E0F4FD;
+      color: #11567F;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 50px;
+    }
+    .badge-cat.rutas     { background: #E0F7FA; color: #00838F; }
+    .badge-cat.almacen   { background: #FFF3E0; color: #E65100; }
+    .badge-cat.flota     { background: #E8F5E9; color: #2E7D32; }
+    .badge-cat.demanda   { background: #E3F2FD; color: #1565C0; }
+    .badge-cat.seguridad { background: #FCE4EC; color: #C62828; }
+
+    .card-time {
+      font-size: 12px;
+      color: #888;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .card-title {
+      padding: 0 18px 12px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #11567F;
+      line-height: 1.3;
+    }
+
+    .pain-point {
+      margin: 0 18px 14px;
+      background: #F0F7FA;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .pain-point-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #399AA6;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .pain-point p {
+      font-size: 13px;
+      color: #2a2a2a;
+      line-height: 1.55;
+    }
+
+    .card-desc {
+      padding: 0 18px 14px;
+      font-size: 13px;
+      color: #555;
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .card-features {
+      padding: 0 18px 16px;
+      list-style: none;
+    }
+
+    .card-features li {
+      font-size: 13px;
+      color: #444;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .card-features li::before {
+      content: '\2713';
+      color: #29B5E8;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .card-actions {
+      padding: 14px 18px 18px;
+      display: flex;
+      gap: 10px;
+      border-top: 1px solid #f0f0f0;
+      flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      padding: 10px;
+      background: #29B5E8;
+      color: #fff;
+      border: none;
+      border-radius: 80px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s;
+      text-decoration: none;
+      display: block;
+    }
+    .btn-secondary:hover { background: #11567F; }
+
+    .btn-tertiary {
+      flex: 1;
+      padding: 10px;
+      background: #003545;
+      color: #29B5E8;
+      border: none;
+      border-radius: 80px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s;
+      text-decoration: none;
+      display: block;
+    }
+    .btn-tertiary:hover { background: #11567F; }
+
+    .prompt-step { margin-bottom: 18px; }
+    .prompt-step-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .prompt-step-num { background: #003545; color: #29B5E8; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+    .prompt-step-title { font-size: 13px; font-weight: 600; color: #333; }
+    .prompt-step-desc { font-size: 12px; color: #666; margin-bottom: 6px; line-height: 1.5; }
+    .prompt-code { position: relative; background: #003545; color: #e0e0e0; border-radius: 8px; padding: 12px 14px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12.5px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+    .prompt-code .copy-btn { position: absolute; top: 6px; right: 8px; background: rgba(255,255,255,0.1); border: none; color: #aaa; font-size: 11px; padding: 3px 8px; border-radius: 4px; cursor: pointer; }
+    .prompt-code .copy-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
+    .modal-box .prompt-intro { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid #eee; }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 700px;
+      width: 92%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 32px 28px;
+      position: relative;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: #888;
+      line-height: 1;
+    }
+    .modal-close:hover { color: #399AA6; }
+    .modal-box h2 { color: #11567F; font-size: 20px; margin-bottom: 6px; }
+    .modal-box h3 { font-size: 15px; color: #333; margin: 18px 0 8px; }
+    .modal-box p, .modal-box li { font-size: 13px; line-height: 1.7; color: #444; }
+    .modal-box ul { padding-left: 20px; margin: 6px 0; }
+    .modal-box .guide-badge { display: inline-block; background: #E0F4FD; color: #11567F; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 50px; margin-bottom: 10px; }
+    .modal-box .guide-footer { margin-top: 20px; padding-top: 14px; border-top: 1px solid #eee; font-size: 12px; color: #888; }
+
+    @media (max-width: 700px) {
+      .hero { flex-direction: column; padding: 24px 20px; }
+      .cards-grid { grid-template-columns: 1fr; padding: 16px 16px 48px; }
+      .filters-bar { padding: 16px 16px 0; }
+      .results-count { padding: 12px 16px 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-left">
+    <div class="logos">
+      <div class="logo-snowflake">
+        <img src="bug-white.png" alt="Snowflake" width="32" height="32" />
+        Snowflake
+      </div>
+    </div>
+    <a href="index_en.html" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:rgba(255,255,255,0.75);text-decoration:none;margin-bottom:8px;transition:color 0.15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="12,4 6,10 12,16"/></svg>Back to Industry Index</a>
+    <p class="hero-eyebrow">Logistics &amp; Transportation &times; Snowflake</p>
+    <h1 class="hero-title">AI/ML Solutions for Logistics and Transportation</h1>
+    <p class="hero-subtitle">Cortex Code Guides and Prompts ready to deploy for logistics, distribution and transportation</p>
+    <p class="hero-tagline">Powered by Snowflake Cortex AI | Immediate impact</p>
+  </div>
+
+  <div class="stats-box">
+    <div class="stat-number">20</div>
+    <div class="stat-label">Use Cases</div>
+    <hr class="stats-divider"/>
+    <div class="stat-time">8-15 min</div>
+    <div class="stat-time-label">Setup Time</div>
+  </div>
+</header>
+
+<section class="intro">
+  <h2>Accelerate your Analytics with Pre-configured AI Solutions for Logistics</h2>
+  <p>Each solution includes Snowflake Cortex Code Prompts with synthetic data, step-by-step guides
+     and SQL-first implementations with Cortex AI/ML. Includes Feature Store and Model Registry for production
+     deployment. Optimize routes, warehouses, fleet and last mile — all within Snowflake,
+     no external dependencies, ready to customize with your data.</p>
+</section>
+
+<div class="filters-bar">
+  <div class="filters-left" id="filterBtns">
+    <button class="filter-btn active" data-filter="all">All (20)</button>
+    <button class="filter-btn" data-filter="rutas">Routes &amp; Last Mile (4)</button>
+    <button class="filter-btn" data-filter="almacen">Warehouse &amp; Fulfillment (4)</button>
+    <button class="filter-btn" data-filter="flota">Fleet &amp; Maintenance (4)</button>
+    <button class="filter-btn" data-filter="demanda">Demand &amp; Planning (4)</button>
+    <button class="filter-btn" data-filter="seguridad">Security &amp; Compliance (4)</button>
+  </div>
+  <div class="search-box">
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round">
+      <circle cx="9" cy="9" r="7"/><line x1="15" y1="15" x2="19" y2="19"/>
+    </svg>
+    <input id="searchInput" type="text" placeholder="Search use cases&hellip;" />
+  </div>
+</div>
+
+<div class="results-count" id="resultsCount">Showing 20 of 20 use cases</div>
+
+<main class="cards-grid" id="cardsGrid"></main>
+<script>
+const USE_CASES = [
+  {
+    "id": "UC01",
+    "cat": "rutas",
+    "catLabel": "Routes & Last Mile",
+    "time": "15 min",
+    "title": "ETA Prediction with Model Registry",
+    "pain": "35% of deliveries miss the promised ETA window. Static models ignore real-time traffic, weather and incidents, causing customer dissatisfaction and contract penalties.",
+    "desc": "ML model for shipment arrival time (ETA) prediction integrating distance, historical traffic, weather, vehicle type and delivery zone. The model is registered in Snowflake Model Registry for production deployment.",
+    "features": [
+      "ETA prediction with ML.CLASSIFICATION + Model Registry",
+      "Model versioning with log_model() and deploy()",
+      "Variables: distance, traffic, weather, vehicle, zone, hour",
+      "Streamlit ETA accuracy dashboard by route"
+    ]
+  },
+  {
+    "id": "UC02",
+    "cat": "rutas",
+    "catLabel": "Routes & Last Mile",
+    "time": "14 min",
+    "title": "Last-Mile Route Optimization",
+    "pain": "Last mile represents 53% of total shipping cost. Routes are planned with simple heuristics without considering delivery windows, stop density and vehicle constraints, wasting 20-30% in traveled km.",
+    "desc": "Last-mile route optimization engine that minimizes total distance and time while respecting delivery windows, vehicle capacity and service priorities. Integrates traffic prediction for dynamic adjustment.",
+    "features": [
+      "Route optimization with SQL + CORTEX.COMPLETE",
+      "Variables: stops, windows, capacity, traffic, priority",
+      "Scenario simulation: density, fleet, windows",
+      "Streamlit route planning dashboard"
+    ]
+  },
+  {
+    "id": "UC03",
+    "cat": "demanda",
+    "catLabel": "Demand & Planning",
+    "time": "14 min",
+    "title": "Shipment Demand Forecasting with Model Registry",
+    "pain": "Capacity planning relies on historical averages with 30% MAPE error. Demand peaks (peak season, campaigns, seasonality) overwhelm operations and cause massive delays.",
+    "desc": "Shipment volume prediction model by zone, product and channel with ML.FORECAST integrating seasonality, promotions, weather and events. The model is versioned in Model Registry.",
+    "features": [
+      "Demand forecast with ML.FORECAST + Model Registry",
+      "Exogenous variables: promotions, weather, holidays, campaigns",
+      "95% confidence intervals by zone and channel",
+      "Accuracy tracking with MAPE by segment"
+    ]
+  },
+  {
+    "id": "UC04",
+    "cat": "flota",
+    "catLabel": "Fleet & Maintenance",
+    "time": "15 min",
+    "title": "Fleet Predictive Maintenance",
+    "pain": "12% of fleet vehicles suffer unplanned breakdowns costing 3-5x more than preventive maintenance. Fixed km-based maintenance generates 40% unnecessary interventions.",
+    "desc": "Predictive maintenance system that analyzes vehicle telemetry (engine, brakes, tires, battery) to predict failures 2-4 weeks in advance and schedule optimal interventions.",
+    "features": [
+      "Failure prediction with ML.CLASSIFICATION",
+      "Variables: engine telemetry, km, age, climate, load",
+      "Per-vehicle alerts with probable failure type",
+      "Streamlit maintenance planning dashboard"
+    ]
+  },
+  {
+    "id": "UC05",
+    "cat": "almacen",
+    "catLabel": "Warehouse & Fulfillment",
+    "time": "13 min",
+    "title": "Picking and Order Preparation Optimization",
+    "pain": "Picking represents 55% of warehouse operating cost. Random picking routes generate unnecessary travel and a worker covers 12-15 km/day when the optimum would be 6-8 km.",
+    "desc": "Picking route optimizer that groups orders, calculates the optimal location sequence and assigns workers by zone to minimize travel and maximize orders per hour.",
+    "features": [
+      "Picking route optimization with analytical SQL",
+      "Order grouping by zone and priority",
+      "Variables: location, volume, weight, urgency, zone",
+      "Streamlit warehouse productivity dashboard"
+    ]
+  },
+  {
+    "id": "UC06",
+    "cat": "rutas",
+    "catLabel": "Routes & Last Mile",
+    "time": "12 min",
+    "title": "Failed Delivery Detection and Automatic Re-routing",
+    "pain": "8-12% of delivery attempts fail (absent recipient, incorrect address, access issues). Each retry costs 4-8 USD and delays delivery 24-48h, eroding customer satisfaction.",
+    "desc": "Predictive model of successful delivery probability per shipment that identifies problematic addresses and time slots before departure. Suggests preventive actions: prior contact, time change or alternative pickup point.",
+    "features": [
+      "Failed delivery prediction with ML.CLASSIFICATION",
+      "Variables: address history, time slot, package type, zone",
+      "Automatic preventive actions by probability score",
+      "Streamlit delivery quality dashboard"
+    ]
+  },
+  {
+    "id": "UC07",
+    "cat": "almacen",
+    "catLabel": "Warehouse & Fulfillment",
+    "time": "14 min",
+    "title": "Warehouse Volume and Staffing Forecast",
+    "pain": "Warehouses plan staff 1-2 weeks ahead based on averages. Unexpected peaks create bottlenecks and costly overtime, while slow periods waste capacity.",
+    "desc": "Inbound and outbound volume prediction model per warehouse that optimizes staff, equipment and space planning with a 2-4 week horizon.",
+    "features": [
+      "Volume forecast with ML.FORECAST",
+      "Variables: history, promotions, seasonality, day of week",
+      "Shift and equipment planning by time slot",
+      "Streamlit capacity planning dashboard"
+    ]
+  },
+  {
+    "id": "UC08",
+    "cat": "rutas",
+    "catLabel": "Routes & Last Mile",
+    "time": "15 min",
+    "title": "Shipment 360 Feature Store",
+    "pain": "Each shipment data is scattered across TMS, WMS, GPS, CRM and incident systems. There is no unified view of the real status of a shipment and decisions are made with partial information.",
+    "desc": "Centralized Feature Store in Snowflake that consolidates features of each shipment from all systems. Serves features in real time for ETA prediction, risk alerts and re-routing decisions.",
+    "features": [
+      "Snowflake Feature Store with Entity and FeatureView",
+      "Features served in real time for ETA and alerts",
+      "Automatic versioning of shipment status",
+      "Ingestion pipeline from TMS, WMS, GPS, CRM"
+    ]
+  },
+  {
+    "id": "UC09",
+    "cat": "demanda",
+    "catLabel": "Demand & Planning",
+    "time": "12 min",
+    "title": "Load Optimization and Shipment Consolidation",
+    "pain": "Trucks run 25-35% empty. Lack of intelligent consolidation between orders, destinations and delivery windows wastes fuel, emissions and transportation cost.",
+    "desc": "Consolidation engine that groups shipments by route, destination and delivery window to maximize vehicle utilization while respecting weight, volume and cargo compatibility constraints.",
+    "features": [
+      "Consolidation with analytical SQL + CORTEX.COMPLETE",
+      "Variables: weight, volume, destination, window, compatibility",
+      "Utilization simulation by grouping scenario",
+      "Streamlit load efficiency dashboard"
+    ]
+  },
+  {
+    "id": "UC10",
+    "cat": "flota",
+    "catLabel": "Fleet & Maintenance",
+    "time": "12 min",
+    "title": "Fuel Consumption and Emissions Monitoring",
+    "pain": "Fuel represents 30-40% of transportation cost. Drivers with inefficient habits consume 15-25% more and companies lack granular visibility on emissions by route and vehicle.",
+    "desc": "CO2 consumption and emissions monitoring system per vehicle, driver and route that identifies inefficiencies, calculates carbon footprint and generates improvement recommendations for ESG compliance.",
+    "features": [
+      "Consumption analysis with SQL + ML.CLASSIFICATION",
+      "Variables: speed, acceleration, load, route, weather",
+      "CO2 emissions calculation per shipment and customer",
+      "Streamlit sustainability and ESG dashboard"
+    ]
+  },
+  {
+    "id": "UC11",
+    "cat": "almacen",
+    "catLabel": "Warehouse & Fulfillment",
+    "time": "13 min",
+    "title": "Dynamic Slotting and Location Optimization",
+    "pain": "70% of warehouses use static location assignment. High-turnover products end up far from the shipping area, increasing picking time by 30-40%.",
+    "desc": "Dynamic slotting engine that reassigns product locations based on turnover, seasonality, co-picking affinity and ergonomics to minimize travel and improve productivity.",
+    "features": [
+      "Slotting optimization with SQL and ML.CLASSIFICATION",
+      "Variables: turnover, volume, weight, co-picking, ergonomics",
+      "Periodic reassignment with minimal operational impact",
+      "Streamlit warehouse layout dashboard"
+    ]
+  },
+  {
+    "id": "UC12",
+    "cat": "flota",
+    "catLabel": "Fleet & Maintenance",
+    "time": "11 min",
+    "title": "Driver Scoring and Road Safety",
+    "pain": "Fleet accidents cost 3-5% of transportation cost between repairs, insurance and driver downtime. There is no visibility on individual driving habits until an incident occurs.",
+    "desc": "Scoring system that evaluates each driver in real time analyzing speed, hard braking, acceleration, rest periods and schedule compliance. Generates ranking and personalized improvement plans.",
+    "features": [
+      "Driving scoring with ML.CLASSIFICATION",
+      "Variables: speed, braking, acceleration, rest, hours",
+      "Driver ranking with improvement plan",
+      "Streamlit fleet safety dashboard"
+    ]
+  },
+  {
+    "id": "UC13",
+    "cat": "demanda",
+    "catLabel": "Demand & Planning",
+    "time": "13 min",
+    "title": "Logistics Cost Analysis and Customer Profitability",
+    "pain": "20% of transportation customers generate hidden losses from scattered deliveries, frequent returns or restrictive delivery windows. Actual cost per shipment is not calculated accurately.",
+    "desc": "Activity-based costing (ABC) model that calculates the real cost of serving each customer integrating transport, warehouse, returns, incidents and required service level.",
+    "features": [
+      "ABC costing with analytical SQL + ML",
+      "Variables: km, stops, returns, incidents, SLA",
+      "Real profitability per customer and per shipment",
+      "Streamlit profitability analysis dashboard"
+    ]
+  },
+  {
+    "id": "UC14",
+    "cat": "almacen",
+    "catLabel": "Warehouse & Fulfillment",
+    "time": "15 min",
+    "title": "Warehouse Feature Store for Operations",
+    "pain": "Warehouse KPIs are calculated in batch with 24-48h delay. There is no real-time view of productivity by zone, worker and shift to make immediate operational decisions.",
+    "desc": "Feature Store in Snowflake that consolidates operational metrics from each warehouse: productivity, quality, capacity, staff and equipment. Serves features for real-time planning decisions.",
+    "features": [
+      "Snowflake Feature Store with Entity per warehouse",
+      "FeatureViews: productivity, quality, capacity, staffing",
+      "Features served for real-time planning",
+      "Automatic update pipeline every hour"
+    ]
+  },
+  {
+    "id": "UC15",
+    "cat": "demanda",
+    "catLabel": "Demand & Planning",
+    "time": "12 min",
+    "title": "Logistics Chatbot with RAG for Incidents",
+    "pain": "Logistics service teams handle 500-1000 daily queries about shipment status, incidents and procedures. 70% are repetitive but require manual search across multiple systems.",
+    "desc": "RAG conversational assistant with Cortex Search indexing operational procedures, FAQ, shipment status and incident protocols. Resolves 75% of queries without human intervention.",
+    "features": [
+      "RAG with Cortex Search + CORTEX.COMPLETE",
+      "Knowledge base: procedures, FAQ, protocols",
+      "Integration with real-time shipment status",
+      "Streamlit chat dashboard with escalation"
+    ]
+  },
+  {
+    "id": "UC16",
+    "cat": "flota",
+    "catLabel": "Fleet & Maintenance",
+    "time": "12 min",
+    "title": "Fleet Capacity Optimization and Right-Sizing",
+    "pain": "Fleets are oversized by 15-20% to cover peaks, but 30% of vehicles are idle in off-peak periods. Lack of utilization analysis prevents optimal buy/lease decisions.",
+    "desc": "Fleet right-sizing model that analyzes actual utilization by vehicle type, route and seasonality to recommend the optimal mix of owned, rented and subcontracted fleet.",
+    "features": [
+      "Utilization analysis with ML.FORECAST",
+      "Variables: routes, volume, seasonality, vehicle cost",
+      "Simulation of owned vs rented vs subcontracted fleet",
+      "Streamlit fleet management dashboard"
+    ]
+  },
+  {
+    "id": "UC17",
+    "cat": "seguridad",
+    "catLabel": "Security & Compliance",
+    "time": "12 min",
+    "title": "Anomaly Detection in Chain of Custody",
+    "pain": "2-4% of shipments suffer custody incidents: unauthorized openings, route deviations, unplanned stops. Detection is reactive and losses from theft or damage reach 1% of revenue.",
+    "desc": "Chain of custody anomaly detection system that monitors GPS, opening sensors, temperature and route deviations to generate real-time alerts.",
+    "features": [
+      "Anomaly detection with ML and statistical analysis",
+      "Variables: GPS, planned route, openings, temperature",
+      "Real-time alerts by incident type",
+      "Streamlit shipment security dashboard"
+    ]
+  },
+  {
+    "id": "UC18",
+    "cat": "seguridad",
+    "catLabel": "Security & Compliance",
+    "time": "13 min",
+    "title": "Claims Sentiment Analysis with NLP",
+    "pain": "Logistics claims are handled in arrival order without prioritizing by urgency, impact or customer loss risk. 30% of customers who file claims do not return.",
+    "desc": "NLP pipeline that classifies claims by urgency, problem type, sentiment and churn risk. Prioritizes the service queue and generates automated responses for standard cases.",
+    "features": [
+      "NLP with CORTEX.SENTIMENT + CORTEX.COMPLETE",
+      "Classification by urgency, type and churn risk",
+      "Automated responses for standard cases",
+      "Streamlit claims management dashboard"
+    ]
+  },
+  {
+    "id": "UC19",
+    "cat": "seguridad",
+    "catLabel": "Security & Compliance",
+    "time": "11 min",
+    "title": "Delivery and Documentation Fraud Detection",
+    "pain": "Delivery fraud (forged signatures, manipulated proof of delivery, ghost deliveries) represents 0.5-1.5% of shipments. Manual verification of PODs is impossible at scale.",
+    "desc": "ML fraud detection system for delivery proofs analyzing signature patterns, photos, GPS, timing and courier behavior to identify suspicious PODs.",
+    "features": [
+      "Fraud detection with ML.CLASSIFICATION",
+      "Variables: signature pattern, GPS vs address, timing, photo",
+      "Risk scoring per delivery with investigation",
+      "Streamlit delivery integrity dashboard"
+    ]
+  },
+  {
+    "id": "UC20",
+    "cat": "seguridad",
+    "catLabel": "Security & Compliance",
+    "time": "10 min",
+    "title": "Regulatory Compliance and Driving Time Management",
+    "pain": "Fines for non-compliance with driving and rest time regulations (EU 561/2006) cost 500-5000 USD per violation. Manual tachograph management does not prevent non-compliance in real time.",
+    "desc": "Driving and rest time compliance monitoring system that alerts before a violation occurs and suggests optimal stops to meet regulatory requirements.",
+    "features": [
+      "Monitoring with ML and business rules",
+      "Variables: driving hours, rest periods, digital tachograph",
+      "Preventive alerts 30 min before violation",
+      "Streamlit regulatory compliance dashboard"
+    ]
+  }
+];
+const TOTAL = 20;
+
+function renderCards(list) {
+  const grid = document.getElementById('cardsGrid');
+  const count = document.getElementById('resultsCount');
+  grid.innerHTML = '';
+  count.textContent = `Showing ${list.length} of ${TOTAL} use cases`;
+  list.forEach(uc => {
+    const catClass = uc.cat;
+    grid.innerHTML += `
+      <article class="card">
+        <div class="card-header">
+          <div class="card-badges">
+            <span class="badge-id">${uc.id}</span>
+            <span class="badge-cat ${catClass}">${uc.catLabel}</span>
+          </div>
+          <span class="card-time">
+            <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="#aaa" stroke-width="2"><circle cx="10" cy="10" r="8"/><polyline points="10,5 10,10 13,13"/></svg>
+            ${uc.time}
+          </span>
+        </div>
+        <h3 class="card-title">${uc.title}</h3>
+        <div class="pain-point">
+          <div class="pain-point-label">Pain Point</div>
+          <p>${uc.pain}</p>
+        </div>
+        <p class="card-desc">${uc.desc}</p>
+        <ul class="card-features">
+          ${uc.features.map(f => `<li>${f}</li>`).join('')}
+        </ul>
+        <div class="card-actions">
+          <a href="#" class="btn-secondary" onclick="verGuia('${uc.id}');return false;">View Guide</a>
+          <a href="#" class="btn-tertiary" onclick="verPrompts('${uc.id}');return false;">Cortex Code Prompts</a>
+        </div>
+      </article>`;
+  });
+}
+let activeFilter = 'all';
+let searchTerm = '';
+function applyFilters() {
+  let result = USE_CASES;
+  if (activeFilter !== 'all') result = result.filter(u => u.cat === activeFilter);
+  if (searchTerm) result = result.filter(u => u.title.toLowerCase().includes(searchTerm) || u.desc.toLowerCase().includes(searchTerm) || u.pain.toLowerCase().includes(searchTerm));
+  renderCards(result);
+}
+document.getElementById('filterBtns').addEventListener('click', e => {
+  if (!e.target.matches('.filter-btn')) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  activeFilter = e.target.dataset.filter;
+  applyFilters();
+});
+document.getElementById('searchInput').addEventListener('input', e => { searchTerm = e.target.value.toLowerCase().trim(); applyFilters(); });
+renderCards(USE_CASES);
+
+const GUIAS = {
+  "UC01": {
+    "title": "ETA Prediction with Model Registry",
+    "context": "These Cortex Code Prompts build an ETA (Estimated Time of Arrival) prediction model per shipment that is registered in Snowflake Model Registry for production deployment.",
+    "focus": "Delivery accuracy — arrival time prediction integrating traffic, weather, vehicle type and zone.",
+    "challenge": "Reduce ETA error from 35% to 10% and improve customer communication with reliable delivery windows.",
+    "objectives": [
+      "Build ETA prediction model with ML.CLASSIFICATION",
+      "Register and version the model with Snowflake Model Registry (log_model)",
+      "Generate synthetic shipment data with actual delivery times",
+      "Deploy model for production inference",
+      "Build ETA accuracy dashboard"
+    ],
+    "features_list": [
+      "ML Model: ETA band classification per shipment",
+      "Model Registry: Versioning with log_model() and metrics",
+      "Synthetic data: 20,000 shipments with actual delivery times",
+      "Streamlit Dashboard: Accuracy panel by route and zone"
+    ],
+    "data": [
+      "Shipments: Origin, destination, distance, vehicle type, weight, volume",
+      "Traffic: Historical congestion by hour and segment",
+      "Weather: Rain, wind, temperature by zone and hour",
+      "Outcome: Actual vs predicted ETA, deviation"
+    ],
+    "stratification": [
+      "Accurate ETA (error <10 min): Communicate firm window to customer",
+      "Approximate ETA (10-30 min): Communicate range with margin",
+      "Uncertain ETA (>30 min): Proactively notify of possible delay"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Model is trained and registered in Model Registry",
+      "Inference is generated for active shipments",
+      "Dashboard allows monitoring accuracy in real time"
+    ]
+  },
+  "UC02": {
+    "title": "Last-Mile Route Optimization",
+    "context": "These Cortex Code Prompts build a last-mile route optimization engine that minimizes distance and time while respecting delivery windows.",
+    "focus": "Last mile — route planning that maximizes deliveries per vehicle with minimum cost and emissions.",
+    "challenge": "Reduce traveled km by 20% and increase deliveries per vehicle per day from 35 to 50.",
+    "objectives": [
+      "Generate delivery point data with time windows",
+      "Calculate distances and times between stops",
+      "Optimize delivery sequence per vehicle",
+      "Simulate fleet and window scenarios",
+      "Build route planning dashboard"
+    ],
+    "features_list": [
+      "Optimization: TSP/VRP heuristics with SQL + Cortex AI",
+      "Synthetic data: 500 daily delivery points across 5 zones",
+      "Variables: distance, time, window, capacity, priority",
+      "Streamlit Dashboard: Route map with KPIs"
+    ],
+    "data": [
+      "Stops: Address, coordinates, delivery window, priority",
+      "Vehicles: Type, weight/volume capacity, cost per km, CO2 emission",
+      "Traffic: Time matrix by hour of day between zones"
+    ],
+    "stratification": [
+      "Optimal route (utilization >85%): Execute as-is",
+      "Improvable route (70-85%): Consolidate with nearby routes",
+      "Inefficient route (<70%): Reassign to next day or pickup point"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "500 daily delivery points are generated",
+      "Optimizer calculates routes per vehicle",
+      "Dashboard shows routes on map with metrics"
+    ]
+  },
+  "UC03": {
+    "title": "Shipment Demand Forecasting with Model Registry",
+    "context": "These Cortex Code Prompts build shipment volume forecast models by zone and channel with ML.FORECAST and registration in Model Registry.",
+    "focus": "Capacity planning — volume prediction to size fleet, warehouse and staff.",
+    "challenge": "Reduce forecast error (MAPE) from 30% to 12% and unplanned overtime hours by 60%.",
+    "objectives": [
+      "Train forecast models by zone with ML.FORECAST",
+      "Register model in Model Registry with log_model()",
+      "Integrate external variables: promotions, weather, events",
+      "Evaluate accuracy by zone and time horizon",
+      "Build forecast dashboard with capacity planning"
+    ],
+    "features_list": [
+      "ML Model: ML.FORECAST with time series + Model Registry",
+      "Synthetic data: 10 zones x 52 weeks with seasonality",
+      "Forecast: 4, 8 and 12 weeks with confidence intervals",
+      "Streamlit Dashboard: Forecast by zone with alerts"
+    ],
+    "data": [
+      "Volume: Daily shipments by zone, channel and service type",
+      "External variables: E-commerce promotions, weather, holidays",
+      "Capacity: Available vehicles, staff, warehouse space"
+    ],
+    "stratification": [
+      "MAPE <12%: Automatic capacity planning",
+      "MAPE 12-20%: Planning with 15% buffer",
+      "MAPE >20%: Review model, possible anomalous event"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "52 weeks of volume are generated for 10 zones",
+      "Model is trained and registered in Model Registry",
+      "Dashboard shows forecast vs actual with alerts"
+    ]
+  },
+  "UC04": {
+    "title": "Fleet Predictive Maintenance",
+    "context": "These Cortex Code Prompts build a predictive maintenance system for fleet vehicles based on telemetry and usage patterns.",
+    "focus": "Fleet management — prediction of mechanical failures to schedule optimal maintenance and avoid costly breakdowns.",
+    "challenge": "Reduce unplanned breakdowns by 70% and total maintenance cost by 25%.",
+    "objectives": [
+      "Generate vehicle telemetry data",
+      "Extract predictive failure features",
+      "Train failure prediction model",
+      "Schedule optimal maintenance",
+      "Build fleet dashboard"
+    ],
+    "features_list": [
+      "ML Model: Failure prediction with ML.CLASSIFICATION",
+      "Synthetic data: 200 vehicles x 365 days of telemetry",
+      "Variables: engine, brakes, tires, battery, km, load",
+      "Streamlit Dashboard: Maintenance panel with alerts"
+    ],
+    "data": [
+      "Telemetry: Engine temperature, tire pressure, brakes, battery",
+      "Usage: Daily km, average load, route type (urban/interurban)",
+      "History: Past repairs, cost, failure type, workshop"
+    ],
+    "stratification": [
+      "Imminent failure (<7 days): Schedule workshop immediately",
+      "High risk (7-30 days): Include in next maintenance",
+      "Moderate risk (30-90 days): Monitor indicators",
+      "No risk (>90 days): Standard maintenance by km"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "365 days of telemetry are generated per vehicle",
+      "Model predicts failures 2-4 weeks in advance",
+      "Dashboard shows maintenance calendar"
+    ]
+  },
+  "UC05": {
+    "title": "Picking and Order Preparation Optimization",
+    "context": "These Cortex Code Prompts build a warehouse picking route optimizer to minimize travel and maximize productivity.",
+    "focus": "Warehouse operations — picking optimization to reduce operating cost and accelerate order preparation.",
+    "challenge": "Reduce picking distance by 40% and increase orders per hour per worker from 15 to 25.",
+    "objectives": [
+      "Generate warehouse layout with locations",
+      "Create orders with multiple lines",
+      "Optimize order grouping and sequence",
+      "Evaluate productivity by worker and zone",
+      "Build warehouse dashboard"
+    ],
+    "features_list": [
+      "Optimization: Picking sequencing with analytical SQL",
+      "Synthetic data: 5,000-location warehouse, 500 orders per day",
+      "Variables: location, zone, aisle, level, volume, weight",
+      "Streamlit Dashboard: Productivity panel"
+    ],
+    "data": [
+      "Layout: Zones, aisles, shelves, levels, coordinates",
+      "Inventory: Product, location, stock, turnover",
+      "Orders: Lines, products, urgency, destination"
+    ],
+    "stratification": [
+      "Urgent order: Immediate individual picking",
+      "Standard order: Group by zone with batch picking",
+      "Large order (>20 lines): Assign dedicated worker",
+      "Multi-zone order: Parallel picking by zone"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "A warehouse with 5,000 locations is generated",
+      "Optimizer calculates picking routes",
+      "Dashboard shows productivity by worker"
+    ]
+  },
+  "UC06": {
+    "title": "Failed Delivery Detection and Automatic Re-routing",
+    "context": "These Cortex Code Prompts build a predictive failed delivery model that suggests preventive actions before vehicle departure.",
+    "focus": "Delivery quality — reduction of failed attempts through prediction and proactive actions.",
+    "challenge": "Reduce failed deliveries from 10% to 3% and costly retries by 70%.",
+    "objectives": [
+      "Generate delivery history with outcome (success or failure)",
+      "Extract failure risk features",
+      "Train predictive failed delivery model",
+      "Generate automatic preventive actions",
+      "Delivery quality dashboard"
+    ],
+    "features_list": [
+      "ML Model: Failure prediction with ML.CLASSIFICATION",
+      "Synthetic data: 50,000 deliveries with 10% failure rate",
+      "Variables: address history, hour, package type, zone, contact",
+      "Streamlit Dashboard: Quality panel with actions"
+    ],
+    "data": [
+      "Deliveries: Address, attempted hour, outcome, failure reason",
+      "Addresses: Success/failure history, type (residential or commercial)",
+      "Actions: Prior contact, time change, pickup point"
+    ],
+    "stratification": [
+      "High risk (>50% failure prob): Contact customer, offer alternative",
+      "Medium risk (20-50%): SMS with presence confirmation",
+      "Low risk (<20%): Standard delivery",
+      "Blocked address (>3 failures): Pickup point only"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "50,000 deliveries are generated with failure patterns",
+      "Model predicts probability per shipment",
+      "Dashboard shows preventive actions by route"
+    ]
+  },
+  "UC07": {
+    "title": "Warehouse Volume and Staffing Forecast",
+    "context": "These Cortex Code Prompts build a warehouse inbound and outbound volume prediction model for staff and equipment planning.",
+    "focus": "Capacity planning — volume prediction to optimize shifts, equipment and warehouse space.",
+    "challenge": "Reduce unplanned overtime by 60% and improve capacity utilization from 65% to 85%.",
+    "objectives": [
+      "Generate warehouse volume data with seasonality",
+      "Predict volume with ML.FORECAST",
+      "Optimize shift and equipment planning",
+      "Simulate peak scenarios",
+      "Capacity planning dashboard"
+    ],
+    "features_list": [
+      "ML Model: Forecast with ML.FORECAST",
+      "Synthetic data: 3 warehouses x 52 weeks x inbound/outbound",
+      "Variables: day of week, seasonality, promotions, weather",
+      "Streamlit Dashboard: Shift planning panel"
+    ],
+    "data": [
+      "Volume: Inbound and outbound units per hour and warehouse",
+      "Staff: Workers per shift, productivity, availability",
+      "Equipment: Forklifts, terminals, loading zones"
+    ],
+    "stratification": [
+      "Extreme peak (>130% capacity): Extra shifts and temporary staff",
+      "Moderate peak (110-130%): Redistribute staff between zones",
+      "Normal (80-110%): Standard operation",
+      "Off-peak (<80%): Reduce shifts, use for relocations"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "52 weeks of volume are generated per warehouse",
+      "Model predicts the next 4 weeks",
+      "Dashboard plans shifts and equipment"
+    ]
+  },
+  "UC08": {
+    "title": "Shipment 360 Feature Store",
+    "context": "These Cortex Code Prompts build a Feature Store in Snowflake that consolidates each shipment data from TMS, WMS, GPS, CRM for real-time decisions.",
+    "focus": "End-to-end visibility — centralized Feature Store with complete status of each shipment for operational decisions.",
+    "challenge": "Achieve 360-degree visibility on 95% of shipments in real time for proactive decisions.",
+    "objectives": [
+      "Create entities and FeatureViews with Snowflake Feature Store",
+      "Generate data from multiple systems (TMS, WMS, GPS, CRM)",
+      "Implement ingestion and merge pipeline",
+      "Serve features in real time for ETA and alerts",
+      "Validate consistency and freshness"
+    ],
+    "features_list": [
+      "Feature Store: Entity (shipment_id) + FeatureViews (route, status, customer, warehouse)",
+      "Pipeline: Ingestion from TMS, WMS, GPS tracker, CRM",
+      "Synthetic data: 10,000 shipments with multi-system data",
+      "Streamlit Dashboard: Shipment 360 panel"
+    ],
+    "data": [
+      "Route: Origin, destination, stops, km, estimated time",
+      "Status: GPS position, current milestone, incidents, temperature",
+      "Customer: Preferences, history, SLA, claims",
+      "Warehouse: Preparation, shipping, packaging quality"
+    ],
+    "stratification": [
+      "Complete shipment (>90% features): Precise tracking, reliable ETA",
+      "Partial shipment (60-90%): Tracking with estimates",
+      "Minimal shipment (<60%): Alert to complete data",
+      "Critical shipment (strict SLA): Priority monitoring"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "Entities and FeatureViews are created in Feature Store",
+      "10,000 multi-system shipment data are generated",
+      "Dashboard shows 360 status of shipment"
+    ]
+  },
+  "UC09": {
+    "title": "Load Optimization and Shipment Consolidation",
+    "context": "These Cortex Code Prompts build an intelligent consolidation engine that groups shipments to maximize vehicle utilization.",
+    "focus": "Transport efficiency — shipment consolidation to reduce empty trips, cost and CO2 emissions.",
+    "challenge": "Increase average utilization from 65% to 85% and reduce transportation cost by 15%.",
+    "objectives": [
+      "Generate shipment data with destinations and constraints",
+      "Implement consolidation algorithm",
+      "Calculate cost and emissions savings",
+      "Simulate grouping scenarios",
+      "Load efficiency dashboard"
+    ],
+    "features_list": [
+      "Consolidation: Analytical SQL + CORTEX.COMPLETE",
+      "Synthetic data: 1,000 shipments per day with varied destinations",
+      "Variables: weight, volume, destination, window, compatibility, urgency",
+      "Streamlit Dashboard: Utilization and savings panel"
+    ],
+    "data": [
+      "Shipments: Origin, destination, weight, volume, delivery window, urgency",
+      "Vehicles: Type, weight/volume capacity, fixed + variable cost",
+      "Compatibility: Hazardous goods, temperature, fragility"
+    ],
+    "stratification": [
+      "Full consolidation (>90% utilization): Direct route",
+      "Partial consolidation (70-90%): Find complementary shipments",
+      "Low utilization (<70%): Delay 24h or redirect to hub",
+      "Incompatible shipment: Dedicated vehicle"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "1,000 daily shipments are generated with constraints",
+      "Consolidator groups by destination and window",
+      "Dashboard shows savings and utilization"
+    ]
+  },
+  "UC10": {
+    "title": "Fuel Consumption and Emissions Monitoring",
+    "context": "These Cortex Code Prompts build a CO2 consumption and emissions monitoring system per vehicle, driver and route for ESG compliance.",
+    "focus": "Logistics sustainability — monitoring carbon footprint and energy efficiency of the fleet.",
+    "challenge": "Reduce fuel consumption by 12% and have ESG emissions reporting per shipment and customer.",
+    "objectives": [
+      "Generate fleet consumption and telemetry data",
+      "Identify inefficient drivers and routes",
+      "Calculate CO2 emissions per shipment and customer",
+      "Generate improvement recommendations",
+      "Sustainability dashboard"
+    ],
+    "features_list": [
+      "Analysis: SQL + ML.CLASSIFICATION for efficiency",
+      "Synthetic data: 200 vehicles x 90 days of consumption",
+      "Variables: speed, acceleration, load, route, weather, driver",
+      "Streamlit Dashboard: ESG sustainability panel"
+    ],
+    "data": [
+      "Consumption: Liters per 100km per vehicle and route",
+      "Telemetry: Average speed, hard braking, idle time",
+      "Emissions: CO2 calculated by emission factor per fuel type"
+    ],
+    "stratification": [
+      "Efficient (<P25 consumption): Recognize and reward driver",
+      "Normal (P25-P75): No specific action",
+      "Inefficient (P75-P90): Eco-driving training",
+      "Very inefficient (>P90): Vehicle review and urgent training"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "90 days of consumption are generated for 200 vehicles",
+      "Analysis identifies inefficiencies",
+      "Dashboard shows emissions and ranking"
+    ]
+  },
+  "UC11": {
+    "title": "Dynamic Slotting and Location Optimization",
+    "context": "These Cortex Code Prompts build a dynamic slotting engine that reassigns warehouse locations based on actual demand.",
+    "focus": "Warehouse layout — dynamic assignment of products to locations to minimize picking travel distance.",
+    "challenge": "Reduce average picking distance by 30% and order preparation time by 25%.",
+    "objectives": [
+      "Generate warehouse layout with zones and locations",
+      "Calculate turnover and co-picking affinity per product",
+      "Optimize location assignment",
+      "Evaluate productivity impact",
+      "Optimized layout dashboard"
+    ],
+    "features_list": [
+      "Optimization: Slotting with SQL + ML.CLASSIFICATION",
+      "Synthetic data: 3,000 products in 5,000 locations",
+      "Variables: turnover, volume, weight, co-picking, ergonomics, zone",
+      "Streamlit Dashboard: Layout panel with heat map"
+    ],
+    "data": [
+      "Layout: Zones A/B/C, aisles, shelves, distance to shipping area",
+      "Products: Daily turnover, volume, weight, category",
+      "Co-picking: Pairs of products frequently ordered together"
+    ],
+    "stratification": [
+      "Zone A (high turnover): Location close to shipping, ergonomic level",
+      "Zone B (medium turnover): Intermediate location",
+      "Zone C (low turnover): Distant location, upper/lower levels",
+      "Bulk zone: High-volume products with direct access"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "Layout with 5,000 locations is generated",
+      "Optimizer reassigns products to optimal zones",
+      "Dashboard shows before/after with metrics"
+    ]
+  },
+  "UC12": {
+    "title": "Driver Scoring and Road Safety",
+    "context": "These Cortex Code Prompts build a driver scoring system based on telemetry to improve road safety and reduce accidents.",
+    "focus": "Fleet safety — continuous evaluation of driving habits for accident prevention and insurance cost reduction.",
+    "challenge": "Reduce accidents by 40% and insurance cost by 15% through scoring and targeted training.",
+    "objectives": [
+      "Generate driving telemetry data",
+      "Calculate multidimensional score per driver",
+      "Identify risk patterns",
+      "Generate personalized improvement plans",
+      "Fleet safety dashboard"
+    ],
+    "features_list": [
+      "Scoring: Multidimensional ML.CLASSIFICATION",
+      "Synthetic data: 100 drivers x 90 days of telemetry",
+      "Variables: speed, braking, acceleration, rest, hours",
+      "Streamlit Dashboard: Driver ranking with plan"
+    ],
+    "data": [
+      "Telemetry: Speed, acceleration, braking, curves, distance",
+      "Rest: Rest time, stops, continuous hours",
+      "Incidents: Accidents, fines, customer complaints"
+    ],
+    "stratification": [
+      "Score A (>80): Excellent driver, bonus",
+      "Score B (60-80): Good driver, no action",
+      "Score C (40-60): Training recommended next month",
+      "Score D (<40): Mandatory immediate training and supervision"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "90 days of telemetry are generated per driver",
+      "Model calculates multidimensional score",
+      "Dashboard shows ranking and recommendations"
+    ]
+  },
+  "UC13": {
+    "title": "Logistics Cost Analysis and Customer Profitability",
+    "context": "These Cortex Code Prompts build an ABC (Activity-Based Costing) model to calculate the real profitability of each logistics customer.",
+    "focus": "Profitability — real cost per customer integrating all logistics activities for pricing and service decisions.",
+    "challenge": "Identify the 20% of customers that destroy value and recover 5% margin with adjusted pricing.",
+    "objectives": [
+      "Generate cost data per logistics activity",
+      "Calculate real cost per shipment and per customer",
+      "Identify unprofitable customers",
+      "Simulate pricing and service level adjustments",
+      "Profitability dashboard"
+    ],
+    "features_list": [
+      "ABC Costing: Analytical SQL with cost allocation",
+      "Synthetic data: 500 customers x 12 months of activity",
+      "Variables: km, stops, returns, incidents, SLA, urgent orders",
+      "Streamlit Dashboard: Profitability panel per customer"
+    ],
+    "data": [
+      "Direct costs: Transport, fuel, tolls, driver",
+      "Indirect costs: Warehouse, picking, packaging, administration",
+      "Revenue: Billing per shipment and customer with discounts"
+    ],
+    "stratification": [
+      "Profitable customer (margin >15%): Retain and build loyalty",
+      "Marginal customer (5-15%): Optimize cost to serve",
+      "Unprofitable customer (0-5%): Renegotiate rates or SLA",
+      "Value-destroying customer (<0%): Adjust pricing or stop serving"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "12 months of activity costs are generated",
+      "Model calculates real profitability per customer",
+      "Dashboard shows ranking and actions"
+    ]
+  },
+  "UC14": {
+    "title": "Warehouse Feature Store for Operations",
+    "context": "These Cortex Code Prompts build a Feature Store in Snowflake that consolidates warehouse operational metrics for real-time planning decisions.",
+    "focus": "Warehouse operations — Feature Store with real-time productivity, quality, capacity and staff metrics.",
+    "challenge": "Have operational metrics with latency below 1 hour for intraday decisions on staff and equipment rebalancing.",
+    "objectives": [
+      "Create entities and FeatureViews with Snowflake Feature Store",
+      "Generate operational data for 3 warehouses",
+      "Implement hourly update pipeline",
+      "Serve features for staffing decisions",
+      "Warehouse operations dashboard"
+    ],
+    "features_list": [
+      "Feature Store: Entity (warehouse_id) + FeatureViews (productivity, quality, capacity, staffing)",
+      "Pipeline: Hourly update from WMS, HR, quality systems",
+      "Synthetic data: 3 warehouses x 90 days x 24 hours",
+      "Streamlit Dashboard: Real-time operations panel"
+    ],
+    "data": [
+      "Productivity: Orders/hour, lines/hour, by worker and zone",
+      "Quality: Picking errors, breakages, claims",
+      "Capacity: Volume occupancy pct, free slots, loading zone",
+      "Staff: Present workers, individual productivity, absences"
+    ],
+    "stratification": [
+      "Optimal warehouse (>90% KPIs green): No action",
+      "Alert warehouse (70-90%): Rebalance staff between zones",
+      "Critical warehouse (<70%): Immediate reinforcement and investigation",
+      "Peak warehouse: Activate peak protocol with temporary staff"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "Entities and FeatureViews are created in Feature Store",
+      "90 days of data are generated for 3 warehouses",
+      "Dashboard shows operational KPIs in real time"
+    ]
+  },
+  "UC15": {
+    "title": "Logistics Chatbot with RAG for Incidents",
+    "context": "These Cortex Code Prompts build a RAG conversational assistant with Cortex Search over operational procedures and shipment status.",
+    "focus": "Logistics service — chatbot that resolves queries about shipments, incidents and procedures without human intervention.",
+    "challenge": "Resolve 75% of logistics queries automatically, reducing service cost from 4 USD to 0.40 USD per interaction.",
+    "objectives": [
+      "Generate logistics knowledge base",
+      "Create chunks for semantic indexing",
+      "Create Cortex Search Service",
+      "Implement RAG pipeline",
+      "Logistics chat dashboard"
+    ],
+    "features_list": [
+      "RAG: Cortex Search + CORTEX.COMPLETE",
+      "Synthetic data: 150 documents (procedures, FAQ, protocols, SLAs)",
+      "Integration with real-time shipment status",
+      "Streamlit Dashboard: Chat with history and escalation"
+    ],
+    "data": [
+      "Procedures: 50 logistics operations SOPs",
+      "FAQ: 60 frequently asked questions with answers",
+      "Protocols: 20 incident and escalation protocols",
+      "SLAs: 20 service level agreements per customer"
+    ],
+    "stratification": [
+      "High confidence (>0.85): Direct automatic response",
+      "Medium confidence (0.6-0.85): Respond and offer human agent",
+      "Low confidence (<0.6): Escalate to human agent immediately"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "Knowledge base with 150 documents is generated",
+      "Cortex Search Service is created",
+      "Dashboard allows chatting and viewing used chunks"
+    ]
+  },
+  "UC16": {
+    "title": "Fleet Capacity Optimization and Right-Sizing",
+    "context": "These Cortex Code Prompts build a fleet right-sizing model that optimizes the mix of owned, rented and subcontracted vehicles.",
+    "focus": "Fleet management — optimal fleet sizing to minimize total cost considering utilization and seasonality.",
+    "challenge": "Reduce total fleet cost by 18% through optimal owned/rental/subcontracted mix.",
+    "objectives": [
+      "Generate fleet utilization data per vehicle",
+      "Analyze seasonality and demand peaks",
+      "Model total cost per fleet scenario",
+      "Simulate sizing strategies",
+      "Fleet management dashboard"
+    ],
+    "features_list": [
+      "Analysis: ML.FORECAST for demand + cost simulation",
+      "Synthetic data: 150 vehicles x 52 weeks of utilization",
+      "Variables: vehicle type, route, utilization, fixed/variable cost",
+      "Streamlit Dashboard: Fleet planning panel"
+    ],
+    "data": [
+      "Fleet: Type, age, fixed cost, variable cost, depreciation",
+      "Utilization: Active days, km, hours, average load per week",
+      "Demand: Required volume by zone and week"
+    ],
+    "stratification": [
+      "Core vehicle (utilization >80%): Owned fleet",
+      "Regular vehicle (50-80%): Renting or leasing",
+      "Peak vehicle (20-50%): Seasonal rental",
+      "Sporadic vehicle (<20%): Spot subcontracting"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "52 weeks of utilization are generated",
+      "Model simulates fleet mix scenarios",
+      "Dashboard shows total cost per strategy"
+    ]
+  },
+  "UC17": {
+    "title": "Anomaly Detection in Chain of Custody",
+    "context": "These Cortex Code Prompts build a chain of custody anomaly detection system to prevent theft, damage and deviations.",
+    "focus": "Shipment security — real-time monitoring of GPS anomalies, unauthorized openings and route deviations.",
+    "challenge": "Detect 90% of custody incidents in less than 30 minutes and reduce theft/damage losses by 60%.",
+    "objectives": [
+      "Generate GPS tracking and sensor data",
+      "Define normal patterns per route",
+      "Detect anomalies in real time",
+      "Classify incident type",
+      "Shipment security dashboard"
+    ],
+    "features_list": [
+      "Detection: Z-score + ML.CLASSIFICATION for anomalies",
+      "Synthetic data: 5,000 shipments with GPS every 5 min, 3% anomalies",
+      "Variables: GPS, planned route, speed, stops, opening, temp",
+      "Streamlit Dashboard: Security panel with map"
+    ],
+    "data": [
+      "GPS: Position every 5 minutes with speed and heading",
+      "Sensors: Door opening, temperature, vibration",
+      "Planned route: Waypoints, authorized stops, schedules"
+    ],
+    "stratification": [
+      "Critical anomaly (deviation >5km + opening): Immediate alert and lock",
+      "High anomaly (unauthorized stop >30min): Alert supervisor",
+      "Moderate anomaly (abnormal speed): Monitor",
+      "Normal: No action"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "5,000 shipments with GPS tracking are generated",
+      "Detector identifies anomalies in real time",
+      "Dashboard shows map with alerts"
+    ]
+  },
+  "UC18": {
+    "title": "Claims Sentiment Analysis with NLP",
+    "context": "These Cortex Code Prompts build an NLP pipeline to classify logistics claims by urgency, sentiment and customer loss risk.",
+    "focus": "Claims management — intelligent prioritization based on urgency, sentiment and customer value.",
+    "challenge": "Reduce resolution time for critical claims from 72h to 24h and customer loss from claims by 40%.",
+    "objectives": [
+      "Generate synthetic claims with variety",
+      "Classify sentiment and urgency with Cortex AI",
+      "Prioritize service queue",
+      "Generate automated responses",
+      "Claims management dashboard"
+    ],
+    "features_list": [
+      "NLP: CORTEX.SENTIMENT + CORTEX.COMPLETE",
+      "Synthetic data: 5,000 claims from 12 months",
+      "Classification: urgency, type, sentiment, churn risk",
+      "Streamlit Dashboard: Claims panel with priority"
+    ],
+    "data": [
+      "Claims: Free text, customer, shipment, date, channel",
+      "Classification: Type (delay, damage, loss, error, billing)",
+      "Customer: Value, tenure, claim history"
+    ],
+    "stratification": [
+      "Critical (sentiment <-0.7 + VIP customer): Resolution in 4h",
+      "High (sentiment <-0.3 or damage/loss): Resolution in 24h",
+      "Medium (neutral sentiment, operational error): Resolution in 48h",
+      "Low (query or duplicate): Automatic response"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "5,000 claims are generated with variety",
+      "Cortex AI classifies and prioritizes",
+      "Dashboard shows prioritized queue"
+    ]
+  },
+  "UC19": {
+    "title": "Delivery and Documentation Fraud Detection",
+    "context": "These Cortex Code Prompts build an ML fraud detection system for delivery proofs (POD) to identify ghost deliveries and manipulated PODs.",
+    "focus": "Delivery integrity — detection of forged signatures, ghost deliveries and proof of delivery manipulation.",
+    "challenge": "Identify 85% of POD fraud with less than 3% false positives, preventing losses of 0.5-1% of revenue.",
+    "objectives": [
+      "Generate delivery data with PODs",
+      "Extract fraud pattern features",
+      "Train detection model",
+      "Define investigation protocol",
+      "Delivery integrity dashboard"
+    ],
+    "features_list": [
+      "ML Model: Fraud detection with ML.CLASSIFICATION",
+      "Synthetic data: 30,000 deliveries with 2% fraud",
+      "Variables: GPS vs address, timing, signature pattern, frequency",
+      "Streamlit Dashboard: Fraud panel with investigation"
+    ],
+    "data": [
+      "Deliveries: Delivery GPS, hour, signature, photo, courier",
+      "Patterns: Time at address, GPS-destination distance, signature",
+      "Couriers: History, zone, incident ratio"
+    ],
+    "stratification": [
+      "Probable fraud (>80%): Immediate investigation and block",
+      "Suspicious (50-80%): Verification with customer in 24h",
+      "Low risk (20-50%): Random audit",
+      "Legitimate (<20%): No action"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "30,000 deliveries are generated with fraud patterns",
+      "Model scores each delivery",
+      "Dashboard shows fraud by courier and zone"
+    ]
+  },
+  "UC20": {
+    "title": "Regulatory Compliance and Driving Time Management",
+    "context": "These Cortex Code Prompts build a driving time compliance monitoring system (EU 561/2006) that prevents violations.",
+    "focus": "Regulatory compliance — monitoring driving and rest hours to avoid fines and improve safety.",
+    "challenge": "Reduce driving time violations by 90% and associated fines to zero.",
+    "objectives": [
+      "Generate digital tachograph data",
+      "Implement EU 561/2006 regulation rules",
+      "Detect violation risk in real time",
+      "Suggest optimal stops",
+      "Compliance dashboard"
+    ],
+    "features_list": [
+      "Monitoring: Business rules + ML for prediction",
+      "Synthetic data: 100 drivers x 30 days of tachograph",
+      "Variables: driving hours, rest periods, weekly accumulated hours",
+      "Streamlit Dashboard: Regulatory compliance panel"
+    ],
+    "data": [
+      "Tachograph: Start/end driving, rest, activity",
+      "Regulation: Max 4.5h continuous, 9h/day, 56h/week, 90h/biweekly",
+      "Violations: History of fines and sanctions"
+    ],
+    "stratification": [
+      "Imminent violation (<30 min): Urgent alert, mandatory stop",
+      "High risk (30-60 min): Plan stop at next rest area",
+      "Moderate risk (1-2h): Inform driver, optimize route",
+      "No risk (>2h): No action, standard monitoring"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "30 days of tachograph data are generated",
+      "System detects violation risks",
+      "Dashboard shows alerts and stop suggestions"
+    ]
+  }
+};
+
+const PROMPTS = {
+  UC01: {"title": "ETA Prediction with Model Registry", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build an ETA prediction model and register it in Snowflake Model Registry.", "steps": [{"title": "Set up environment", "desc": "Database and warehouse for ETA.", "prompt": "Create a database called ROUTE_ETA_DB with schema PUBLIC and warehouse COMPUTE_WH size SMALL with auto-suspend 60 seconds."}, {"title": "Generate shipment data", "desc": "20,000 shipments with actual times.", "prompt": "Generate table 'historical_shipments' with 20,000 rows: shipment_id (SHP00001..SHP20000), origin_city, destination_city, distance_km (10-800), vehicle_type (Van 40%, Truck_12T 30%, Truck_24T 20%, Trailer 10%), weight_kg, volume_m3, departure_date, departure_hour, promised_eta_min, actual_time_min (eta plus variability based on traffic and weather)."}, {"title": "Generate context data", "desc": "Traffic, weather, zone.", "prompt": "Generate table 'shipment_context' with 20,000 rows: shipment_id, traffic_level (1-5: Free to Gridlock), temperature_c, rain_mm, wind_kmh, is_holiday, day_of_week, is_peak_hour (7-9h and 17-19h), destination_zone (Urban 50%, Suburban 30%, Rural 20%)."}, {"title": "Feature engineering", "desc": "ETA predictor variables.", "prompt": "Create table 'eta_features' with: distance_km, vehicle_type_encoded, weight_normalized, traffic_level, is_peak_hour, is_rain (rain_mm>5), is_holiday, day_of_week_encoded, zone_encoded. Target: eta_band (Fast: <P25, Normal: P25-P75, Slow: P75-P90, Very_Slow: >P90) based on ratio actual_time/distance."}, {"title": "Train model", "desc": "ML.CLASSIFICATION for ETA band.", "prompt": "Split 80/20, train SNOWFLAKE.ML.CLASSIFICATION 'eta_model_v1' with target eta_band and evaluate TRUE."}, {"title": "Evaluate performance", "desc": "Metrics and feature importance.", "prompt": "Run SHOW_EVALUATION_METRICS, SHOW_CONFUSION_MATRIX and SHOW_FEATURE_IMPORTANCE on eta_model_v1. Show accuracy and top 5 most important variables."}, {"title": "Register model", "desc": "Version with Model Registry.", "prompt": "Using Python: from snowflake.ml.registry import Registry. Connect to ROUTE_ETA_DB. registry.log_model(model=eta_model_v1, model_name='eta_prediction_logistics', version_name='v1', metrics={'accuracy': <value>}, comment='ETA prediction logistics v1')."}, {"title": "Build dashboard", "desc": "Streamlit ETA accuracy panel.", "prompt": "Create Streamlit app 'eta_accuracy_dashboard' in ROUTE_ETA_DB.PUBLIC that shows: (1) Actual vs predicted ETA scatter plot by vehicle type, (2) Error histogram by zone, (3) Top 10 routes with worst accuracy, (4) ETA band distribution by hour."}]},
+  UC02: {"title": "Last-Mile Route Optimization", "intro": "Prompts to build a last-mile route optimization engine that minimizes distance and time while respecting delivery windows.", "steps": [{"title": "Set up environment", "desc": "Database for routes.", "prompt": "Create database ROUTE_OPTIMIZATION_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate delivery points", "desc": "500 daily stops across 5 zones.", "prompt": "Generate table 'delivery_points' with 500 rows: point_id, address, latitude, longitude, zone (North/South/East/West/Center), window_start, window_end (2h slots between 8:00-20:00), priority (Urgent 10%, Normal 70%, Flexible 20%), weight_kg, volume_m3."}, {"title": "Generate available fleet", "desc": "25 vehicles with capacities.", "prompt": "Generate table 'daily_fleet' with 25 rows: vehicle_id, type (Van_3_5T 60%, Van_7_5T 30%, Truck_12T 10%), capacity_kg, capacity_m3, cost_per_km, co2_emissions_km, hub_coordinates, available_from_hour."}, {"title": "Build distance matrix", "desc": "Times between all stops.", "prompt": "Generate table 'time_matrix' with distances and estimated times between all pairs of points (point_a, point_b, distance_km, time_min). Apply traffic factor by hour: morning_peak x1.5, afternoon_peak x1.4, off_peak x1.0."}, {"title": "Assign stops to vehicles", "desc": "Grouping by zone and capacity.", "prompt": "Create assignment procedure: (1) Group by geographic zone, (2) Respect weight/volume capacity, (3) Respect delivery windows, (4) Prioritize urgent orders. Generate table 'vehicle_assignment' with vehicle_id and list of point_ids."}, {"title": "Optimize sequence", "desc": "Optimal stop order per route.", "prompt": "For each vehicle, calculate stop sequence that minimizes total distance while respecting windows. Compare: simple geographic sequence vs optimized. Calculate km and time savings."}, {"title": "Simulate scenarios", "desc": "Fleet and window variations.", "prompt": "Simulate 3 scenarios: (1) Current fleet, (2) Fleet reduced by 20%, (3) Wider delivery windows (+2h). For each: total routes, average utilization, km per delivery, total cost."}, {"title": "Build dashboard", "desc": "Streamlit route planning panel.", "prompt": "Create Streamlit app 'route_planning_dashboard' showing: (1) Interactive map with routes by vehicle, (2) KPIs: deliveries per vehicle, km, utilization, (3) Comparison optimized vs non-optimized, (4) Alert for stops at risk of missing window."}]},
+  UC03: {"title": "Shipment Demand Forecasting with Model Registry", "intro": "Prompts to build shipment volume forecast models by zone and channel with ML.FORECAST and registration in Model Registry.", "steps": [{"title": "Set up environment", "desc": "Database for forecast.", "prompt": "Create database SHIPMENT_FORECAST_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate volume history", "desc": "10 zones x 52 weeks.", "prompt": "Generate table 'historical_volume' with 10 zones x 52 weeks: zone_id, week (timestamp), total_shipments (with seasonality: peak season x3, Christmas x2.5, January x0.7, summer x0.8), channel (B2C 60%, B2B 30%, Express 10%)."}, {"title": "Generate exogenous variables", "desc": "Promotions, weather, holidays.", "prompt": "Generate table 'logistics_exogenous' with 52 weeks: week, ecommerce_promotion (15% of weeks), temperature_index, is_holiday, commercial_event (peak season, sales, prime day)."}, {"title": "Prepare data for ML.FORECAST", "desc": "Time series format.", "prompt": "Create table 'forecast_input' with: series_id (zone_channel), timestamp, volume (target). Join with exogenous data. Verify no gaps or nulls. Show distribution by series."}, {"title": "Train forecast model", "desc": "ML.FORECAST with exogenous variables.", "prompt": "Train SNOWFLAKE.ML.FORECAST 'volume_predictor_logistics' with SERIES_COLNAME='series_id', TIMESTAMP_COLNAME='timestamp', TARGET_COLNAME='volume', PREDICTION_INTERVAL=0.95."}, {"title": "Register in Model Registry", "desc": "Version with log_model().", "prompt": "Using Python: registry.log_model() with model_name='demand_forecast_logistics', version_name='v1', metrics={'mape_global': <value>}, comment='Logistics volume forecast v1'."}, {"title": "Generate predictions", "desc": "4, 8 and 12 weeks.", "prompt": "Generate predictions with volume_predictor_logistics!FORECAST(FORECASTING_PERIODS=>12). Extract forecast, lower_bound, upper_bound. Calculate MAPE by zone comparing last 4 weeks."}, {"title": "Build dashboard", "desc": "Streamlit forecast panel.", "prompt": "Create Streamlit app 'demand_forecast_dashboard' in SHIPMENT_FORECAST_DB.PUBLIC showing: (1) Forecast vs actual by zone, (2) MAPE by zone and week, (3) Capacity alert if forecast >120% available, (4) Confidence band at 95%."}]},
+  UC04: {"title": "Fleet Predictive Maintenance", "intro": "Prompts to build a predictive maintenance system based on vehicle telemetry.", "steps": [{"title": "Set up environment", "desc": "Database for maintenance.", "prompt": "Create database FLEET_MAINTENANCE_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate vehicle master", "desc": "200 vehicles with history.", "prompt": "Generate table 'fleet' with 200 rows: vehicle_id, type (Van 50%, Truck_12T 30%, Trailer 20%), brand, model, year (2018-2024), accumulated_km, last_maintenance_date, fuel_type (Diesel 70%, LNG 15%, Electric 15%)."}, {"title": "Generate daily telemetry", "desc": "365 days of data per vehicle.", "prompt": "Generate table 'vehicle_telemetry' with 200 vehicles x 365 days: vehicle_id, date, daily_km (50-500), engine_temp_c (85-110), oil_pressure_bar (2-6), brake_wear_pct (0-100), tire_pressure_bar (2.5-4.5), battery_voltage_v (11-14), consumption_liters_100km."}, {"title": "Generate breakdown history", "desc": "Real failures with type and cost.", "prompt": "Generate table 'breakdowns' with ~300 records: vehicle_id, date, failure_type (Engine 25%, Brakes 20%, Tires 20%, Electrical 15%, Transmission 10%, Other 10%), repair_cost_usd (200-5000), inactive_days (1-15), was_planned (30% TRUE)."}, {"title": "Feature engineering", "desc": "Failure predictor variables.", "prompt": "Create table 'maintenance_features' with: engine_temp_trend_30d, brake_wear_rate, tire_pressure_avg_7d, battery_voltage_trend, km_since_last_maintenance, vehicle_age, abnormal_consumption (ratio vs average). Target: failure_30d (TRUE if breakdown in next 30 days)."}, {"title": "Train predictive model", "desc": "ML.CLASSIFICATION for failures.", "prompt": "Split 80/20, train ML.CLASSIFICATION 'fleet_maintenance_model' with target failure_30d and evaluate TRUE. Show metrics and confusion matrix."}, {"title": "Schedule maintenance", "desc": "Optimal planning by vehicle.", "prompt": "Create view 'maintenance_schedule' with: vehicle_id, failure_probability_30d, risk_category (Imminent/High/Moderate/Low), recommended_action, optimal_maintenance_date, estimated_cost_if_not_done. Sort by priority."}, {"title": "Build dashboard", "desc": "Streamlit maintenance panel.", "prompt": "Create Streamlit app 'fleet_maintenance_dashboard' showing: (1) Vehicles by risk category on map, (2) 90-day maintenance calendar, (3) Cost comparison preventive vs breakdown, (4) Alert for vehicles with failure probability >70%."}]},
+  UC05: {"title": "Picking and Order Preparation Optimization", "intro": "Prompts to build a warehouse picking route optimizer to minimize travel and maximize productivity.", "steps": [{"title": "Set up environment", "desc": "Database for picking.", "prompt": "Create database WAREHOUSE_PICKING_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate warehouse layout", "desc": "5,000 organized locations.", "prompt": "Generate table 'warehouse_locations' with 5,000 rows: location_id, zone (A/B/C/D/E), aisle (1-20), shelf (1-10), level (1-5), coord_x, coord_y, distance_to_shipping_m, type (Picking 80%, Bulk 15%, Refrigerated 5%)."}, {"title": "Generate inventory", "desc": "3,000 products with locations.", "prompt": "Generate table 'warehouse_inventory' with 3,000 rows: product_id, name, category, location_id, current_stock, avg_daily_turnover (0.1-50), unit_weight_kg, unit_volume_cm3."}, {"title": "Generate daily orders", "desc": "500 orders with multiple lines.", "prompt": "Generate table 'daily_orders' with 500 orders: order_id, customer_id, priority (Express 15%, Normal 70%, Economy 15%), deadline_hour. Generate table 'order_lines' with ~2,000 rows: order_id, product_id, quantity (1-10). Average 4 lines per order."}, {"title": "Calculate picking distances", "desc": "Distance for current sequence.", "prompt": "Calculate total distance if picking per individual order in line order: sum of distances between consecutive locations plus round trip to shipping area. Show average distance per order and daily total."}, {"title": "Optimize grouping", "desc": "Batch picking by zone.", "prompt": "Implement batch picking: group orders by dominant zone. For each batch of 5-8 orders, calculate optimal route (nearest neighbor). Compare total distance vs individual picking. Calculate savings percentage."}, {"title": "Evaluate productivity", "desc": "Orders per hour by method.", "prompt": "Simulate 8-hour shift: orders processed per method (individual vs batch), km walked, orders per hour per worker. Show: savings of 40% in distance, improvement from 15 to 25 orders per hour."}, {"title": "Build dashboard", "desc": "Streamlit productivity panel.", "prompt": "Create Streamlit app 'warehouse_productivity_dashboard' in WAREHOUSE_PICKING_DB.PUBLIC showing: (1) Warehouse heat map with picking intensity by zone, (2) Orders per hour by worker, (3) Average distance by order type, (4) Batch grouping recommendation for next shift."}]},
+  UC06: {"title": "Failed Delivery Detection and Automatic Re-routing", "intro": "Prompts to build a predictive failed delivery model that suggests preventive actions before vehicle departure.", "steps": [{"title": "Set up environment", "desc": "Database for failed deliveries.", "prompt": "Create database FAILED_DELIVERY_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate delivery history", "desc": "50,000 deliveries with outcome.", "prompt": "Generate table 'historical_deliveries' with 50,000 rows: delivery_id, shipment_id, address_hash, zone (Urban/Suburban/Rural), property_type (Apartment 45%, House 25%, Office 20%, Pickup_Point 10%), attempt_hour, day_of_week, package_type (Small 40%, Medium 35%, Large 25%), outcome (Successful 90%, Absent 6%, Incorrect_Address 2%, Access_Impossible 1.5%, Refused 0.5%)."}, {"title": "Feature engineering", "desc": "Failure risk variables.", "prompt": "Create table 'delivery_features' with: address_success_rate_pct (last 10 deliveries), hour_bucket (morning/noon/afternoon/night), day_of_week_encoded, property_type_encoded, previous_attempts_shipment, is_first_delivery_address, zone_encoded, contact_available (TRUE/FALSE)."}, {"title": "Train model", "desc": "Binary ML.CLASSIFICATION.", "prompt": "Split 80/20, train ML.CLASSIFICATION 'failed_delivery_model' with target is_failure and evaluate TRUE. Optimize recall (detect maximum potential failures)."}, {"title": "Preventive actions", "desc": "Rules by failure probability.", "prompt": "Create table 'preventive_actions': if failure_prob >50% contact customer and offer pickup point; 20-50% send SMS for presence confirmation; <20% standard delivery. For addresses with >3 failures use pickup point only."}, {"title": "Simulate impact", "desc": "Reduction of retries.", "prompt": "Simulate 1,000 deliveries with model: how many identified as risk, how many actions executed, estimated failure reduction (target: from 10% to 3%). Calculate cost savings per 1,000 deliveries."}, {"title": "Build dashboard", "desc": "Streamlit delivery quality panel.", "prompt": "Create Streamlit app 'delivery_quality_dashboard' showing: (1) Risk distribution by zone and hour, (2) Preventive actions by route, (3) Trend of failed deliveries before vs after model, (4) Cost savings from reduced retries."}]},
+  UC07: {"title": "Warehouse Volume and Staffing Forecast", "intro": "Prompts to build a warehouse volume prediction model for staff and equipment planning.", "steps": [{"title": "Set up environment", "desc": "Database for staffing.", "prompt": "Create database WAREHOUSE_STAFFING_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate volume history", "desc": "3 warehouses x 52 weeks.", "prompt": "Generate table 'warehouse_volume' with 3 warehouses x 52 weeks x 7 days: warehouse_id, date, inbound_units (receiving: peak Mon-Wed), outbound_units (shipping: peak Wed-Fri), seasonal_peaks (peak season x3, Christmas x2.5)."}, {"title": "Generate staff data", "desc": "Shifts and productivity.", "prompt": "Generate table 'warehouse_staff' with 3 warehouses x 365 days: warehouse_id, date, shift (Morning/Afternoon/Night), workers_present, workers_planned, avg_productivity (units/hour/worker), overtime_hours, absences."}, {"title": "Train volume forecast", "desc": "ML.FORECAST per warehouse.", "prompt": "Train ML.FORECAST 'warehouse_volume_forecast' with series per warehouse_type (inbound/outbound), timestamp, units. PREDICTION_INTERVAL=0.95. Forecast 4 weeks."}, {"title": "Calculate staffing needs", "desc": "Workers per shift.", "prompt": "Create view 'staffing_needs' with: for each forecast day, workers_needed = forecast_volume / avg_productivity x safety_factor. Compare with current plan. Flag: Deficit, OK, Surplus."}, {"title": "Optimize shifts", "desc": "Optimal assignment.", "prompt": "Create shift optimization procedure: (1) Cover forecast volume with minimum staff, (2) Respect breaks and maximum shift, (3) Minimize overtime. Generate shift calendar for next 4 weeks."}, {"title": "Build dashboard", "desc": "Streamlit capacity planning panel.", "prompt": "Create Streamlit app 'capacity_planning_dashboard' in WAREHOUSE_STAFFING_DB.PUBLIC showing: (1) Forecast volume vs capacity by warehouse, (2) Recommended shift calendar, (3) Alert for peak weeks, (4) Simulation of temporary staff needed."}]},
+  UC08: {"title": "Shipment 360 Feature Store", "intro": "Prompts to build a Feature Store in Snowflake that consolidates each shipment data from TMS, WMS, GPS and CRM for complete visibility.", "steps": [{"title": "Set up environment", "desc": "Database for Feature Store.", "prompt": "Create database SHIPMENT_FS_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate TMS data", "desc": "10,000 shipments with routes.", "prompt": "Generate table 'tms_data' with 10,000 shipments: shipment_id, customer_id, origin, destination, weight_kg, volume_m3, service (Express/Standard/Economy), status (Collected/In_Transit/Out_for_Delivery/Delivered), carrier, pickup_date, estimated_delivery_date."}, {"title": "Generate WMS data", "desc": "Warehouse preparation.", "prompt": "Generate table 'wms_data' with 10,000 records: shipment_id, warehouse_id, order_receipt_time, picking_start_time, picking_end_time, shipping_time, num_lines, worker_id, picking_errors (2% of shipments), actual_weight_kg."}, {"title": "Generate GPS data", "desc": "Position tracking.", "prompt": "Generate table 'gps_data' with 100,000 records: shipment_id, timestamp, latitude, longitude, speed_kmh, event (Hub_Departure/Stop/Delivery/Incident), vehicle_id. ~10 points per in-transit shipment."}, {"title": "Generate CRM data", "desc": "Customer information.", "prompt": "Generate table 'crm_data' with 2,000 customers: customer_id, type (B2C 60%, B2B 40%), sla_delivery_hours, priority (Gold/Silver/Standard), claims_12m, annual_value_usd, preferred_time_slot."}, {"title": "Create Entity and FeatureViews", "desc": "Shipment Feature Store.", "prompt": "Using Python with snowflake.ml.feature_store: (1) Entity 'shipment' with join_keys=['shipment_id']. (2) FeatureView 'route_features': distance, service_type, carrier, eta_hours. (3) FeatureView 'status_features': current_status, hours_in_transit, last_position, incidents. (4) FeatureView 'customer_context': sla, priority, claims, value. Register FeatureViews."}, {"title": "Serve features", "desc": "Real-time retrieval for inference.", "prompt": "Using feature_store.retrieve_feature_values(): get combined features for active shipments. Verify freshness (<1 hour). Use combined features to predict: ETA_risk (will it be late?), needs_proactive_contact."}, {"title": "Build dashboard", "desc": "Streamlit 360 panel.", "prompt": "Create Streamlit app 'shipment_360_dashboard' in SHIPMENT_FS_DB.PUBLIC showing for each shipment: (1) Real-time status with GPS map, (2) Feature freshness by source, (3) ETA risk score, (4) Customer context (SLA, priority, history)."}]},
+  UC09: {"title": "Load Optimization and Shipment Consolidation", "intro": "Prompts to build an intelligent consolidation engine that maximizes vehicle utilization.", "steps": [{"title": "Set up environment", "desc": "Database for consolidation.", "prompt": "Create database LOAD_CONSOLIDATION_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate daily shipments", "desc": "1,000 shipments with constraints.", "prompt": "Generate table 'daily_shipments' with 1,000 rows: shipment_id, origin_hub (3 hubs), destination_zone, weight_kg (0.5-500), volume_m3 (0.01-5), delivery_window (morning/afternoon/all_day), urgency (Express 15%, Standard 70%, Economy 15%), cargo_type (General 70%, Refrigerated 15%, Hazardous 5%, Fragile 10%)."}, {"title": "Generate available fleet", "desc": "40 vehicles with types.", "prompt": "Generate table 'consolidation_fleet' with 40 rows: vehicle_id, type, capacity_kg, capacity_m3, refrigerated_compatible, hazardous_compatible, fixed_cost_day, cost_per_km, emissions_per_km, hub_base."}, {"title": "Calculate compatibility", "desc": "Constraints between shipments.", "prompt": "Create view 'shipment_compatibility': pairs of shipments that CANNOT go together (hazardous + food, refrigerated + general without compartment). Generate compatibility matrix by cargo_type."}, {"title": "Consolidation algorithm", "desc": "Optimal grouping.", "prompt": "Implement algorithm: (1) Group by destination and window, (2) Sort by urgency, (3) Fill vehicles respecting weight, volume and compatibility, (4) Maximize utilization. Generate table 'consolidation_result' with shipment_id mapped to vehicle_id."}, {"title": "Calculate metrics", "desc": "Utilization and savings.", "prompt": "Calculate per vehicle: weight_utilization_pct, volume_utilization_pct, shipments_loaded, total_cost, emissions. Compare: consolidated vs non-consolidated (1 shipment per vehicle). Total savings in cost and emissions."}, {"title": "Build dashboard", "desc": "Streamlit load efficiency panel.", "prompt": "Create Streamlit app 'load_efficiency_dashboard' in LOAD_CONSOLIDATION_DB.PUBLIC showing: (1) Average utilization by hub and route, (2) Cost and emissions savings vs baseline, (3) Incompatible shipments requiring dedicated vehicle, (4) Daily consolidation simulation."}]},
+  UC10: {"title": "Fuel Consumption and Emissions Monitoring", "intro": "Prompts to monitor fuel consumption and CO2 emissions per vehicle, driver and route with ESG reporting.", "steps": [{"title": "Set up environment", "desc": "Database for sustainability.", "prompt": "Create database FLEET_EMISSIONS_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate consumption data", "desc": "200 vehicles x 90 days.", "prompt": "Generate table 'vehicle_consumption' with 200 vehicles x 90 days: vehicle_id, date, driver_id, km_driven, liters_consumed, fuel_type (Diesel 70%, LNG 15%, Electric 15%), avg_load_pct, route_type (Urban 40%, Interurban 40%, Mixed 20%)."}, {"title": "Generate driving telemetry", "desc": "Driver habits.", "prompt": "Generate table 'driving_telemetry' with 200 vehicles x 90 days: vehicle_id, date, avg_speed_kmh, hard_braking_per_100km, hard_acceleration_per_100km, idle_time_min, eco_score (50-100)."}, {"title": "Calculate consumption and emissions", "desc": "Metrics by dimension.", "prompt": "Create view 'emissions_detail' with: liters_per_100km, co2_kg (factor: diesel=2.64 kg/L, LNG=1.84, electric=0), co2_per_shipment (total_co2 / daily_shipments), co2_per_ton_km. Group by vehicle, driver, route, customer."}, {"title": "Identify inefficiencies", "desc": "Expensive drivers and routes.", "prompt": "Create analysis: driver ranking by consumption_100km adjusted for route_type and load. Identify top 20 drivers with consumption >P75. Calculate: potential savings if they improve to P50."}, {"title": "Classify efficiency", "desc": "ML for patterns.", "prompt": "Train ML.CLASSIFICATION to classify drivers as: Eco_Driver, Normal, Inefficient, Very_Inefficient. Features: braking, acceleration, idle, speed. Show distribution."}, {"title": "Build ESG dashboard", "desc": "Streamlit sustainability panel.", "prompt": "Create Streamlit app 'esg_sustainability_dashboard' in FLEET_EMISSIONS_DB.PUBLIC showing: (1) CO2 per shipment trend, (2) Driver efficiency ranking with eco score, (3) Monthly ESG report by customer, (4) Emissions savings from training plan."}]},
+  UC11: {"title": "Dynamic Slotting and Location Optimization", "intro": "Prompts to build a dynamic slotting engine that reassigns products to optimal locations in the warehouse.", "steps": [{"title": "Set up environment", "desc": "Database for slotting.", "prompt": "Create database WAREHOUSE_SLOTTING_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate warehouse layout", "desc": "5,000 locations with coordinates.", "prompt": "Generate table 'warehouse_layout' with 5,000 rows: location_id, zone (A-E), aisle (1-25), shelf (1-10), level (1-5), coord_x, coord_y, distance_shipping_m (5-200), type (Picking 80%, Bulk 15%, Refrigerated 5%), capacity_m3 (0.1-2.0)."}, {"title": "Generate products with turnover", "desc": "3,000 SKUs with metrics.", "prompt": "Generate table 'warehouse_products' with 3,000 rows: product_id, name, category, current_location, daily_turnover (0.1-80 units), weight_kg, volume_m3, abc_class (A 20%, B 30%, C 50%), needs_refrigeration (5%)."}, {"title": "Generate co-picking", "desc": "Frequently ordered together products.", "prompt": "Generate table 'copicking_pairs' with top 500 product pairs ordered together: product_a, product_b, copicking_frequency, pct_orders_together. Patterns: logical combinations by category."}, {"title": "Calculate location score", "desc": "Product-location suitability.", "prompt": "Create view 'slotting_score' with: for each product, score per candidate location based on: distance_shipping x turnover (weight 40%), copicking_proximity (weight 30%), ergonomic_level (weight 20%), adequate_capacity (weight 10%)."}, {"title": "Optimize assignment", "desc": "Optimal reassignment.", "prompt": "Implement greedy algorithm: (1) Class A products to nearest ergonomic-level locations, (2) Respect co-picking (frequent pairs in same aisle), (3) Minimize weighted average distance. Generate 'new_assignment'."}, {"title": "Build dashboard", "desc": "Streamlit optimized layout panel.", "prompt": "Create Streamlit app 'slotting_dashboard' in WAREHOUSE_SLOTTING_DB.PUBLIC showing: (1) Warehouse heat map before vs after, (2) Average picking distance savings, (3) ABC zone distribution, (4) Co-picking pairs proximity improvement."}]},
+  UC12: {"title": "Driver Scoring and Road Safety", "intro": "Prompts to build a driver scoring system based on telemetry to improve road safety.", "steps": [{"title": "Set up environment", "desc": "Database for scoring.", "prompt": "Create database DRIVER_SCORING_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate driver data", "desc": "100 drivers with profile.", "prompt": "Generate table 'drivers' with 100 rows: driver_id, age, years_experience, license_type, usual_vehicle_type, annual_km, accidents_3_years, fines_3_years, eco_driving_training (TRUE/FALSE)."}, {"title": "Generate driving telemetry", "desc": "90 days of data.", "prompt": "Generate table 'driver_telemetry' with 100 drivers x 90 days: driver_id, date, daily_km, avg_speed, max_speed, hard_braking (0-15), hard_acceleration (0-12), time_over_limit_min, rest_breaks_complied (TRUE/FALSE), driving_hours."}, {"title": "Calculate multidimensional score", "desc": "5 evaluation dimensions.", "prompt": "Create view 'driver_score' with 5 dimensions (0-100): speed_score (excesses and average), smoothness_score (braking and acceleration), rest_score (compliance), efficiency_score (normalized consumption), punctuality_score (deliveries within ETA). global_score = weighted average."}, {"title": "Classify drivers", "desc": "ML for profiles.", "prompt": "Train ML.CLASSIFICATION 'driver_scoring_model' with target category (A: Excellent, B: Good, C: Needs Improvement, D: Risk). Features: 5 scores + seniority + accidents. Evaluate TRUE."}, {"title": "Identify risks", "desc": "Dangerous patterns.", "prompt": "Use CORTEX.COMPLETE to analyze category D drivers: Analyze the telemetry pattern and explain the 3 main risk factors for this driver. Suggest specific corrective actions."}, {"title": "Build dashboard", "desc": "Streamlit fleet safety panel.", "prompt": "Create Streamlit app 'fleet_safety_dashboard' in DRIVER_SCORING_DB.PUBLIC showing: (1) Driver ranking by score category, (2) Radar chart of 5 dimensions per driver, (3) Risk trend last 90 days, (4) Personalized improvement plan per driver."}]},
+  UC13: {"title": "Logistics Cost Analysis and Customer Profitability", "intro": "Prompts to build an ABC costing model that calculates the real profitability of each logistics customer.", "steps": [{"title": "Set up environment", "desc": "Database for profitability.", "prompt": "Create database LOGISTICS_COST_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate customer master", "desc": "500 customers with contracts.", "prompt": "Generate table 'logistics_customers' with 500 rows: customer_id, type (B2C 40%, B2B_Regular 35%, B2B_Large_Account 15%, Marketplace 10%), contract_type (Fixed_Rate 30%, Per_Shipment 50%, Volume 20%), monthly_revenue_usd, sla_hours, main_zone."}, {"title": "Generate logistics activity", "desc": "12 months of shipments per customer.", "prompt": "Generate table 'customer_activity' with 500 customers x 12 months: customer_id, month, shipments, total_weight_kg, total_km, express_deliveries_pct, returns_pct, incidents, claims, deliveries_outside_window_pct."}, {"title": "Generate activity costs", "desc": "Direct and indirect costs.", "prompt": "Generate table 'activity_costs' with rates per activity: cost_per_km (0.8-1.5 USD), cost_per_stop (2-5 USD), cost_per_picking_line (0.3-0.8 USD), cost_per_return (8-15 USD), cost_per_incident (5-20 USD), cost_storage_m3_month (15-40 USD), cost_admin_shipment (0.5-1.5 USD)."}, {"title": "Calculate real cost per customer", "desc": "ABC costing.", "prompt": "Create view 'real_customer_cost' with: customer_id, month, revenue, transport_cost (km x rate + stops x rate), warehouse_cost, returns_cost, incidents_cost, admin_cost. real_margin = revenue - total_costs. margin_pct."}, {"title": "Segment profitability", "desc": "Classify customers.", "prompt": "Create view 'profitability_segmentation' with: Profitable (margin >15%), Marginal (5-15%), Unprofitable (0-5%), Value_Destroyer (<0%). Calculate: pct customers by segment, revenue by segment, cost to serve by segment."}, {"title": "Build dashboard", "desc": "Streamlit profitability panel.", "prompt": "Create Streamlit app 'profitability_dashboard' in LOGISTICS_COST_DB.PUBLIC showing: (1) Customer profitability scatter: revenue vs margin, (2) Distribution of segments, (3) Top 20 value-destroying customers with recommended action, (4) Pricing simulation for unprofitable customers."}]},
+  UC14: {"title": "Warehouse Feature Store for Operations", "intro": "Prompts to build a Feature Store in Snowflake with warehouse operational metrics for real-time planning decisions.", "steps": [{"title": "Set up environment", "desc": "Database for warehouse Feature Store.", "prompt": "Create database WAREHOUSE_FS_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate productivity data", "desc": "3 warehouses x 90 days.", "prompt": "Generate table 'warehouse_productivity' with 3 warehouses x 90 days x 3 shifts: warehouse_id, date, shift, orders_processed, picking_lines, picking_errors, avg_order_time_min, workers_present."}, {"title": "Generate quality data", "desc": "Errors and claims.", "prompt": "Generate table 'warehouse_quality' with 3 warehouses x 90 days: warehouse_id, date, shipments_with_error_pct (1-5%), breakage_pct (0.5-2%), daily_claims (0-5), returns_from_warehouse_error (0-3)."}, {"title": "Generate capacity data", "desc": "Utilization and flow.", "prompt": "Generate table 'warehouse_capacity' with 3 warehouses x 90 days: warehouse_id, date, volume_utilization_pct (40-95%), free_picking_slots, loading_zone_utilization_pct, available_docks."}, {"title": "Generate staff data", "desc": "Attendance and performance.", "prompt": "Generate table 'warehouse_staff_detail' with 3 warehouses x 90 days x 3 shifts: warehouse_id, date, shift, planned_workers, present_workers, absences, temporary_workers, avg_individual_productivity."}, {"title": "Create Entity and FeatureViews", "desc": "Warehouse Feature Store.", "prompt": "Using Python with snowflake.ml.feature_store: (1) Entity 'warehouse_ops' with join_keys=['warehouse_id']. (2) FeatureView 'productivity_metrics': orders_per_hour, lines_per_hour, avg_order_time. (3) FeatureView 'quality_metrics': error_rate, breakage_rate, daily_claims. (4) FeatureView 'capacity_status': utilization_pct, free_slots, docks. (5) FeatureView 'staffing_status': present_workers, deficit_pct. Register all."}, {"title": "Build dashboard", "desc": "Streamlit real-time operations panel.", "prompt": "Create Streamlit app 'warehouse_ops_dashboard' in WAREHOUSE_FS_DB.PUBLIC showing: (1) KPI cards per warehouse with RAG status, (2) Productivity trend last 7 days, (3) Staffing alert if deficit >20%, (4) Capacity utilization by shift."}]},
+  UC15: {"title": "Logistics Chatbot with RAG for Incidents", "intro": "Prompts to build a RAG conversational assistant with Cortex Search over operational procedures and shipment status.", "steps": [{"title": "Set up environment", "desc": "Database for logistics chatbot.", "prompt": "Create database LOGISTICS_CHATBOT_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate knowledge base", "desc": "150 operational documents.", "prompt": "Generate table 'logistics_documents' with 150 rows: doc_id, type (SOP 30%, FAQ 35%, Incident_Protocol 15%, SLA 10%, Regulation 10%), title, area (Transport, Warehouse, Last_Mile, Customs, Claims). Generate content of 200-400 words with CORTEX.COMPLETE."}, {"title": "Create chunks", "desc": "Fragment documents.", "prompt": "Create table 'logistics_chunks' by fragmenting documents: chunk_id, doc_id, type, area, chunk_text (~500 chars), chunk_index. ~3-4 chunks per document."}, {"title": "Create Cortex Search Service", "desc": "Semantic indexing.", "prompt": "Create Cortex Search Service 'logistics_search' over logistics_chunks with SEARCH_COLUMN='chunk_text', ATTRIBUTES='type,area'. TARGET_LAG='1 hour'."}, {"title": "Generate shipment status data", "desc": "Real-time tracking.", "prompt": "Generate table 'shipment_status' with 5,000 active shipments: shipment_id, customer, origin, destination, status, last_update, estimated_eta, active_incident (10%)."}, {"title": "RAG pipeline", "desc": "Context-aware responses.", "prompt": "Create pipeline: (1) Detect if query is about a specific shipment or general procedure, (2) If shipment, search in shipment_status, (3) If procedure, search chunks, (4) Generate response with CORTEX.COMPLETE citing source. Test 10 varied queries."}, {"title": "Build dashboard", "desc": "Streamlit logistics chat panel.", "prompt": "Create Streamlit app 'logistics_chat_dashboard' in LOGISTICS_CHATBOT_DB.PUBLIC showing: (1) Chat interface with message history, (2) Source chunks used in each response, (3) Confidence score and escalation option, (4) Query type distribution analytics."}]},
+  UC16: {"title": "Fleet Capacity Optimization and Right-Sizing", "intro": "Prompts to build a fleet right-sizing model that optimizes the owned/rented/subcontracted mix.", "steps": [{"title": "Set up environment", "desc": "Database for fleet planning.", "prompt": "Create database FLEET_ANALYTICS_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate fleet data", "desc": "150 vehicles with costs.", "prompt": "Generate table 'fleet_details' with 150 rows: vehicle_id, type (Van 50%, Truck_12T 30%, Trailer 20%), ownership (Owned 60%, Renting 25%, Spot 15%), fixed_cost_month (leasing/insurance/taxes), variable_cost_per_km, depreciation_month, age_years."}, {"title": "Generate utilization history", "desc": "52 weeks of usage.", "prompt": "Generate table 'fleet_utilization' with 150 vehicles x 52 weeks: vehicle_id, week, active_days (0-7), km_driven, driving_hours, avg_load_pct. Seasonality: Q4 peak (80% utilization), January low (45%)."}, {"title": "Generate zone demand", "desc": "Weekly needs.", "prompt": "Generate table 'vehicle_demand' with 10 zones x 52 weeks: zone_id, week, vans_needed, trucks_needed, trailers_needed. With seasonality and variability."}, {"title": "Calculate real utilization", "desc": "Metrics per vehicle.", "prompt": "Create view 'utilization_analysis' with: vehicle_id, type, ownership, avg_utilization_pct (active_days/7), total_annual_cost, real_cost_per_km (total/km), cost_per_active_day. Rank by efficiency."}, {"title": "Simulate fleet mix", "desc": "3 scenarios.", "prompt": "Simulate: (1) All owned: high investment, low flexibility, (2) Optimal mix: core owned + renting peak + seasonal spot, (3) All flexible: renting + spot. For each: total_annual_cost, guaranteed_availability, flexibility_score."}, {"title": "Build dashboard", "desc": "Streamlit fleet management panel.", "prompt": "Create Streamlit app 'fleet_management_dashboard' in FLEET_ANALYTICS_DB.PUBLIC showing: (1) Current utilization by vehicle type and ownership, (2) Cost comparison across 3 scenarios, (3) Seasonal capacity vs demand gap, (4) Recommended fleet mix with ROI."}]},
+  UC17: {"title": "Anomaly Detection in Chain of Custody", "intro": "Prompts to detect GPS anomalies, unauthorized openings and route deviations to prevent theft and damage.", "steps": [{"title": "Set up environment", "desc": "Database for security.", "prompt": "Create database CHAIN_CUSTODY_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate tracked shipments", "desc": "5,000 shipments with GPS.", "prompt": "Generate table 'tracked_shipments' with 5,000 shipments: shipment_id, origin, destination, planned_route (list of waypoints), departure_time, planned_arrival_time, cargo_value_usd (100-50000), cargo_type, carrier_id."}, {"title": "Generate GPS data", "desc": "Positions every 5 minutes.", "prompt": "Generate table 'gps_tracking' with ~200,000 records: shipment_id, timestamp, lat, lon, speed_kmh, heading, distance_from_planned_route_m (normally <100m, anomaly >500m). 3% of shipments with anomalies: deviation, long stop, etc."}, {"title": "Generate sensor data", "desc": "Opening, temperature, vibration.", "prompt": "Generate table 'shipment_sensors' with ~50,000 records: shipment_id, timestamp, sensor (door/temperature/vibration), value, alert (TRUE if unplanned opening or temp out of range). 2% with real alerts."}, {"title": "Define normal patterns", "desc": "Baseline per route.", "prompt": "Create view 'route_baseline' with: route (origin-destination), avg_duration, usual_stops (with position and average duration), avg_segment_speed, normal_deviation_m. Based on successful historical shipments."}, {"title": "Detect anomalies", "desc": "Z-score and rules.", "prompt": "Create view 'custody_anomalies' with: shipment_id, timestamp, anomaly_type (Route_Deviation, Unauthorized_Stop, Unexpected_Opening, Abnormal_Speed, Temperature_Out_of_Range), severity (1-5), deviation_distance_m, stop_duration_min."}, {"title": "Build dashboard", "desc": "Streamlit shipment security panel.", "prompt": "Create Streamlit app 'custody_security_dashboard' in CHAIN_CUSTODY_DB.PUBLIC showing: (1) Live map with shipments and anomaly alerts, (2) Severity distribution of detected anomalies, (3) Anomalies by type and carrier, (4) Response time from detection to action."}]},
+  UC18: {"title": "Claims Sentiment Analysis with NLP", "intro": "Prompts to classify logistics claims by urgency, sentiment and customer loss risk.", "steps": [{"title": "Set up environment", "desc": "Database for claims.", "prompt": "Create database CLAIMS_ANALYTICS_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate claims", "desc": "5,000 claims from 12 months.", "prompt": "Generate table 'claims' with 5,000 rows: claim_id, customer_id, shipment_id, date, channel (Email 40%, Phone 30%, Web 20%, Chat 10%), claim_text (3-8 sentences describing the problem), expected_type (Delay 35%, Damage 20%, Loss 10%, Error 15%, Billing 10%, Other 10%)."}, {"title": "Generate customer data", "desc": "Value and history.", "prompt": "Generate table 'claim_customers' with 1,000 customers: customer_id, type, annual_revenue_usd, tenure_months, previous_claims_12m, last_nps (-100 to 100), contract_renewal_date."}, {"title": "Classify sentiment", "desc": "Cortex AI over text.", "prompt": "Create table 'claims_sentiment' with: CORTEX.SENTIMENT over claim_text, and CORTEX.COMPLETE to extract: problem_type (Delay/Damage/Loss/Error/Billing), urgency (1-5), affected_products, customer_expectation (refund/reship/apology/compensation)."}, {"title": "Calculate churn risk", "desc": "Probability of customer loss.", "prompt": "Create view 'churn_risk_claim' with: customer_id, sentiment, previous_claims, annual_revenue, renewal_proximity_days, churn_risk = f(sentiment, history, value, renewal). Classify: High (>60%), Medium (30-60%), Low (<30%)."}, {"title": "Prioritize queue", "desc": "Ranking by impact.", "prompt": "Create view 'prioritized_queue' with: priority = urgency x churn_risk x customer_value. Sort descending. Top 50 claims with recommended action and maximum response time."}, {"title": "Build dashboard", "desc": "Streamlit claims management panel.", "prompt": "Create Streamlit app 'claims_management_dashboard' in CLAIMS_ANALYTICS_DB.PUBLIC showing: (1) Prioritized claim queue with SLA countdown, (2) Sentiment distribution by claim type, (3) Churn risk map by customer segment, (4) Resolution time trend by priority."}]},
+  UC19: {"title": "Delivery and Documentation Fraud Detection", "intro": "Prompts to detect forged signatures, ghost deliveries and proof of delivery manipulation with ML.", "steps": [{"title": "Set up environment", "desc": "Database for delivery fraud.", "prompt": "Create database DELIVERY_FRAUD_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate delivery data", "desc": "30,000 deliveries with POD.", "prompt": "Generate table 'pod_deliveries' with 30,000 rows: delivery_id, shipment_id, courier_id (50 couriers), date, delivery_hour, gps_lat, gps_lon, destination_lat, destination_lon, gps_destination_distance_m (normal <50m, fraud >200m), time_at_address_sec (normal 60-300, fraud <20), has_signature (TRUE 95%), has_photo (TRUE 80%)."}, {"title": "Feature engineering", "desc": "Fraud signals.", "prompt": "Create table 'delivery_fraud_features' with: gps_destination_distance, time_at_address, unusual_hour (23:00-06:00), consecutive_fast_deliveries (>5 in 30min = suspicious), courier_no_signature_ratio, problematic_address (>2 claims). is_fraud TRUE in 2% (correlated)."}, {"title": "Train model", "desc": "ML.CLASSIFICATION for fraud.", "prompt": "Split 80/20, train ML.CLASSIFICATION 'delivery_fraud_model' with target is_fraud and evaluate TRUE. Optimize high precision (avoid falsely accusing)."}, {"title": "Score deliveries", "desc": "Score recent deliveries.", "prompt": "Score last 1,000 deliveries. Classify: Legitimate (<20%), Review (20-50%), Suspicious (50-80%), Probable_Fraud (>80%). Generate investigation list with top 20 most suspicious."}, {"title": "Analyze by courier", "desc": "Individual patterns.", "prompt": "Create view 'courier_fraud_profile' with: courier_id, suspicious_deliveries_pct, avg_gps_distance, avg_time_at_address, no_signature_ratio, risk_ranking. Top 5 couriers with highest suspicion rate."}, {"title": "Build dashboard", "desc": "Streamlit delivery integrity panel.", "prompt": "Create Streamlit app 'delivery_integrity_dashboard' in DELIVERY_FRAUD_DB.PUBLIC showing: (1) Fraud score distribution across recent deliveries, (2) Top suspicious couriers with case details, (3) Anomaly pattern heatmap by zone and hour, (4) Investigation queue with evidence summary."}]},
+  UC20: {"title": "Regulatory Compliance and Driving Time Management", "intro": "Prompts to monitor driving and rest time compliance (EU 561/2006) and prevent violations.", "steps": [{"title": "Set up environment", "desc": "Database for compliance.", "prompt": "Create database DRIVING_COMPLIANCE_DB with schema PUBLIC and warehouse COMPUTE_WH."}, {"title": "Generate tachograph data", "desc": "100 drivers x 30 days.", "prompt": "Generate table 'digital_tachograph' with 100 drivers x 30 days x activities: driver_id, date, start_time, end_time, activity (Driving/Rest/Available/Other_Work), duration_min. Average 8-10 activities per day. Include 5% of days with violation risk."}, {"title": "Implement EU 561/2006 rules", "desc": "Driving time regulation.", "prompt": "Create view 'regulation_compliance' with: driver_id, date, daily_driving_hours (max 9h, extendable to 10h twice per week), pause_45min_after_4h30 (complied TRUE/FALSE), weekly_hours (max 56h), biweekly_hours (max 90h), daily_rest_11h (complied TRUE/FALSE), weekly_rest_45h (complied TRUE/FALSE)."}, {"title": "Detect violations", "desc": "Actual and potential violations.", "prompt": "Create view 'detected_violations' with: driver_id, date, violation_type (Excess_Daily_Driving, No_Break, Excess_Weekly, Insufficient_Rest), severity (Minor/Serious/Very_Serious), estimated_fine_usd (100-5000), status (Committed/At_Risk)."}, {"title": "Preventive alerts", "desc": "30 min before violation.", "prompt": "Create view 'realtime_alerts' simulating current day: driver_id, accumulated_driving_hours, minutes_to_limit, limit_type (mandatory_break/end_of_day/weekly_rest), alert (Green >2h, Yellow 1-2h, Orange 30-60min, Red <30min)."}, {"title": "Suggest optimal stops", "desc": "Nearby rest areas.", "prompt": "Generate table 'rest_areas' with 100 locations: area_id, name, latitude, longitude, facilities (parking, restaurant, shower), capacity_trucks. For each driver at risk, find the 3 nearest rest areas on their route with estimated arrival time."}, {"title": "Build dashboard", "desc": "Streamlit compliance panel.", "prompt": "Create Streamlit app 'driving_compliance_dashboard' in DRIVING_COMPLIANCE_DB.PUBLIC showing: (1) Real-time driver status with alert color coding, (2) Daily compliance calendar per driver, (3) Violation trend and estimated fine savings, (4) Map with recommended rest stops for at-risk drivers."}]}
+};
+
+function verGuia(ucId) {
+  const g = GUIAS[ucId];
+  if (!g) return;
+  const html = `
+    <span class="guide-badge">${ucId}</span>
+    <h2>${g.title}</h2>
+    <h3>Business Context</h3><p>${g.context}</p>
+    <h3>Focus</h3><p>${g.focus}</p>
+    <h3>Business Challenge</h3><p>${g.challenge}</p>
+    <h3>Learning Objectives</h3><ul>${g.objectives.map(o=>`<li>${o}</li>`).join('')}</ul>
+    <h3>Snowflake Features</h3><ul>${g.features_list.map(f=>`<li>${f}</li>`).join('')}</ul>
+    <h3>Generated Data</h3><ul>${g.data.map(d=>`<li>${d}</li>`).join('')}</ul>
+    <h3>Stratification</h3><ul>${g.stratification.map(e=>`<li>${e}</li>`).join('')}</ul>
+    <h3>How to Use</h3><ul>${g.how_to_use.map(c=>`<li>${c}</li>`).join('')}</ul>
+    <div class="guide-footer">Guide generated for Snowflake Cortex Code</div>`;
+  document.getElementById('modalContent').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function verPrompts(ucId) {
+  const data = PROMPTS[ucId];
+  if (!data) return;
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  let html = `<span class="guide-badge">${ucId}</span><h2>${data.title}</h2>`;
+  html += `<p class="prompt-intro">${data.intro}</p>`;
+  data.steps.forEach((s,i) => {
+    html += `<div class="prompt-step">
+      <div class="prompt-step-header">
+        <span class="prompt-step-num">${i+1}</span>
+        <span class="prompt-step-title">${s.title}</span>
+      </div>
+      <p class="prompt-step-desc">${s.desc}</p>
+      <div class="prompt-code"><button class="copy-btn" onclick="copiarPrompt(this)">Copy</button>${esc(s.prompt)}</div>
+    </div>`;
+  });
+  document.getElementById('modalContent').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function copiarPrompt(btn) {
+  const code = btn.parentElement.textContent.replace('Copy','').trim();
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied';setTimeout(()=>btn.textContent='Copy',1500);});
+}
+
+function cerrarModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+</script>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)cerrarModal();">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarModal()">&times;</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+</body>
+</html>

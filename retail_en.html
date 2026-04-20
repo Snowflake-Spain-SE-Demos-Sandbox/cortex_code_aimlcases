@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <title>Snowflake — AI/ML Solutions for Retail &amp; E-Commerce</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #003545, #11567F);
+      color: #fff;
+      padding: 32px 48px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .hero-left { flex: 1; }
+
+    .logos {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .logo-snowflake {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 2px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 6px;
+    }
+
+    .hero-tagline {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .stats-box {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px 28px;
+      text-align: center;
+      color: #1a1a1a;
+      min-width: 160px;
+      flex-shrink: 0;
+    }
+
+    .stats-box .stat-number {
+      font-size: 40px;
+      font-weight: 700;
+      color: #7D44CF;
+      line-height: 1;
+    }
+
+    .stats-box .stat-label {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 14px;
+    }
+
+    .stats-box .stat-time {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1;
+    }
+
+    .stats-box .stat-time-label {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .stats-divider {
+      border: none;
+      border-top: 1px solid #e8e8e8;
+      margin: 10px 0;
+    }
+
+    .intro {
+      background: #fff;
+      text-align: center;
+      padding: 48px 24px 32px;
+    }
+
+    .intro h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #11567F;
+      margin-bottom: 14px;
+    }
+
+    .intro p {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 14px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .filters-bar {
+      background: #fff;
+      padding: 20px 48px 0;
+      border-bottom: 1px solid #e8e8e8;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filters-left {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 80px;
+      border: 1.5px solid #ccc;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 500;
+      color: #444;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover { border-color: #29B5E8; color: #29B5E8; }
+
+    .filter-btn.active {
+      background: #29B5E8;
+      border-color: #29B5E8;
+      color: #fff;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid #ccc;
+      border-radius: 80px;
+      padding: 7px 14px;
+      gap: 8px;
+      min-width: 200px;
+      background: #fff;
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      font-size: 13px;
+      color: #444;
+      width: 100%;
+      background: transparent;
+    }
+    .search-box input::placeholder { color: #aaa; }
+
+    .results-count {
+      padding: 14px 48px 8px;
+      font-size: 13px;
+      color: #666;
+      background: #f5f5f5;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 24px;
+      padding: 16px 48px 48px;
+      background: #f5f5f5;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid #e2e2e2;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s;
+    }
+
+    .card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.1); }
+
+    .card-header {
+      padding: 16px 18px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-badges { display: flex; gap: 6px; align-items: center; }
+
+    .badge-id {
+      font-size: 11px;
+      font-weight: 700;
+      color: #888;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-cat {
+      background: #E0F4FD;
+      color: #11567F;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 50px;
+    }
+    .badge-cat.personalizacion { background: #EDE7F6; color: #7D44CF; }
+    .badge-cat.pricing         { background: #FFF3E0; color: #E65100; }
+    .badge-cat.supply          { background: #E8F5E9; color: #2E7D32; }
+    .badge-cat.marketing       { background: #E3F2FD; color: #1565C0; }
+    .badge-cat.seguridad       { background: #FCE4EC; color: #C62828; }
+
+    .card-time {
+      font-size: 12px;
+      color: #888;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .card-title {
+      padding: 0 18px 12px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #11567F;
+      line-height: 1.3;
+    }
+
+    .pain-point {
+      margin: 0 18px 14px;
+      background: #F0F7FA;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .pain-point-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #7D44CF;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .pain-point p {
+      font-size: 13px;
+      color: #2a2a2a;
+      line-height: 1.55;
+    }
+
+    .card-desc {
+      padding: 0 18px 14px;
+      font-size: 13px;
+      color: #555;
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .card-features {
+      padding: 0 18px 16px;
+      list-style: none;
+    }
+
+    .card-features li {
+      font-size: 13px;
+      color: #444;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .card-features li::before {
+      content: '\2713';
+      color: #29B5E8;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .card-actions {
+      padding: 14px 18px 18px;
+      display: flex;
+      gap: 10px;
+      border-top: 1px solid #f0f0f0;
+      flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      padding: 10px;
+      background: #29B5E8;
+      color: #fff;
+      border: none;
+      border-radius: 80px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s;
+      text-decoration: none;
+      display: block;
+    }
+    .btn-secondary:hover { background: #11567F; }
+
+    .btn-tertiary {
+      flex: 1;
+      padding: 10px;
+      background: #003545;
+      color: #29B5E8;
+      border: none;
+      border-radius: 80px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s;
+      text-decoration: none;
+      display: block;
+    }
+    .btn-tertiary:hover { background: #11567F; }
+
+    .prompt-step { margin-bottom: 18px; }
+    .prompt-step-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .prompt-step-num { background: #003545; color: #29B5E8; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+    .prompt-step-title { font-size: 13px; font-weight: 600; color: #333; }
+    .prompt-step-desc { font-size: 12px; color: #666; margin-bottom: 6px; line-height: 1.5; }
+    .prompt-code { position: relative; background: #003545; color: #e0e0e0; border-radius: 8px; padding: 12px 14px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12.5px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+    .prompt-code .copy-btn { position: absolute; top: 6px; right: 8px; background: rgba(255,255,255,0.1); border: none; color: #aaa; font-size: 11px; padding: 3px 8px; border-radius: 4px; cursor: pointer; }
+    .prompt-code .copy-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
+    .modal-box .prompt-intro { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid #eee; }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 700px;
+      width: 92%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 32px 28px;
+      position: relative;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: #888;
+      line-height: 1;
+    }
+    .modal-close:hover { color: #7D44CF; }
+    .modal-box h2 { color: #11567F; font-size: 20px; margin-bottom: 6px; }
+    .modal-box h3 { font-size: 15px; color: #333; margin: 18px 0 8px; }
+    .modal-box p, .modal-box li { font-size: 13px; line-height: 1.7; color: #444; }
+    .modal-box ul { padding-left: 20px; margin: 6px 0; }
+    .modal-box .guide-badge { display: inline-block; background: #E0F4FD; color: #11567F; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 50px; margin-bottom: 10px; }
+    .modal-box .guide-footer { margin-top: 20px; padding-top: 14px; border-top: 1px solid #eee; font-size: 12px; color: #888; }
+
+    @media (max-width: 700px) {
+      .hero { flex-direction: column; padding: 24px 20px; }
+      .cards-grid { grid-template-columns: 1fr; padding: 16px 16px 48px; }
+      .filters-bar { padding: 16px 16px 0; }
+      .results-count { padding: 12px 16px 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-left">
+    <div class="logos">
+      <div class="logo-snowflake">
+        <img src="bug-white.png" alt="Snowflake" width="32" height="32" />
+        Snowflake
+      </div>
+    </div>
+    <a href="index_en.html" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:rgba(255,255,255,0.75);text-decoration:none;margin-bottom:8px;transition:color 0.15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="12,4 6,10 12,16"/></svg>Back to Industry Index</a>
+    <p class="hero-eyebrow">Retail &amp; E-Commerce Sector &times; Snowflake</p>
+    <h1 class="hero-title">AI/ML Solutions for Retail &amp; E-Commerce</h1>
+    <p class="hero-subtitle">Cortex Code Guides and Prompts ready to deploy for retail, fashion and e-commerce</p>
+    <p class="hero-tagline">Built with Snowflake Cortex AI | Immediate impact</p>
+  </div>
+
+  <div class="stats-box">
+    <div class="stat-number">20</div>
+    <div class="stat-label">Use Cases</div>
+    <hr class="stats-divider"/>
+    <div class="stat-time">8-15 min</div>
+    <div class="stat-time-label">Setup Time</div>
+  </div>
+</header>
+
+<section class="intro">
+  <h2>Accelerate your Analytics with Pre-built AI Solutions for Retail</h2>
+  <p>Each solution includes Snowflake Cortex Code Prompts with synthetic data, step-by-step guides
+     and SQL-first implementations with Cortex AI/ML. Includes Feature Store and Model Registry for production
+     deployment. All processing stays inside Snowflake,
+     no external dependencies, ready to customize with your own data.</p>
+</section>
+
+<div class="filters-bar">
+  <div class="filters-left" id="filterBtns">
+    <button class="filter-btn active" data-filter="all">All (20)</button>
+    <button class="filter-btn" data-filter="personalizacion">Personalization &amp; CX (5)</button>
+    <button class="filter-btn" data-filter="pricing">Pricing &amp; Revenue (4)</button>
+    <button class="filter-btn" data-filter="supply">Supply Chain (4)</button>
+    <button class="filter-btn" data-filter="marketing">Marketing &amp; Loyalty (4)</button>
+    <button class="filter-btn" data-filter="seguridad">Fraud &amp; Security (3)</button>
+  </div>
+  <div class="search-box">
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round">
+      <circle cx="9" cy="9" r="7"/><line x1="15" y1="15" x2="19" y2="19"/>
+    </svg>
+    <input id="searchInput" type="text" placeholder="Search use cases&hellip;" />
+  </div>
+</div>
+
+<div class="results-count" id="resultsCount">Showing 20 of 20 use cases</div>
+
+<main class="cards-grid" id="cardsGrid"></main>
+<script>
+const USE_CASES = [
+  {
+    "id": "UC01",
+    "cat": "pricing",
+    "catLabel": "Pricing & Revenue",
+    "time": "15 min",
+    "title": "Dynamic Omnichannel Pricing with Model Registry",
+    "pain": "70% of retailers use static pricing based on fixed margins. Competitors adjust prices every 15 minutes while physical stores take weeks to reprice, losing 8-12% of margin.",
+    "desc": "Dynamic pricing engine that optimizes prices by product, channel and geography using ML.CLASSIFICATION on demand elasticity, competition and stock. The model is registered in Snowflake Model Registry for production deployment.",
+    "features": [
+      "Dynamic pricing with ML.CLASSIFICATION + Model Registry",
+      "Model versioning with log_model() and deploy()",
+      "Variables: elasticity, competition, stock, seasonality, channel",
+      "Streamlit Revenue Management dashboard by category"
+    ]
+  },
+  {
+    "id": "UC02",
+    "cat": "personalizacion",
+    "catLabel": "Personalization & CX",
+    "time": "14 min",
+    "title": "Real-Time Product Recommendations",
+    "pain": "Generic recommendation engines show the same products to all visitors. The click-through rate on generic recommendations is 2-3% versus 15-20% for personalized recommendations.",
+    "desc": "Collaborative and contextual recommendation engine that combines purchase history, browsing, customer profile and trends to generate personalized suggestions in real time with Cortex AI.",
+    "features": [
+      "Recommendations with contextual CORTEX.COMPLETE",
+      "Collaborative filtering + content-based hybrid",
+      "Variables: history, browsing, cart, profile, trends",
+      "E-commerce integration for on-page recommendations"
+    ]
+  },
+  {
+    "id": "UC03",
+    "cat": "supply",
+    "catLabel": "Supply Chain",
+    "time": "14 min",
+    "title": "Multi-SKU Demand Forecasting with Model Registry",
+    "pain": "Retailers manage 10,000-100,000 SKUs with forecasts based on historical averages. Average MAPE error is 35%, generating 8% stockouts and 12% overstock that ends in markdowns.",
+    "desc": "Demand forecasting model per SKU/store with ML.FORECAST integrating seasonality, promotions, weather and events. The model is versioned in Model Registry for automated deployment.",
+    "features": [
+      "Multi-SKU forecast with ML.FORECAST + Model Registry",
+      "Exogenous variables: promotions, weather, events, competition",
+      "95% confidence intervals per SKU and store",
+      "Accuracy tracking with MAPE by category"
+    ]
+  },
+  {
+    "id": "UC04",
+    "cat": "personalizacion",
+    "catLabel": "Personalization & CX",
+    "time": "13 min",
+    "title": "Customer Segmentation with Predictive CLV",
+    "pain": "Retailers segment by basic demographics and miss the opportunity to identify high-value customers. The top 20% of customers generate 60% of revenue but receive the same treatment as all others.",
+    "desc": "Predictive Customer Lifetime Value combining RFM, browsing behavior, price sensitivity and churn probability. Segments into actionable tiers for differentiated marketing.",
+    "features": [
+      "Predictive CLV with ML.CLASSIFICATION",
+      "Automatic segmentation into 5 value tiers",
+      "Variables: RFM, channels, price sensitivity, churn risk",
+      "Differentiated campaign activation by segment"
+    ]
+  },
+  {
+    "id": "UC05",
+    "cat": "supply",
+    "catLabel": "Supply Chain",
+    "time": "15 min",
+    "title": "Inventory Optimization and Automatic Replenishment",
+    "pain": "Manual replenishment generates 15% overstock and 8% stockouts. Planners manage thousands of SKUs with spreadsheets without considering the real lead time of each supplier.",
+    "desc": "Automatic replenishment system that calculates the optimal reorder point per SKU/store considering forecasted demand, variable lead time, storage cost and target service level.",
+    "features": [
+      "Optimal safety stock calculation with ML",
+      "Variables: forecasted demand, lead time, variability, cost",
+      "Scenario simulation: service level vs cost",
+      "Purchase planning dashboard with alerts"
+    ]
+  },
+  {
+    "id": "UC06",
+    "cat": "personalizacion",
+    "catLabel": "Personalization & CX",
+    "time": "12 min",
+    "title": "Product Review Sentiment Analysis",
+    "pain": "Retailers receive thousands of reviews without structured analysis. Negative trends in a product take weeks to detect, by which time sales have already eroded and returns increased.",
+    "desc": "NLP pipeline that classifies sentiment by dimension (quality, size, material, shipping, price) and detects emerging trends by product and category. Generates automatic alerts to the product team.",
+    "features": [
+      "Multi-dimension sentiment with CORTEX.SENTIMENT + CORTEX.COMPLETE",
+      "Extraction of recurring topics by category",
+      "Detection of negative trends within 24h",
+      "Automatic alerts to product manager"
+    ]
+  },
+  {
+    "id": "UC07",
+    "cat": "personalizacion",
+    "catLabel": "Personalization & CX",
+    "time": "14 min",
+    "title": "Customer Service Chatbot with RAG",
+    "pain": "60% of customer service queries are repetitive (order status, return policy, sizing). The average cost per human interaction is 5-8 EUR and wait times generate abandonment.",
+    "desc": "Conversational RAG assistant with Cortex Search indexing catalog, FAQ, policies, sizing guides and order status. Resolves 75% of queries without human intervention in the customer language.",
+    "features": [
+      "RAG with Cortex Search + CORTEX.COMPLETE",
+      "Knowledge base: catalog, FAQ, policies, sizing",
+      "Automatic multilingual with language detection",
+      "Escalation to human agent when confidence is below threshold"
+    ]
+  },
+  {
+    "id": "UC08",
+    "cat": "personalizacion",
+    "catLabel": "Personalization & CX",
+    "time": "15 min",
+    "title": "Customer 360 Feature Store",
+    "pain": "Customer data is dispersed across e-commerce, physical store, app, CRM and loyalty program. There is no unified view and each channel treats the customer as a new contact.",
+    "desc": "Centralized Feature Store in Snowflake that consolidates and versions customer features from all channels. Serves features in real time for personalization, scoring and marketing decisions.",
+    "features": [
+      "Snowflake Feature Store with Entity and FeatureView",
+      "Features served in real time for personalization",
+      "Automatic profile versioning per interaction",
+      "Ingestion pipeline from e-commerce, POS, app, CRM"
+    ]
+  },
+  {
+    "id": "UC09",
+    "cat": "pricing",
+    "catLabel": "Pricing & Revenue",
+    "time": "12 min",
+    "title": "Promotion and Markdown Optimization",
+    "pain": "Promotions are launched with uniform 20-30% discounts without considering elasticity by product. 40% of units on promotion would have sold without a discount, eroding margin unnecessarily.",
+    "desc": "Price elasticity model per product that identifies the optimal discount to maximize incremental units with minimum margin sacrifice. Simulates impact before executing the promotion.",
+    "features": [
+      "Price elasticity per product with ML.CLASSIFICATION",
+      "Optimal discount calculation per SKU",
+      "Impact simulation: incremental units vs lost margin",
+      "Promotional planning dashboard"
+    ]
+  },
+  {
+    "id": "UC10",
+    "cat": "pricing",
+    "catLabel": "Pricing & Revenue",
+    "time": "11 min",
+    "title": "Markdown Prediction and Stock Liquidation",
+    "pain": "25% of fashion inventory ends in markdowns with 40-70% discounts. Markdown decisions are made too late and with excessive discounts that destroy margin.",
+    "desc": "Residual sales prediction model that identifies the optimal moment and depth of markdown per SKU. Minimizes end-of-season stock while maximizing total season revenue.",
+    "features": [
+      "Sell-through prediction with ML.FORECAST",
+      "Optimal markdown timing calculation per SKU",
+      "Variables: sales velocity, stock, remaining weeks, trend",
+      "Liquidation scenario simulation"
+    ]
+  },
+  {
+    "id": "UC11",
+    "cat": "supply",
+    "catLabel": "Supply Chain",
+    "time": "13 min",
+    "title": "Fashion Trend Detection with NLP",
+    "pain": "Design teams take 4-8 weeks to identify emerging trends. Ultra-fast fashion brands detect and produce trends in 7-10 days using social media and search data.",
+    "desc": "NLP pipeline that monitors social media, searches, influencers and competitors to detect emerging trends in color, fabric, silhouette and style. Alerts the design team 3-4 weeks in advance.",
+    "features": [
+      "Trend analysis with CORTEX.COMPLETE",
+      "Social media and search monitoring",
+      "Classification by category: color, fabric, silhouette, style",
+      "Alerts to design team with trend scoring"
+    ]
+  },
+  {
+    "id": "UC12",
+    "cat": "supply",
+    "catLabel": "Supply Chain",
+    "time": "12 min",
+    "title": "Store Stock Allocation Optimization",
+    "pain": "Store stock distribution is based on historical quotas without considering real local demand. High-demand stores run out of stock while others accumulate inventory that requires costly transfers.",
+    "desc": "Optimal allocation model that distributes initial stock per store based on predicted local demand, customer profile, area competition and display capacity.",
+    "features": [
+      "Per-store allocation with ML and constraints",
+      "Variables: local demand, store profile, competition, capacity",
+      "Multi-objective optimization: service vs distribution cost",
+      "Inter-store transfer simulation"
+    ]
+  },
+  {
+    "id": "UC13",
+    "cat": "marketing",
+    "catLabel": "Marketing & Loyalty",
+    "time": "13 min",
+    "title": "Customer Churn Prediction and Retention",
+    "pain": "The churn rate in retail is 20-30% annually and retailers only detect a lost customer when they have already stopped buying. Generic retention campaigns have a 5% success rate.",
+    "desc": "Predictive churn model that identifies customers at risk of abandonment 60-90 days in advance. Generates personalized retention actions by segment and preferred channel.",
+    "features": [
+      "Churn prediction with ML.CLASSIFICATION",
+      "Variables: recency, frequency, spending decline, channel, complaints",
+      "Personalized retention actions by profile",
+      "Retention campaign ROI tracking"
+    ]
+  },
+  {
+    "id": "UC14",
+    "cat": "marketing",
+    "catLabel": "Marketing & Loyalty",
+    "time": "15 min",
+    "title": "Product Feature Store for Merchandising",
+    "pain": "Product attributes are dispersed across PIM, ERP, supplier and reviews. There is no unified view of performance, perception and competitiveness of each product for assortment decisions.",
+    "desc": "Feature Store in Snowflake that consolidates attributes of each product: sales, margin, turnover rate, review sentiment, competitive position and trend. Serves features for merchandising decisions.",
+    "features": [
+      "Snowflake Feature Store with Entity per product",
+      "FeatureViews: sales_metrics, margin_health, customer_perception",
+      "Features served for real-time assortment decisions",
+      "Automatic daily update pipeline"
+    ]
+  },
+  {
+    "id": "UC15",
+    "cat": "marketing",
+    "catLabel": "Marketing & Loyalty",
+    "time": "12 min",
+    "title": "Personalized Next Best Offer with AI",
+    "pain": "Email campaigns have a 15-20% open rate and 2-3% CTR because they send the same content to all users. Lack of personalization generates fatigue and unsubscribes.",
+    "desc": "Next Best Offer engine that selects the optimal product, discount, channel and timing for each customer. Generates personalized content with Cortex AI maximizing conversion probability.",
+    "features": [
+      "NBO with multi-objective ML.CLASSIFICATION",
+      "Content generation with CORTEX.COMPLETE",
+      "Variables: preferences, history, propensity, channel, timing",
+      "Automated A/B testing of offers"
+    ]
+  },
+  {
+    "id": "UC16",
+    "cat": "marketing",
+    "catLabel": "Marketing & Loyalty",
+    "time": "11 min",
+    "title": "Shopping Basket Analysis and Cross-Selling",
+    "pain": "Retailers do not exploit associations between products. 80% of cross-selling opportunities are missed because suggestions are not based on real co-purchase patterns.",
+    "desc": "Market basket analysis that identifies strong associations between products and generates actionable cross-selling rules. Integration with online checkout and POS for real-time suggestions.",
+    "features": [
+      "Association analysis with SQL and CORTEX.COMPLETE",
+      "Cross-selling rules with support, confidence and lift",
+      "Contextual suggestions at checkout and post-purchase",
+      "Product affinity dashboard by category"
+    ]
+  },
+  {
+    "id": "UC17",
+    "cat": "pricing",
+    "catLabel": "Pricing & Revenue",
+    "time": "12 min",
+    "title": "Competition Price Monitoring",
+    "pain": "Pricing teams monitor competitor prices manually or with tools that generate data without context. The real impact of price differences on own conversion is not measured.",
+    "desc": "Competitive intelligence system that compares own prices vs competition by product, calculates the price index and correlates with own conversion to identify products where price drives sales.",
+    "features": [
+      "Price index by product and competitor",
+      "Relative price vs conversion correlation with ML",
+      "Significant price deviation alerts",
+      "Competitive pricing intelligence dashboard"
+    ]
+  },
+  {
+    "id": "UC18",
+    "cat": "seguridad",
+    "catLabel": "Fraud & Security",
+    "time": "12 min",
+    "title": "Fraud Detection in E-Commerce and Payments",
+    "pain": "Fraud in e-commerce represents 1.5-3% of transactions. Chargebacks cost the retailer the full amount plus 20-40% penalties and damage the relationship with payment processors.",
+    "desc": "Real-time ML fraud detection system that analyzes purchase patterns, payment data, browsing behavior and risk signals. Reduces chargebacks by 65% with less than 2% false positives.",
+    "features": [
+      "Fraud detection with ML.CLASSIFICATION",
+      "Variables: device, IP, velocity, BIN, history, behavioral",
+      "Risk scoring per transaction with stratification",
+      "Payment gateway integration"
+    ]
+  },
+  {
+    "id": "UC19",
+    "cat": "seguridad",
+    "catLabel": "Fraud & Security",
+    "time": "13 min",
+    "title": "Return Fraud and Policy Abuse Detection",
+    "pain": "8-10% of returns are fraudulent: wardrobing (use and return), swapped tags, serial returns. Retailers lose significant revenue annually from return policy abuse.",
+    "desc": "ML model that detects return abuse patterns by analyzing frequency, product type, timing, channel and customer history. Classifies customers into risk profiles to apply differentiated policies.",
+    "features": [
+      "Abuse detection with ML.CLASSIFICATION + NLP",
+      "Variables: return ratio, timing, products, channel, reason",
+      "Profiles: Legitimate, Suspicious, Systematic Abuse",
+      "Differentiated policies by risk profile"
+    ]
+  },
+  {
+    "id": "UC20",
+    "cat": "seguridad",
+    "catLabel": "Fraud & Security",
+    "time": "10 min",
+    "title": "Inventory Anomaly and Shrinkage Detection",
+    "pain": "Known and unknown shrinkage represents 1.5-2.5% of retail sales. Losses from theft, administrative errors and internal fraud are difficult to detect with periodic audits.",
+    "desc": "Inventory anomaly detection system that identifies discrepancies between theoretical and physical stock, shrinkage patterns by store/category and signals of internal fraud or organized theft.",
+    "features": [
+      "Anomaly detection with ML and statistical analysis",
+      "Variables: theoretical vs physical stock, shrinkage patterns, shifts",
+      "Alerts by store, category and period",
+      "Loss prevention dashboard with investigation"
+    ]
+  }
+];
+const TOTAL = 20;
+
+function renderCards(list) {
+  const grid = document.getElementById('cardsGrid');
+  const count = document.getElementById('resultsCount');
+  grid.innerHTML = '';
+  count.textContent = `Showing ${list.length} of ${TOTAL} use cases`;
+  list.forEach(uc => {
+    const catClass = uc.cat;
+    grid.innerHTML += `
+      <article class="card">
+        <div class="card-header">
+          <div class="card-badges">
+            <span class="badge-id">${uc.id}</span>
+            <span class="badge-cat ${catClass}">${uc.catLabel}</span>
+          </div>
+          <span class="card-time">
+            <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="#aaa" stroke-width="2"><circle cx="10" cy="10" r="8"/><polyline points="10,5 10,10 13,13"/></svg>
+            ${uc.time}
+          </span>
+        </div>
+        <h3 class="card-title">${uc.title}</h3>
+        <div class="pain-point">
+          <div class="pain-point-label">Pain Point</div>
+          <p>${uc.pain}</p>
+        </div>
+        <p class="card-desc">${uc.desc}</p>
+        <ul class="card-features">
+          ${uc.features.map(f => `<li>${f}</li>`).join('')}
+        </ul>
+        <div class="card-actions">
+          <a href="#" class="btn-secondary" onclick="verGuia('${uc.id}');return false;">View Guide</a>
+          <a href="#" class="btn-tertiary" onclick="verPrompts('${uc.id}');return false;">Cortex Code Prompts</a>
+        </div>
+      </article>`;
+  });
+}
+let activeFilter = 'all';
+let searchTerm = '';
+function applyFilters() {
+  let result = USE_CASES;
+  if (activeFilter !== 'all') result = result.filter(u => u.cat === activeFilter);
+  if (searchTerm) result = result.filter(u => u.title.toLowerCase().includes(searchTerm) || u.desc.toLowerCase().includes(searchTerm) || u.pain.toLowerCase().includes(searchTerm));
+  renderCards(result);
+}
+document.getElementById('filterBtns').addEventListener('click', e => {
+  if (!e.target.matches('.filter-btn')) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  activeFilter = e.target.dataset.filter;
+  applyFilters();
+});
+document.getElementById('searchInput').addEventListener('input', e => { searchTerm = e.target.value.toLowerCase().trim(); applyFilters(); });
+renderCards(USE_CASES);
+
+const GUIAS = {
+  "UC01": {
+    "title": "Dynamic Omnichannel Pricing with Model Registry",
+    "context": "These Cortex Code Prompts build a dynamic pricing engine for retail that adjusts prices by product, channel and geography, and registers the model in Snowflake Model Registry.",
+    "focus": "Retail revenue management  -  price optimization across e-commerce and physical stores based on demand, competition and inventory.",
+    "challenge": "Increase gross margin by 8-12% through dynamic pricing with versioned models deployed to production.",
+    "objectives": [
+      "Build a dynamic pricing model with ML.CLASSIFICATION",
+      "Register and version the model with Snowflake Model Registry (log_model)",
+      "Generate synthetic data for sales, competition and stock",
+      "Deploy the model for production inference",
+      "Build a pricing dashboard with Streamlit"
+    ],
+    "features_list": [
+      "ML Model: Classification of optimal price range per SKU",
+      "Model Registry: Versioning with log_model() and accuracy metrics",
+      "Synthetic data: 5,000 SKUs x 90 days with prices, sales and competition",
+      "Streamlit Dashboard: Pricing panel with recommendations by category"
+    ],
+    "data": [
+      "Products: SKU, category, cost, current price, margin",
+      "Sales: Daily by SKU, channel and region with implicit elasticity",
+      "Competition: Prices from 5 competitors per SKU",
+      "Model: Registered version with metrics and feature importance"
+    ],
+    "stratification": [
+      "Premium Price (+10-20%): Differentiated product with no direct competition",
+      "Market Price (plus or minus 5%): Aligned with competition, optimize margin",
+      "Aggressive Price (-5-15%): Commodity product, maximize volume",
+      "Liquidation (-20-50%): Obsolete stock, minimize loss"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "The model is trained and registered in Model Registry",
+      "Inference is generated for the next 30 days",
+      "The dashboard allows simulation of price changes"
+    ]
+  },
+  "UC02": {
+    "title": "Real-Time Product Recommendations",
+    "context": "These Cortex Code Prompts build a hybrid recommendation engine combining collaborative filtering and content-based matching to generate personalized suggestions.",
+    "focus": "E-commerce personalization  -  product recommendations based on customer history, browsing and context.",
+    "challenge": "Increase recommendation conversion rate from 2% to 12% and average order value by 18%.",
+    "objectives": [
+      "Generate customer purchase and browsing history",
+      "Implement collaborative filtering with purchase similarity",
+      "Generate contextual recommendations with CORTEX.COMPLETE",
+      "Evaluate recommendation relevance",
+      "Build a recommendations interface with Streamlit"
+    ],
+    "features_list": [
+      "Recommendations: Hybrid CF + content-based with Cortex AI",
+      "Synthetic data: 10,000 customers, 5,000 products, 100,000 transactions",
+      "Context: Time of day, device, last search, current cart",
+      "Streamlit Dashboard: Recommendation panel per customer"
+    ],
+    "data": [
+      "Customers: Profile, segment, purchase history, preferences",
+      "Products: Category, attributes, price, stock, trend",
+      "Interactions: Views, clicks, carts, purchases, returns"
+    ],
+    "stratification": [
+      "High relevance (above 80%): Show on homepage and product page",
+      "Medium relevance (50-80%): Include in email and cart",
+      "Low relevance (below 50%): Do not show to avoid noise"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "Customers, products and interactions are generated",
+      "CORTEX.COMPLETE generates contextual recommendations",
+      "The dashboard allows exploring recommendations per customer"
+    ]
+  },
+  "UC03": {
+    "title": "Multi-SKU Demand Forecasting with Model Registry",
+    "context": "These Cortex Code Prompts build demand forecast models per SKU/store with ML.FORECAST and registration in Model Registry.",
+    "focus": "Retail supply chain  -  demand forecasting by product and store integrating external variables.",
+    "challenge": "Reduce forecast error (MAPE) from 35% to 15% and stockouts from 8% to 2%.",
+    "objectives": [
+      "Train forecast models per SKU with ML.FORECAST",
+      "Register the model in Model Registry with log_model()",
+      "Integrate external variables: promotions, weather, events",
+      "Evaluate accuracy by SKU, category and store",
+      "Build a forecast dashboard with stock alerts"
+    ],
+    "features_list": [
+      "ML Model: ML.FORECAST with time series and exogenous variables + Model Registry",
+      "Synthetic data: 500 SKUs x 52 weeks x 20 stores",
+      "Forecast: 4, 8 and 12 weeks with confidence intervals",
+      "Streamlit Dashboard: Forecast per SKU with stockout alerts"
+    ],
+    "data": [
+      "Sales: Weekly by SKU and store with seasonality",
+      "External variables: Promotions, weather, holidays, events",
+      "Stock: Current, in-transit, reorder point, lead time"
+    ],
+    "stratification": [
+      "MAPE below 15%: Reliable forecast for automatic replenishment",
+      "MAPE 15-25%: Use with additional safety stock",
+      "MAPE above 25%: Review model, possibly an erratic product"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "52 weeks of sales are generated for 500 SKUs",
+      "The model is trained and registered in Model Registry",
+      "The dashboard shows forecast vs actual with alerts"
+    ]
+  },
+  "UC04": {
+    "title": "Customer Segmentation with Predictive CLV",
+    "context": "These Cortex Code Prompts build a predictive Customer Lifetime Value system to segment retail customers by future value.",
+    "focus": "Retail CRM  -  segmentation by true customer value for differentiated marketing and retention.",
+    "challenge": "Identify the 20% of customers who generate 60% of revenue and design differentiated strategies per tier.",
+    "objectives": [
+      "Calculate predictive CLV combining RFM and propensity",
+      "Segment customers into 5 value tiers",
+      "Generate synthetic purchase history data",
+      "Design differentiated campaigns by segment",
+      "Build a loyalty dashboard"
+    ],
+    "features_list": [
+      "ML Model: Predictive CLV with classification",
+      "Synthetic data: 10,000 customers with 2 years of purchases",
+      "Segments: VIP (above P95), Premium (P80-P95), Regular (P50-P80), Occasional (P20-P50), Dormant (below P20)",
+      "Streamlit Dashboard: Tier analysis with recommended actions"
+    ],
+    "data": [
+      "Customers: Profile, channel, join date, loyalty program",
+      "Purchases: Date, amount, products, channel, discounts",
+      "CLV: Predicted value at 12 months with return probability"
+    ],
+    "stratification": [
+      "VIP (CLV above 2000): Personal shopper, early access, exclusive events",
+      "Premium (1000-2000): Exclusive offers, unlimited free shipping",
+      "Regular (300-1000): Frequency increase campaigns",
+      "Occasional (100-300): Second purchase incentives",
+      "Dormant (below 100): Reactivation campaign or removal"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "10,000 customers are generated with realistic history",
+      "The model predicts CLV and segments customers",
+      "The dashboard shows distribution and actions per tier"
+    ]
+  },
+  "UC05": {
+    "title": "Inventory Optimization and Automatic Replenishment",
+    "context": "These Cortex Code Prompts build an automatic replenishment system that calculates the optimal reorder point per SKU/store.",
+    "focus": "Inventory management  -  optimal replenishment considering variable demand, lead time and costs.",
+    "challenge": "Reduce stockouts from 8% to 2% and overstock from 15% to 5%, freeing up 20% of working capital.",
+    "objectives": [
+      "Calculate optimal safety stock per SKU and store",
+      "Generate inventory data with variable lead times",
+      "Model demand with ML.FORECAST",
+      "Optimize reorder point with constraints",
+      "Simulate impact on service level and cost"
+    ],
+    "features_list": [
+      "Optimization: Safety stock with dynamic formula + ML",
+      "Synthetic data: 1,000 SKUs with stock, sales and lead times",
+      "Simulation: Service level scenarios at 95%, 97%, 99%",
+      "Streamlit Dashboard: Replenishment panel with alerts"
+    ],
+    "data": [
+      "Inventory: Current stock, in-transit, reserved, available",
+      "Demand: Daily sales with variability and seasonality",
+      "Suppliers: Average lead time, variability, reliability"
+    ],
+    "stratification": [
+      "Critical stock (below safety stock): Immediate urgent order",
+      "Low stock (safety stock plus or minus 20%): Order in next cycle",
+      "Optimal stock: No action, monitor",
+      "Overstock (above 130% target): Evaluate transfer or promotion"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "1,000 SKUs with inventory and sales are generated",
+      "The model calculates the optimal reorder point",
+      "The dashboard shows alerts and scenario simulation"
+    ]
+  },
+  "UC06": {
+    "title": "Product Review Sentiment Analysis",
+    "context": "These Cortex Code Prompts build an NLP pipeline to analyze product reviews, classifying sentiment by dimension and detecting emerging trends.",
+    "focus": "Voice of Customer  -  review analysis to improve products, assortment and shopping experience.",
+    "challenge": "Detect product quality issues in under 48 hours and reduce return rate by 20%.",
+    "objectives": [
+      "Generate synthetic reviews with varied sentiment",
+      "Classify sentiment by dimension with Cortex AI",
+      "Extract recurring topics by category",
+      "Detect emerging negative trends",
+      "Generate automatic alerts to the product manager"
+    ],
+    "features_list": [
+      "NLP: CORTEX.SENTIMENT + CORTEX.COMPLETE multi-dimension",
+      "Synthetic data: 5,000 reviews from 500 products",
+      "Dimensions: Quality, Size/Fit, Material, Shipping, Price, Design",
+      "Streamlit Dashboard: Voice of Customer panel"
+    ],
+    "data": [
+      "Reviews: Text, rating, product, category, date, verified",
+      "Sentiment: Score by dimension (-1 to +1)",
+      "Trends: 14-day moving average by dimension and category"
+    ],
+    "stratification": [
+      "Critical alert (drop above 0.4 in 14 days): Remove product, investigate",
+      "Negative trend (drop 0.2-0.4): Contact supplier, review quality",
+      "Stable: Standard monitoring",
+      "Positive trend: Highlight in marketing"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "5,000 reviews with varied content are generated",
+      "Cortex AI classifies sentiment by dimension",
+      "The dashboard shows trends and alerts"
+    ]
+  },
+  "UC07": {
+    "title": "Customer Service Chatbot with RAG",
+    "context": "These Cortex Code Prompts build a RAG conversational assistant with Cortex Search over catalog, FAQ and retailer policies.",
+    "focus": "Customer service  -  chatbot that resolves queries about products, orders, returns and sizing.",
+    "challenge": "Resolve 75% of queries without human intervention, reducing cost per interaction from 6 to 0.50 currency units.",
+    "objectives": [
+      "Generate the retailer knowledge base",
+      "Create chunks for semantic indexing",
+      "Create Cortex Search Service",
+      "Implement multilingual RAG pipeline",
+      "Build a chat interface with Streamlit"
+    ],
+    "features_list": [
+      "RAG: Cortex Search + CORTEX.COMPLETE multilingual",
+      "Synthetic data: 200 documents (FAQ, policies, sizing guides, catalog)",
+      "Multilingual: Automatic responses in EN, ES, FR, DE, PT",
+      "Streamlit Dashboard: Chat with history and escalation"
+    ],
+    "data": [
+      "FAQ: 100 frequently asked questions with answers",
+      "Policies: Returns, shipping, warranty, privacy",
+      "Catalog: 500 products with description, composition, sizing"
+    ],
+    "stratification": [
+      "High confidence (above 0.85): Direct response",
+      "Medium confidence (0.6-0.85): Respond and offer agent",
+      "Low confidence (below 0.6): Escalate to human agent"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "Knowledge base with 200 documents is generated",
+      "Cortex Search Service is created",
+      "The dashboard allows chatting and viewing retrieved chunks"
+    ]
+  },
+  "UC08": {
+    "title": "Customer 360 Feature Store",
+    "context": "These Cortex Code Prompts build a Feature Store in Snowflake to consolidate customer data from all channels in real time.",
+    "focus": "Omnichannel  -  centralized Feature Store with 360-degree customer view for personalization and decisions.",
+    "challenge": "Ensure 95% of customer interactions have access to their complete unified profile.",
+    "objectives": [
+      "Create entities and FeatureViews with Snowflake Feature Store",
+      "Generate data from multiple channels (e-commerce, POS, app, CRM)",
+      "Implement channel ingestion and merge pipeline",
+      "Serve features in real time for personalization",
+      "Validate consistency and freshness"
+    ],
+    "features_list": [
+      "Feature Store: Entity (customer_id) + FeatureViews (purchase, browsing, loyalty, preferences)",
+      "Pipeline: Ingestion from e-commerce, POS, app, CRM with identity resolution",
+      "Synthetic data: 5,000 customers with multi-channel activity",
+      "Streamlit Dashboard: Customer 360 panel"
+    ],
+    "data": [
+      "Purchases: Online and in-store with products, amounts, frequency",
+      "Browsing: Pages viewed, searches, abandoned carts",
+      "Loyalty: Points, tier, redeemed benefits",
+      "Preferences: Favorite categories, sizes, preferred channel"
+    ],
+    "stratification": [
+      "Full 360 customer: Total personalization across all channels",
+      "Partial profile (above 60% features): Personalization with inference",
+      "Minimal profile (below 60%): Progressive enrichment",
+      "New customer: Onboarding with preference capture"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "Entities and FeatureViews are created in Feature Store",
+      "Data for 5,000 multi-channel customers is generated",
+      "The dashboard shows the unified 360 profile"
+    ]
+  },
+  "UC09": {
+    "title": "Promotion and Markdown Optimization",
+    "context": "These Cortex Code Prompts build a promotion optimizer that calculates the optimal discount per product to maximize incremental units.",
+    "focus": "Retail promotions  -  optimal discount per SKU to maximize incrementality with minimum margin sacrifice.",
+    "challenge": "Reduce cannibalization from 40% to 15% and increase incremental units by 60%.",
+    "objectives": [
+      "Generate sales history with and without promotion",
+      "Calculate price elasticity per product",
+      "Model incrementality vs cannibalization",
+      "Simulate discount impact before execution",
+      "Build a promotional planning dashboard"
+    ],
+    "features_list": [
+      "ML Model: Elasticity and propensity with ML.CLASSIFICATION",
+      "Synthetic data: 2,000 products with 52 weeks of sales plus promotions",
+      "Simulation: Discount impact from 10% to 50% per product",
+      "Streamlit Dashboard: Promotional planner"
+    ],
+    "data": [
+      "Sales: Weekly with and without active promotion",
+      "Promotions: Type, discount, duration, channel",
+      "Elasticity: Price sensitivity by category and product"
+    ],
+    "stratification": [
+      "Elastic product (e above 1.5): 15-25% discount generates high incrementality",
+      "Moderate product (0.8-1.5): 10-15% discount, evaluate margin",
+      "Inelastic product (e below 0.8): Do not promote, discount does not generate volume",
+      "Anchor product: Maintain price for perception"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "2,000 products with promotion history are generated",
+      "The model calculates elasticity per product",
+      "The dashboard simulates impact before activation"
+    ]
+  },
+  "UC10": {
+    "title": "Markdown Prediction and Stock Liquidation",
+    "context": "These Cortex Code Prompts build a sell-through predictor that optimizes the timing and depth of markdown for fashion and seasonal products.",
+    "focus": "Markdown optimization  -  data-driven markdown decisions to maximize seasonal revenue.",
+    "challenge": "Reduce residual stock from 25% to 10% and average discount from 45% to 30% while maintaining sell-through.",
+    "objectives": [
+      "Generate seasonal sales data with decay curve",
+      "Predict residual sell-through per SKU",
+      "Calculate optimal markdown timing and depth",
+      "Simulate liquidation scenarios",
+      "Build a markdown management dashboard"
+    ],
+    "features_list": [
+      "ML Model: Sell-through prediction with ML.FORECAST",
+      "Synthetic data: 1,000 fashion SKUs with 16-week season",
+      "Variables: Sales velocity, week, stock, trend, competition",
+      "Streamlit Dashboard: Markdown panel with simulation"
+    ],
+    "data": [
+      "Sales: Weekly per SKU with natural decay curve",
+      "Stock: Initial, current, projected at end of season",
+      "Markdown: Timing, depth, impact on sales velocity"
+    ],
+    "stratification": [
+      "Sell-through above 80% at week 8: No markdown, will sell at full price",
+      "Sell-through 50-80%: Light markdown (-20%) at week 10",
+      "Sell-through 30-50%: Medium markdown (-35%) at week 8",
+      "Sell-through below 30%: Aggressive markdown (-50%) at week 6"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "1,000 SKUs with seasonal curve are generated",
+      "The model predicts residual sell-through",
+      "The dashboard recommends optimal timing and discount"
+    ]
+  },
+  "UC11": {
+    "title": "Fashion Trend Detection with NLP",
+    "context": "These Cortex Code Prompts build an NLP pipeline to detect emerging fashion trends by analyzing social media, search data and influencer content.",
+    "focus": "Trend spotting  -  early detection of color, fabric, silhouette and style trends for design and buying teams.",
+    "challenge": "Detect trends 3-4 weeks ahead of the manual process, reducing time-to-market for new products.",
+    "objectives": [
+      "Generate synthetic social media mention data",
+      "Classify trends by category with Cortex AI",
+      "Calculate trend score and growth velocity",
+      "Generate alerts to the design team",
+      "Build a trend intelligence dashboard"
+    ],
+    "features_list": [
+      "NLP: CORTEX.COMPLETE for trend classification",
+      "Synthetic data: 10,000 mentions from 4 sources (Instagram, TikTok, Pinterest, Search Trends)",
+      "Categories: Color, Fabric, Silhouette, Style, Pattern",
+      "Streamlit Dashboard: Trend panel with scoring"
+    ],
+    "data": [
+      "Mentions: Text, source, date, engagement, influencer tier",
+      "Trends: Category, score, growth velocity, region",
+      "Products: Current catalog with attributes for matching"
+    ],
+    "stratification": [
+      "Viral trend (score above 80, growth above 50% per week): Produce immediately",
+      "Emerging trend (60-80): Prepare design and sourcing",
+      "Early trend (40-60): Monitor for the next 2 weeks",
+      "Noise (below 40): No action"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "10,000 mentions with trends are generated",
+      "Cortex AI classifies and scores trends",
+      "The dashboard shows ranking with alerts"
+    ]
+  },
+  "UC12": {
+    "title": "Store Stock Allocation Optimization",
+    "context": "These Cortex Code Prompts build an optimal initial stock allocation system for stores based on local demand and customer profile.",
+    "focus": "Retail distribution  -  inventory allocation to points of sale maximizing sales and minimizing transfers.",
+    "challenge": "Reduce inter-store transfers by 40% and improve first-allocation sell-through from 60% to 80%.",
+    "objectives": [
+      "Generate store sales data with differentiated profiles",
+      "Predict local demand per SKU and store",
+      "Optimize allocation with capacity constraints",
+      "Simulate distribution scenarios",
+      "Build a buying allocation dashboard"
+    ],
+    "features_list": [
+      "ML Model: Local demand prediction with ML.CLASSIFICATION",
+      "Synthetic data: 500 SKUs x 50 stores x 24 weeks",
+      "Optimization: Allocation with capacity and minimum constraints",
+      "Streamlit Dashboard: Allocation panel per launch"
+    ],
+    "data": [
+      "Stores: Location, square footage, customer profile, strong categories",
+      "Historical sales: Per SKU and store with local seasonality",
+      "Allocation: Units per store, distribution cost, transfers"
+    ],
+    "stratification": [
+      "Flagship store (high demand): Full allocation, all sizes",
+      "Standard store: Proportional allocation to projected demand",
+      "Niche store: Only SKUs aligned with local profile",
+      "Outlet: Only surplus and secondary quality items"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "Store sales data with differentiated profiles is generated",
+      "The model predicts local demand per SKU",
+      "The dashboard optimizes and visualizes allocation"
+    ]
+  },
+  "UC13": {
+    "title": "Customer Churn Prediction and Retention",
+    "context": "These Cortex Code Prompts build a churn predictor that identifies customers at risk of abandonment 60-90 days in advance.",
+    "focus": "Retail retention  -  early churn detection and personalized actions to retain valuable customers.",
+    "challenge": "Identify 80% of churners with 60+ days of advance notice and reduce churn by 25% with personalized campaigns.",
+    "objectives": [
+      "Generate purchase history with churn patterns",
+      "Train a predictive churn model with ML.CLASSIFICATION",
+      "Calculate at-risk value per customer",
+      "Design personalized retention actions",
+      "Track retention campaign ROI"
+    ],
+    "features_list": [
+      "ML Model: Churn prediction with ML.CLASSIFICATION",
+      "Synthetic data: 10,000 customers with 15% historical churn",
+      "Variables: recency, frequency, spending trend, complaints, channel",
+      "Streamlit Dashboard: Retention panel with ROI"
+    ],
+    "data": [
+      "Customers: Profile, purchase history, loyalty program",
+      "Behavior: Frequency decline, ticket reduction, channel shift",
+      "Complaints: Claims, returns, low NPS scores"
+    ],
+    "stratification": [
+      "Imminent churn (above 70%): Immediate personalized aggressive offer",
+      "High risk (40-70%): Retention campaign via preferred channel",
+      "Moderate risk (20-40%): Value and benefits communication",
+      "Low risk (below 20%): No specific retention action"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "10,000 customers with churn patterns are generated",
+      "The model predicts churn with 60-90 days advance notice",
+      "The dashboard shows at-risk customers and recommended actions"
+    ]
+  },
+  "UC14": {
+    "title": "Product Feature Store for Merchandising",
+    "context": "These Cortex Code Prompts build a Feature Store in Snowflake that consolidates performance attributes of each product for merchandising decisions.",
+    "focus": "Merchandising  -  Feature Store with unified product metrics for assortment, pricing and display decisions.",
+    "challenge": "Achieve real-time 360-degree visibility of each product for buying, pricing and space decisions that maximize revenue per square foot.",
+    "objectives": [
+      "Create entities and FeatureViews with Snowflake Feature Store",
+      "Generate sales, margin, reviews and competition data per product",
+      "Implement daily update pipeline",
+      "Serve features for merchandising decisions",
+      "Build a product intelligence dashboard"
+    ],
+    "features_list": [
+      "Feature Store: Entity (product_id) + FeatureViews (sales, margin, perception)",
+      "Pipeline: Daily update from POS, e-commerce, reviews, pricing",
+      "Synthetic data: 2,000 products with 12 months of metrics",
+      "Streamlit Dashboard: Merchandising panel with scoring"
+    ],
+    "data": [
+      "Sales: Units, revenue, turnover velocity by channel",
+      "Margin: Cost, price, gross margin, margin after discounts",
+      "Perception: Review rating, sentiment, return rate"
+    ],
+    "stratification": [
+      "Star product (high sales + high margin): Maximize exposure",
+      "Cash cow product (high sales + low margin): Optimize price",
+      "Question mark product (low sales + high margin): Invest in visibility",
+      "Dog product (low sales + low margin): Evaluate discontinuation"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "Entities and FeatureViews are created in Feature Store",
+      "12 months of metrics for 2,000 products are generated",
+      "The dashboard shows BCG matrix and scoring"
+    ]
+  },
+  "UC15": {
+    "title": "Personalized Next Best Offer with AI",
+    "context": "These Cortex Code Prompts build a Next Best Offer engine that selects the optimal product, discount, channel and timing per customer.",
+    "focus": "1-to-1 marketing  -  personalized offer that maximizes conversion considering preferences, history and context.",
+    "challenge": "Increase campaign CTR from 2% to 10% and conversion from 0.5% to 3% with deep personalization.",
+    "objectives": [
+      "Generate customer profiles with history and preferences",
+      "Train a multi-product propensity model",
+      "Generate personalized content with Cortex AI",
+      "Implement A/B testing of offers",
+      "Build a campaign dashboard with ROI"
+    ],
+    "features_list": [
+      "ML Model: Multi-objective propensity with ML.CLASSIFICATION",
+      "NLP: Content generation with CORTEX.COMPLETE",
+      "Synthetic data: 8,000 customers with 50,000 campaign interactions",
+      "Streamlit Dashboard: NBO panel with A/B testing"
+    ],
+    "data": [
+      "Customers: Profile, preferences, campaign response history",
+      "Campaigns: Product, discount, channel, timing, result",
+      "Propensity: Purchase probability by product x channel x offer"
+    ],
+    "stratification": [
+      "Propensity above 60%: Send offer via preferred channel immediately",
+      "Propensity 30-60%: Schedule for optimal time of the week",
+      "Propensity 10-30%: Include in mass campaign with low cost",
+      "Propensity below 10%: Do not send (avoid fatigue and unsubscribes)"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "Customers with campaign history are generated",
+      "The model predicts propensity per offer",
+      "CORTEX.COMPLETE generates personalized content"
+    ]
+  },
+  "UC16": {
+    "title": "Shopping Basket Analysis and Cross-Selling",
+    "context": "These Cortex Code Prompts build a market basket analysis to identify product associations and generate actionable cross-selling rules.",
+    "focus": "Retail cross-selling  -  product associations for suggestions at checkout, email and store layout.",
+    "challenge": "Increase average order value by 12% with cross-selling suggestions based on real co-purchase patterns.",
+    "objectives": [
+      "Generate transaction data with associated products",
+      "Calculate association metrics: support, confidence, lift",
+      "Generate actionable cross-selling rules",
+      "Evaluate potential impact on average order value",
+      "Build a product affinity dashboard"
+    ],
+    "features_list": [
+      "Association analysis: SQL with market basket metrics",
+      "Synthetic data: 50,000 transactions with 2-8 products each",
+      "Rules: Top 100 associations with lift above 2",
+      "Streamlit Dashboard: Cross-selling and layout panel"
+    ],
+    "data": [
+      "Transactions: Product, quantity, amount, channel, customer",
+      "Associations: Product A to Product B with support, confidence, lift",
+      "Impact: Current vs potential average order value with cross-selling"
+    ],
+    "stratification": [
+      "Lift above 5: Very strong association, mandatory bundles",
+      "Lift 3-5: Cross-sell at checkout and post-purchase email",
+      "Lift 2-3: Suggestion on product page",
+      "Lift below 2: No cross-selling action"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "50,000 transactions with co-purchase patterns are generated",
+      "SQL rules calculate association metrics",
+      "The dashboard shows rules and suggests store layout"
+    ]
+  },
+  "UC17": {
+    "title": "Competition Price Monitoring",
+    "context": "These Cortex Code Prompts build a pricing intelligence system that compares own prices vs competition and correlates with conversion.",
+    "focus": "Competitive pricing  -  competitor price monitoring and its impact on own sales.",
+    "challenge": "Identify the 100 products where price is the sales driver and adjust to recover 5% of conversion.",
+    "objectives": [
+      "Generate price data from 5 competitors per product",
+      "Calculate price index by product and competitor",
+      "Correlate relative price with conversion and sales",
+      "Generate significant deviation alerts",
+      "Build a competitive intelligence dashboard"
+    ],
+    "features_list": [
+      "SQL analysis: Price index and price-conversion correlation",
+      "Synthetic data: 1,000 products x 5 competitors x 90 days",
+      "ML: Price sensitivity classification with ML.CLASSIFICATION",
+      "Streamlit Dashboard: Competitive intelligence panel"
+    ],
+    "data": [
+      "Own prices: By product, channel, date",
+      "Competitor prices: 5 competitors per product and date",
+      "Conversion: Visits, clicks, purchases per product and day"
+    ],
+    "stratification": [
+      "Price leader (index below 95): Maintain, competitive advantage",
+      "At parity (95-105): Optimize margin",
+      "Price follower (105-115): Evaluate adjustment if product is elastic",
+      "Price outlier (above 115): Adjust urgently or justify premium"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "Competitor prices with variations are generated",
+      "The analysis calculates price index and correlation",
+      "The dashboard identifies price-sensitive products"
+    ]
+  },
+  "UC18": {
+    "title": "Fraud Detection in E-Commerce and Payments",
+    "context": "These Cortex Code Prompts build an ML fraud detection system for e-commerce transactions to reduce chargebacks.",
+    "focus": "Payment security  -  detection of fraudulent transactions in e-commerce with real-time scoring.",
+    "challenge": "Reduce chargebacks by 65% while keeping the false positive rate below 2%.",
+    "objectives": [
+      "Generate synthetic transactions with fraud",
+      "Train a fraud detection model with ML.CLASSIFICATION",
+      "Implement real-time scoring",
+      "Define action protocol by risk level",
+      "Build a fraud and chargeback dashboard"
+    ],
+    "features_list": [
+      "ML Model: Fraud detection with ML.CLASSIFICATION",
+      "Synthetic data: 50,000 transactions with 2.5% fraud rate",
+      "Variables: device, IP, velocity, BIN, amount, history, behavioral",
+      "Streamlit Dashboard: Fraud panel with alerts"
+    ],
+    "data": [
+      "Transactions: Channel, amount, card BIN, IP, device, time",
+      "Signals: Country mismatch, velocity, new device, anomalous amount",
+      "Chargebacks: History with reason and resolution"
+    ],
+    "stratification": [
+      "Probable fraud (above 80%): Block and 3DS verification",
+      "Suspicious (50-80%): Manual verification before shipping",
+      "Low risk (20-50%): Accept with monitoring",
+      "Legitimate (below 20%): Normal processing"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "50,000 transactions with fraud patterns are generated",
+      "The model scores each transaction",
+      "The dashboard shows prevented fraud and ROI"
+    ]
+  },
+  "UC19": {
+    "title": "Return Fraud and Policy Abuse Detection",
+    "context": "These Cortex Code Prompts build a return abuse detection system analyzing behavior patterns and NLP on return reasons.",
+    "focus": "Loss prevention  -  detection of wardrobing, swapped tags and serial fraudulent returns.",
+    "challenge": "Identify 85% of return abuse with below 5% false positives, saving 2-3% of revenue lost to fraudulent returns.",
+    "objectives": [
+      "Generate return history with abuse patterns",
+      "Classify return reasons with NLP",
+      "Train an abuse detection model",
+      "Define differentiated policies by profile",
+      "Build a loss prevention dashboard"
+    ],
+    "features_list": [
+      "NLP: CORTEX.COMPLETE for reason classification + ML.CLASSIFICATION",
+      "Synthetic data: 20,000 returns with 8% abuse rate",
+      "Variables: return ratio, timing, products, channel, text reason",
+      "Streamlit Dashboard: Return fraud panel"
+    ],
+    "data": [
+      "Returns: Product, reason, timing, channel, product condition",
+      "Customers: Return history, ratio, returned products",
+      "Profiles: Legitimate, Suspicious, Systematic Abuse"
+    ],
+    "stratification": [
+      "Confirmed abuse (above 80%): Reject return, audit account",
+      "Suspicious (50-80%): Mandatory physical inspection",
+      "Possible abuse (20-50%): Accept with record and alert",
+      "Legitimate (below 20%): Normal return process"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "20,000 returns with abuse patterns are generated",
+      "Cortex AI classifies reasons and ML detects patterns",
+      "The dashboard shows risk profiles and projected savings"
+    ]
+  },
+  "UC20": {
+    "title": "Inventory Anomaly and Shrinkage Detection",
+    "context": "These Cortex Code Prompts build an inventory anomaly detection system to identify unknown shrinkage, theft and internal fraud.",
+    "focus": "Loss prevention  -  detection of inventory discrepancies and shrinkage patterns by store and category.",
+    "challenge": "Reduce unknown shrinkage from 1.5% to 0.8% of revenue by identifying loss patterns and root causes.",
+    "objectives": [
+      "Generate inventory data with realistic discrepancies",
+      "Detect anomalies with statistical analysis and ML",
+      "Identify patterns by store, category and shift",
+      "Calculate economic impact of shrinkage",
+      "Build a loss prevention dashboard"
+    ],
+    "features_list": [
+      "Anomaly detection: Z-score + ML.CLASSIFICATION",
+      "Synthetic data: 50 stores x 500 products x 90 days",
+      "Variables: theoretical vs physical stock, shrinkage by shift and category",
+      "Streamlit Dashboard: Inventory panel with investigation tools"
+    ],
+    "data": [
+      "Inventory: Theoretical stock (sales + receipts) vs physical (counts)",
+      "Shrinkage: Difference, category, store, shift, employee",
+      "Patterns: Concentration by shift, category, day of week"
+    ],
+    "stratification": [
+      "Critical anomaly (above 3 sigma): Immediate investigation, possible theft",
+      "High anomaly (2-3 sigma): Audit on next visit",
+      "Moderate anomaly (1.5-2 sigma): Monitor trend",
+      "Normal (below 1.5 sigma): Acceptable operational shrinkage"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially",
+      "90 days of inventory data with anomalies are generated",
+      "The model detects discrepancies and patterns",
+      "The dashboard allows investigation by store and category"
+    ]
+  }
+};
+
+const PROMPTS = {
+  UC01: {"title": "Dynamic Omnichannel Pricing with Model Registry", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build a dynamic pricing engine and register the model in Snowflake Model Registry.", "steps": [
+    {"title": "Set up environment", "desc": "Database and warehouse for pricing.", "prompt": "Create a database called DYNAMIC_PRICING_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH size SMALL with auto-suspend 60 seconds."},
+    {"title": "Generate product catalog", "desc": "5,000 SKUs with categories and costs.", "prompt": "Generate table named products with 5,000 rows: sku_id (SKU00001 to SKU05000), product_name, category (Fashion 25%, Electronics 20%, Home 15%, Sports 15%, Beauty 10%, Food 15%), subcategory, cost_usd, retail_price_usd (margin 40-70% by category), supplier, weight_kg, is_online_only (15%)."},
+    {"title": "Generate sales and price history", "desc": "90 days of sales with competitor prices.", "prompt": "Generate table named sales_prices with 5,000 SKUs x 90 days: sku_id, date, channel (Online 55%, Store 45%), units_sold (0-50 by category and day), sale_price_usd, comp_price_1 (plus or minus 8%), comp_price_2 (plus or minus 12%), current_stock, day_of_week, is_promotion (15% of days), discount_pct (0-30%)."},
+    {"title": "Feature engineering", "desc": "Predictor variables for optimal price.", "prompt": "Create table named pricing_features with: estimated_elasticity (log change units divided by log change price), price_vs_comp_1, price_vs_comp_2, stock_weeks (stock divided by avg_weekly_sales), sales_trend_14d, is_weekend, month, category_encoded, channel_encoded. Target column: optimal_price_range (Discount, Normal, Premium, Full_Price) based on maximizing revenue times margin."},
+    {"title": "Train pricing model", "desc": "ML.CLASSIFICATION for optimal pricing.", "prompt": "Split 80/20, train SNOWFLAKE.ML.CLASSIFICATION with model name pricing_model_retail_v1, target optimal_price_range, and set evaluate to TRUE."},
+    {"title": "Evaluate model performance", "desc": "Accuracy and feature importance.", "prompt": "Call SHOW_EVALUATION_METRICS on pricing_model_retail_v1. Show accuracy, precision, recall by price range. Call SHOW_FEATURE_IMPORTANCE to identify which variables drive optimal pricing decisions most."},
+    {"title": "Register in Model Registry", "desc": "Version with log_model().", "prompt": "Using Python: create a Registry object from the Snowflake session, call registry.log_model() with model_name set to pricing_model_retail, version_name set to v1, sample_input_data set to features_sample, and comment set to Dynamic retail pricing model v1 with elasticity and competition features."},
+    {"title": "Generate price recommendations", "desc": "Inference for next 30 days.", "prompt": "Score all active SKUs using the registered model. Create table named price_recommendations with: sku_id, current_price, recommended_range, optimal_price_usd, expected_margin_pct, confidence_score, competitor_gap. Filter for actionable recommendations where price change exceeds 5%."},
+    {"title": "Streamlit pricing dashboard", "desc": "Revenue management interface.", "prompt": "Build a Streamlit app with: category filter dropdown, price range distribution chart, top 20 SKUs needing price adjustments, margin impact simulation slider, and competitor price comparison table. Use st.metric for total estimated revenue impact."}
+  ]},
+  UC02: {"title": "Real-Time Product Recommendations", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build a hybrid recommendation engine combining collaborative filtering and Cortex AI for e-commerce personalization.", "steps": [
+    {"title": "Set up environment", "desc": "Database for recommendations.", "prompt": "Create database PRODUCT_RECOMMENDATION_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate product catalog", "desc": "5,000 products with attributes.", "prompt": "Generate table named catalog with 5,000 rows: product_id, product_name, category, subcategory, brand, price_usd, color, material, tags (array of 3-5 attributes: casual, formal, sport, eco, premium, basic), avg_rating (3.0-5.0), num_reviews."},
+    {"title": "Generate customer profiles", "desc": "10,000 customers with preferences.", "prompt": "Generate table named customers with 10,000 rows: customer_id, age (18-70), gender, city, segment (VIP 5%, Premium 15%, Regular 50%, Occasional 30%), preferred_channel (Web 45%, App 35%, Store 20%), favorite_categories (top 2-3)."},
+    {"title": "Generate interaction history", "desc": "100,000 transactions and 500,000 browsing events.", "prompt": "Generate table named purchases with 100,000 rows: customer_id, product_id, date, channel, amount, quantity. Generate table named browsing with 500,000 rows: customer_id, product_id, date, event_type (page_view 60%, add_cart 20%, add_wishlist 10%, search 10%), device."},
+    {"title": "Collaborative filtering", "desc": "Customer similarity by co-purchase.", "prompt": "Create view named customer_similarity that calculates co-purchases between customer pairs based on products bought in common. For each customer identify top 10 similar customers. Generate candidate recommendations: products purchased by similar customers that the current customer has not yet bought."},
+    {"title": "Content-based product matching", "desc": "Product similarity by attributes.", "prompt": "Create view named similar_products that calculates tag overlap between products. For each product identify the top 10 most similar items by category, material and price range. Combine with purchase history to exclude already-owned products from recommendations."},
+    {"title": "Generate recommendations with Cortex AI", "desc": "Contextual suggestions with CORTEX.COMPLETE.", "prompt": "Use CORTEX.COMPLETE to generate personalized recommendations: given customer segment, recent browsing history, current cart and purchases from similar customers, suggest 5 products with explanation. Store results in table named recommendations with: customer_id, product_id, recommendation_type, score, reasoning."},
+    {"title": "Evaluate recommendation quality", "desc": "Relevance and diversity metrics.", "prompt": "Calculate recommendation quality metrics: catalog_coverage (pct of catalog recommended), diversity (avg category spread per customer), precision_at_5 (how many of 5 recommended products were eventually purchased). Show metrics by customer segment."},
+    {"title": "Streamlit recommendations dashboard", "desc": "Personalization interface.", "prompt": "Build a Streamlit app with: customer ID selector, recommendation panel showing 5 products with scores, toggle between collaborative filtering and content-based methods, and a metrics comparison chart by customer segment."}
+  ]},
+  UC03: {"title": "Multi-SKU Demand Forecasting with Model Registry", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build per-SKU demand forecast models with ML.FORECAST and register them in Model Registry for automated deployment.", "steps": [
+    {"title": "Set up environment", "desc": "Database for demand forecasting.", "prompt": "Create database DEMAND_FORECAST_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate sales history", "desc": "500 SKUs x 52 weeks x 20 stores.", "prompt": "Generate table named historical_sales with 500 SKUs x 52 weeks: sku_id, week_timestamp, store_id (20 stores), units_sold (with seasonality: Christmas x2.5, summer x1.3, January x0.6). Include demand variability by category."},
+    {"title": "Generate exogenous variables", "desc": "Promotions, weather, holidays and events.", "prompt": "Generate table named exogenous_vars with 52 weeks: week_timestamp, is_promotion (20% of weeks), avg_discount_pct, avg_temp_celsius, is_holiday, local_event_count (0-2 per month), competitor_promo_flag."},
+    {"title": "Prepare data for ML.FORECAST", "desc": "Required format with series.", "prompt": "Create table named forecast_input with: series_id (sku_id concatenated with store_id), ts (timestamp), units (target). Join with exogenous variables. Verify there are no gaps or nulls in any time series before training."},
+    {"title": "Train demand forecast model", "desc": "ML.FORECAST with exogenous variables.", "prompt": "Train SNOWFLAKE.ML.FORECAST with model name demand_predictor_retail, SERIES_COLNAME set to series_id, TIMESTAMP_COLNAME set to ts, TARGET_COLNAME set to units, and PREDICTION_INTERVAL set to 0.95."},
+    {"title": "Register in Model Registry", "desc": "Version with log_model().", "prompt": "Using Python: call registry.log_model() with model_name set to demand_forecast_retail, version_name set to v1, metrics set to a dict with mape_global key, and comment set to Multi-SKU retail demand forecast v1."},
+    {"title": "Generate multi-horizon predictions", "desc": "4, 8 and 12 week forecasts.", "prompt": "Generate predictions using demand_predictor_retail!FORECAST with FORECASTING_PERIODS set to 12. Extract forecast, lower_bound, upper_bound per SKU and store. Calculate MAPE by category and forecast horizon using the held-out test set."},
+    {"title": "Identify stockout risk", "desc": "Alert on insufficient stock coverage.", "prompt": "Join forecast output with current inventory levels. Create table named stockout_alerts with: sku_id, store_id, forecast_units_4w, current_stock, reorder_needed (TRUE if stock is below 2x forecast), days_until_stockout, urgency_level (Critical, High, Normal)."},
+    {"title": "Streamlit forecast dashboard", "desc": "Demand planning interface.", "prompt": "Build a Streamlit app with: SKU and store selector dropdowns, forecast vs actuals line chart with confidence bands, MAPE heatmap by category, stockout risk table with color-coded urgency levels, and 12-week forward planning horizon view."}
+  ]},
+  UC04: {"title": "Customer Segmentation with Predictive CLV", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build a predictive Customer Lifetime Value system to segment retail customers by future value.", "steps": [
+    {"title": "Set up environment", "desc": "Database for CLV.", "prompt": "Create database CLV_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate customer history", "desc": "10,000 customers with 2 years of purchases.", "prompt": "Generate table named retail_customers with 10,000 rows: customer_id, join_date, acquisition_channel (Organic 30%, Paid 25%, Referral 15%, Store 30%), loyalty_tier (Gold 10%, Silver 25%, Standard 40%, None 25%). Generate table named purchase_history with approximately 80,000 records: customer_id, purchase_date, amount_usd, distinct_products, channel, discount_applied."},
+    {"title": "Calculate RFM metrics", "desc": "Recency, Frequency and Monetary value.", "prompt": "Create view named rfm_customers with: recency_days, frequency_24m, monetary_value_24m, avg_ticket_usd, products_per_purchase, preferred_channel, avg_discount_pct, spending_trend_12m (growing, stable, or declining)."},
+    {"title": "CLV feature engineering", "desc": "Predictor variables for customer value.", "prompt": "Create table named clv_features combining RFM metrics with: channel_encoded, tier_encoded, trend_encoded, months_as_customer, online_ratio, discount_sensitivity. Target column: value_tier (VIP, Premium, Regular, Occasional, Dormant) assigned based on CLV percentiles."},
+    {"title": "Train CLV model", "desc": "Value tier classifier.", "prompt": "Split 80/20, train SNOWFLAKE.ML.CLASSIFICATION with model name clv_model_retail, target value_tier, and set evaluate to TRUE."},
+    {"title": "Score and segment all customers", "desc": "Assign predictive tier.", "prompt": "Score all customers. Create table named clv_segmentation with: current_tier, predicted_tier, estimated_clv_12m_usd, return_probability. Flag upgrade_potential as TRUE where predicted_tier is higher than current_tier."},
+    {"title": "Value x engagement action matrix", "desc": "Classify for differentiated actions.", "prompt": "Create table named action_matrix combining predicted CLV tier and engagement level into four cells: Protect (high CLV high engagement), Develop (high CLV low engagement), Reward (medium CLV high engagement), Reactivate (low CLV low engagement). Assign recommended marketing action and budget ceiling per cell."},
+    {"title": "Streamlit loyalty dashboard", "desc": "CLV segmentation and action panel.", "prompt": "Build a Streamlit app with: tier distribution funnel chart, average CLV by segment bar chart, upgrade candidates table sorted by CLV upside, and action matrix heatmap. Include customer ID lookup showing tier, CLV estimate and recommended next action."}
+  ]},
+  UC05: {"title": "Inventory Optimization and Automatic Replenishment", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build an automatic replenishment system that calculates the optimal reorder point per SKU and store.", "steps": [
+    {"title": "Set up environment", "desc": "Database for inventory.", "prompt": "Create database INVENTORY_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate product master", "desc": "1,000 SKUs with supplier data.", "prompt": "Generate table named inventory_products with 1,000 rows: sku_id, category, subcategory, unit_cost_usd, sale_price_usd, supplier_id (50 suppliers), lead_time_days (7-45 by supplier), min_order_qty (10-500 units), storage_cost_per_day_usd (0.01-0.50)."},
+    {"title": "Generate inventory movement history", "desc": "90 days of stock movements.", "prompt": "Generate table named inventory_movements with 1,000 SKUs x 90 days: sku_id, movement_date, opening_stock, daily_sales, receipts, closing_stock, stockout_flag (TRUE if opening_stock is less than daily_sales, approximately 8% of records)."},
+    {"title": "Calculate demand variability", "desc": "Mean demand and standard deviation per SKU.", "prompt": "Create view named sku_stats with: avg_daily_demand, demand_std_dev, coefficient_of_variation, avg_lead_time_days, lead_time_std_dev, current_stockout_rate, days_of_stock_on_hand."},
+    {"title": "Calculate optimal safety stock", "desc": "Dynamic safety stock formula by service level.", "prompt": "Create table named replenishment_params with safety_stock calculated as Z times SQRT(lead_time times demand_variance plus avg_demand squared times lead_time_variance) for Z=1.65 at 95%, Z=1.96 at 97.5%, Z=2.33 at 99% service level. reorder_point = avg_demand times avg_lead_time plus safety_stock. order_quantity derived from EOQ formula."},
+    {"title": "Simulate service level scenarios", "desc": "Impact of different target service levels.", "prompt": "Create SQL analysis simulating 90 days at each service level (95%, 97.5%, 99%): stockout_events, overstock_units, storage_cost_usd, order_cost_usd, total_cost_usd. Calculate service level vs cost trade-off table by category."},
+    {"title": "Generate automatic replenishment orders", "desc": "Orders to place today.", "prompt": "Create table named pending_orders with all SKUs where current_stock is below reorder_point: sku_id, store_id, current_stock, reorder_point, order_qty, supplier_id, estimated_arrival_date, urgency_level (Critical, Normal). Rank by urgency and estimated lost sales value."},
+    {"title": "Streamlit replenishment dashboard", "desc": "Inventory management panel.", "prompt": "Build a Streamlit app with: stock status KPI tiles (critical, low, optimal, overstock counts), reorder alert table sortable by urgency, SKU drill-down view with demand forecast and safety stock levels, and service level vs total cost simulation chart with an adjustable slider."}
+  ]},
+  UC06: {"title": "Product Review Sentiment Analysis", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build an NLP pipeline that classifies review sentiment by dimension and detects emerging quality trends.", "steps": [
+    {"title": "Set up environment", "desc": "Database for review analysis.", "prompt": "Create database REVIEWS_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate product catalog", "desc": "500 products with categories.", "prompt": "Generate table named reviewed_products with 500 rows: product_id, product_name, category, subcategory, price_usd, brand, launch_date."},
+    {"title": "Generate product reviews", "desc": "5,000 reviews with emotional variety.", "prompt": "Generate table named product_reviews with 5,000 rows: review_id, product_id, review_date (last 12 months), rating (1-5), review_text (3-6 sentences covering: quality, size and fit, material, shipping, price, design). Distribution: 20% very positive, 35% positive, 20% neutral, 18% negative, 7% very negative. Include verified_purchase flag (85% TRUE)."},
+    {"title": "Global sentiment scoring", "desc": "Overall sentiment score per review.", "prompt": "Create table named reviews_sentiment using SNOWFLAKE.CORTEX.SENTIMENT on the review_text column. Show sentiment score distribution by category and month. Flag products with average sentiment below -0.2 as quality alerts requiring attention."},
+    {"title": "Multi-dimension sentiment analysis", "desc": "Sentiment across 6 quality dimensions.", "prompt": "Use CORTEX.COMPLETE to extract sentiment score (-1 to +1) for 6 dimensions per review: quality, size_fit, material, shipping, price_value, design. Store results in table named dimension_sentiment. Identify which dimension drives the most negative reviews per product category."},
+    {"title": "Detect emerging sentiment trends", "desc": "14-day moving average by dimension.", "prompt": "Create view named review_trends with 14-day moving average per product and dimension. Flag quality alerts when any dimension drops more than 0.3 points over 14 days. Calculate trend direction (improving, stable, declining) for each active product."},
+    {"title": "Extract top recurring issues", "desc": "Issue categorization with Cortex AI.", "prompt": "Use CORTEX.COMPLETE to extract the top 3 issues from negative reviews (sentiment below -0.2) per product. Classify issues as: Manufacturing Defect, Sizing Error, Material Issue, Shipping Problem, or Price Mismatch. Create table named issue_summary with product_id, issue_type, frequency_count, and example_review_text."},
+    {"title": "Streamlit Voice of Customer dashboard", "desc": "Review analytics and alert panel.", "prompt": "Build a Streamlit app with: sentiment trend chart by category over time, dimension heatmap showing weakest performance areas, product alert table sorted by largest sentiment drop, issue type distribution chart, and individual product drill-down with per-dimension sentiment scores."}
+  ]},
+  UC07: {"title": "Customer Service Chatbot with RAG", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build a conversational RAG assistant with Cortex Search over the store catalog, FAQ and policies.", "steps": [
+    {"title": "Set up environment", "desc": "Database for the chatbot.", "prompt": "Create database CHATBOT_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate knowledge base", "desc": "200 retailer documents.", "prompt": "Generate table named retail_documents with 200 rows: doc_id, doc_type (FAQ 30%, Policy 20%, Size Guide 15%, Catalog 20%, Shipping 10%, Promotions 5%), title, area (General, Product, Shipping, Returns, Account, Payment). Use CORTEX.COMPLETE to generate 200-400 word realistic content for each document."},
+    {"title": "Create document chunks", "desc": "Split documents into chunks of approximately 500 characters.", "prompt": "Create table named retail_chunks by splitting each document: chunk_id, doc_id, doc_type, area, chunk_text, chunk_index. Target 3-5 chunks per document. Ensure each chunk is self-contained and does not split mid-sentence."},
+    {"title": "Create Cortex Search Service", "desc": "Semantic indexing of the knowledge base.", "prompt": "Create a Cortex Search Service named retail_search on table retail_chunks with SEARCH_COLUMN set to chunk_text, ATTRIBUTES set to doc_type and area, and TARGET_LAG set to 1 hour."},
+    {"title": "Validate search quality", "desc": "Test with common customer questions.", "prompt": "Run 5 search queries: How long does shipping take, Can I return without a receipt, What size should I order, Do you accept PayPal, Are there physical store locations. Show top 3 retrieved chunks with relevance score for each query. Verify results are relevant and complete."},
+    {"title": "Multilingual RAG pipeline", "desc": "Responses in the customer language.", "prompt": "Create a RAG pipeline that: (1) detects the query language using CORTEX.COMPLETE, (2) retrieves top 5 relevant chunks from retail_search, (3) generates a response using CORTEX.COMPLETE in the detected language citing the source document. Test in English, Spanish, French and German."},
+    {"title": "Evaluate response quality", "desc": "Validate chatbot answer accuracy.", "prompt": "Run 10 diverse questions covering all document types. Evaluate response relevance with CORTEX.COMPLETE scoring 1-5. Identify topics where the chatbot lacks adequate knowledge. Calculate the pct of queries resolved with confidence score above 0.7."},
+    {"title": "Streamlit chatbot interface", "desc": "Customer service chat application.", "prompt": "Build a Streamlit app with: chat interface showing conversation history, retrieved chunks panel for transparency, detected language badge, confidence score meter, and escalation button for low-confidence responses. Add a sidebar with resolution rate and average confidence metrics."}
+  ]},
+  UC08: {"title": "Customer 360 Feature Store", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build a Feature Store in Snowflake that consolidates customer data from all channels in real time.", "steps": [
+    {"title": "Set up environment", "desc": "Database for Feature Store.", "prompt": "Create database FEATURE_STORE_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate e-commerce data", "desc": "Online purchases and browsing events.", "prompt": "Generate table named ecommerce_data with 50,000 records: customer_id (5,000 unique), event_date, product_id, action_type (purchase 30%, view 40%, cart 15%, wishlist 10%, search 5%), amount_usd, device (Desktop 40%, Mobile 50%, Tablet 10%)."},
+    {"title": "Generate POS data", "desc": "In-store purchase transactions.", "prompt": "Generate table named pos_data with 30,000 records: customer_id (3,000 unique, 60% overlap with e-commerce customers), store_id (50 stores), txn_date, product_list, total_amount_usd, payment_method, receipt_id."},
+    {"title": "Generate CRM and loyalty data", "desc": "Loyalty program and communication data.", "prompt": "Generate table named crm_data with 5,000 rows: customer_id, email_address, loyalty_level (Gold, Silver, Standard, None), accumulated_points, enrollment_date, communication_preference, email_open_rate_pct, last_redemption_date."},
+    {"title": "Generate mobile app data", "desc": "Mobile app activity events.", "prompt": "Generate table named app_data with 20,000 records: customer_id (2,000 unique), event_date, action_type (browsing 50%, product_scan 20%, store_locator 15%, wishlist 10%, notification_click 5%), interest_category."},
+    {"title": "Create Entity and FeatureViews", "desc": "Feature Store with unified customer metrics.", "prompt": "Using Python with snowflake.ml.feature_store: (1) Create Entity named customer with join_keys set to customer_id. (2) FeatureView purchase_behavior: frequency, avg_ticket_usd, top3_categories, online_ratio, days_since_last_purchase. (3) FeatureView browsing_signals: monthly_page_views, abandoned_cart_count, wishlist_size, recent_search_terms. (4) FeatureView loyalty_profile: loyalty_level, points_balance, redemption_rate_pct. Register all FeatureViews with 1-hour refresh."},
+    {"title": "Serve features in real time", "desc": "On-demand feature retrieval for personalization.", "prompt": "Use Feature Store get_online_features to retrieve the 360 profile for a given customer_id. Measure retrieval latency. Create a feature_completeness report showing the pct of customers with each FeatureView populated. Identify customers with below 60% completeness for progressive enrichment."},
+    {"title": "Streamlit Customer 360 dashboard", "desc": "Omnichannel unified customer view.", "prompt": "Build a Streamlit app with: customer ID lookup, 360 profile card showing all channel features, channel activity timeline chart, loyalty status indicator, feature completeness gauge per FeatureView, and a personalization readiness score based on overall data completeness."}
+  ]},
+  UC09: {"title": "Promotion and Markdown Optimization", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build a promotion optimizer that calculates the optimal discount per product to maximize incremental units sold.", "steps": [
+    {"title": "Set up environment", "desc": "Database for promotion optimization.", "prompt": "Create database PROMOS_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate sales history with promotions", "desc": "2,000 products x 52 weeks.", "prompt": "Generate table named promo_sales with 2,000 products x 52 weeks: product_id, week_date, baseline_units, promo_units (baseline times uplift factor), is_promotion (20% of weeks), discount_pct (10-50%), promo_type (Pct Discount 50%, BOGO 20%, Free Gift 15%, Flash Sale 15%). Uplift variable: elastic products x2-3, inelastic x1.1-1.3."},
+    {"title": "Calculate price elasticity", "desc": "Price sensitivity per product.", "prompt": "Create view named product_elasticity with: product_id, elasticity_score (pct change in units divided by pct change in price), category, elasticity_class (Very Elastic above 2.0, Elastic 1.0-2.0, Inelastic 0.5-1.0, Very Inelastic below 0.5)."},
+    {"title": "Calculate promotion incrementality", "desc": "Net incremental units vs cannibalization.", "prompt": "Create view named incrementality with: for each promotion period, incremental_units = promo_units minus expected_baseline. cannibalization_units = post-promo week sales drop vs baseline. net_incremental = incremental minus cannibalization. promotion_roi = net_incremental_revenue minus discount_cost."},
+    {"title": "Train promotion response model", "desc": "Predict high-response to promotion.", "prompt": "Create feature set: elasticity_score, category_encoded, current_price_usd, margin_pct, stock_weeks_on_hand, sales_trend_8w. Train SNOWFLAKE.ML.CLASSIFICATION with model name promo_response_model, target high_response (TRUE if uplift above 50%), and set evaluate to TRUE."},
+    {"title": "Simulate discount depth scenarios", "desc": "Impact of different discount levels.", "prompt": "For each product simulate discounts of 10%, 20%, 30%, 40%, 50%. Calculate per scenario: incremental_units, incremental_revenue_usd, lost_margin_usd, net_roi_pct. Identify optimal_discount as the discount level that maximizes net ROI. Store results in table named discount_simulation."},
+    {"title": "Build promotional calendar", "desc": "Optimal 13-week promo schedule.", "prompt": "Create view named promo_calendar_recommendations: for next 13 weeks identify the best products to promote each week based on stock level, seasonal index, elasticity class, margin, and constraint that no product repeats within 4 weeks. Calculate estimated revenue uplift per week across all recommended promotions."},
+    {"title": "Streamlit promotional planner", "desc": "Promotion management dashboard.", "prompt": "Build a Streamlit app with: 13-week calendar grid showing recommended promotions per week, elasticity class distribution chart, ROI simulation chart for selected product across discount depths, top 20 products by estimated revenue uplift, and cannibalization risk alert table."}
+  ]},
+  UC10: {"title": "Markdown Prediction and Stock Liquidation", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build a sell-through predictor that optimizes markdown timing and depth for fashion and seasonal products.", "steps": [
+    {"title": "Set up environment", "desc": "Database for markdown management.", "prompt": "Create database MARKDOWN_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate seasonal product catalog", "desc": "1,000 fashion SKUs with season parameters.", "prompt": "Generate table named seasonal_products with 1,000 SKUs: sku_id, category (Apparel 40%, Footwear 25%, Accessories 20%, Sports 15%), initial_stock_units (50-500), full_price_usd, unit_cost_usd, launch_week (1-4), season_code (SS26)."},
+    {"title": "Generate seasonal sales data", "desc": "16 weeks of sales with natural decay curve.", "prompt": "Generate table named seasonal_sales with 1,000 SKUs x 16 weeks: sku_id, week_number, units_sold (natural curve with peak at weeks 2-4 and exponential decay), sale_price_usd (full price weeks 1-8, markdown price weeks 9-16), remaining_stock_units."},
+    {"title": "Calculate sell-through metrics", "desc": "Sales velocity and coverage per SKU.", "prompt": "Create view named sell_through_analysis with: sku_id, sell_through_pct_week8 (pct of initial stock sold by week 8), weekly_sales_velocity, weeks_of_stock_remaining, velocity_trend (accelerating or decelerating), category_benchmark (vs category average velocity)."},
+    {"title": "Predict residual end-of-season stock", "desc": "Forecast remaining sellable units.", "prompt": "Train SNOWFLAKE.ML.FORECAST for each SKU to predict remaining weekly sales. Calculate projected end_of_season_stock without any markdown vs with markdown applied at depths of 10%, 20%, 30%, 40% and 50%. Store forecasts in table named residual_stock_scenarios."},
+    {"title": "Calculate optimal markdown", "desc": "Best timing and depth per SKU.", "prompt": "Create table named markdown_recommendations: for each SKU calculate optimal_markdown_week and optimal_discount_pct that minimizes the maximum of (residual_stock times unit_cost) and (sacrificed_margin_usd). Assign markdown_class: No Markdown, Light 20%, Medium 30%, Deep 40%, Liquidation 50%."},
+    {"title": "Simulate liquidation scenarios", "desc": "Compare three season-end strategies.", "prompt": "Simulate three scenarios: (1) No markdown - sell at full price until end of season, (2) Model-recommended markdown - apply optimal_markdown_week and optimal_discount per SKU, (3) Aggressive markdown - apply 50% off to all SKUs from week 8. Compare total_season_revenue_usd, avg_effective_discount, residual_stock_pct and total_margin_usd for each scenario."},
+    {"title": "Streamlit markdown management dashboard", "desc": "Season-end pricing panel.", "prompt": "Build a Streamlit app with: SKU sell-through funnel chart, markdown recommendation table filterable by category and markdown class, season revenue projection comparing 3 scenarios, liquidation risk alert for SKUs with below 30% sell-through at week 8, and a scenario comparison summary with key metrics side by side."}
+  ]},
+  UC11: {"title": "Fashion Trend Detection with NLP", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build an NLP trend-spotting pipeline that monitors social media and search data to detect emerging fashion trends.", "steps": [
+    {"title": "Set up environment", "desc": "Database for trend detection.", "prompt": "Create database TRENDS_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate social media mentions", "desc": "10,000 posts from 4 platforms.", "prompt": "Generate table named fashion_mentions with 10,000 rows: mention_id, mention_date (last 60 days), platform (Instagram 35%, TikTok 30%, Pinterest 20%, Search Trends 15%), post_text (50-150 words about fashion), hashtags (3-5), engagement_count (likes plus comments), influencer_tier (Mega 2%, Macro 8%, Micro 30%, Nano 60%)."},
+    {"title": "Classify trend mentions", "desc": "Categorize by trend dimension.", "prompt": "Use CORTEX.COMPLETE to classify each mention: trend_dimension (Color, Fabric, Silhouette, Style, Pattern), specific_trend (examples: burgundy, linen, oversized, quiet luxury, stripes), relevance_score (1-5). Store results in table named classified_mentions."},
+    {"title": "Calculate trend scores", "desc": "Trend momentum and growth velocity.", "prompt": "Create view named trend_scores with: specific_trend, trend_dimension, mentions_last_7d, mentions_last_14d, weekly_growth_pct, avg_engagement_per_post, weighted_influencer_tier_score. Composite score = mentions times growth times engagement times tier_weight, normalized to 0-100 scale."},
+    {"title": "Detect emerging trends", "desc": "Top 30 trends ranked with alerts.", "prompt": "Create view named emerging_trends showing top 30 trends ordered by composite score with: specific_trend, trend_dimension, composite_score, growth_velocity_pct, dominant_region, weeks_active, trend_stage (Viral above 80, Emerging 60-80, Early 40-60, Noise below 40)."},
+    {"title": "Match trends with product catalog", "desc": "Catalog alignment analysis.", "prompt": "Generate table named fashion_catalog with 500 products including color, fabric, silhouette and style attributes. Use CORTEX.COMPLETE to calculate a match score between each top-10 trend and each catalog product. Create table named trend_catalog_match with: specific_trend, product_id, match_score, gap_flag (TRUE if trend has no matching product in catalog)."},
+    {"title": "Generate design team alerts", "desc": "Automated trend gap notifications.", "prompt": "Create view named trend_alerts: for each Viral or Emerging trend where gap_flag is TRUE, generate an alert with: trend_name, trend_dimension, composite_score, weekly_growth_pct, estimated_weeks_to_peak, recommended_action (Source Immediately, Prepare Design, Monitor Weekly)."},
+    {"title": "Streamlit trend intelligence dashboard", "desc": "Fashion trend monitoring panel.", "prompt": "Build a Streamlit app with: trend leaderboard table with composite scores and growth indicators, dimension filter tabs for Color, Fabric, Silhouette and Style, composite score time series chart for a selected trend, catalog gap analysis table highlighting urgent sourcing needs, and influencer tier breakdown bar chart."}
+  ]},
+  UC12: {"title": "Store Stock Allocation Optimization", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build an optimal initial stock allocation system for stores based on local demand prediction and customer profile.", "steps": [
+    {"title": "Set up environment", "desc": "Database for store allocation.", "prompt": "Create database STORE_ALLOC_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate store master data", "desc": "50 stores with differentiated profiles.", "prompt": "Generate table named stores with 50 rows: store_id, city, store_type (Flagship 10%, Standard 50%, Outlet 20%, Express 20%), sales_floor_sqft, stockroom_sqft, customer_profile (Premium 15%, Mainstream 50%, Value 20%, Tourist 15%), top3_categories."},
+    {"title": "Generate store sales history", "desc": "500 SKUs x 50 stores x 24 weeks.", "prompt": "Generate table named store_sales with 500 SKUs x 50 stores x 24 weeks: sku_id, store_id, week_date, units_sold (varying by store profile and SKU affinity), opening_stock, stockout_events, inbound_transfers, outbound_transfers."},
+    {"title": "Predict local demand per store", "desc": "Demand forecast by SKU and store.", "prompt": "Create view named local_demand with: sku_id, store_id, avg_weekly_demand, demand_std_dev, demand_trend, local_seasonality_index. Use SNOWFLAKE.ML.FORECAST to predict demand for the next 8 weeks for each SKU-store combination."},
+    {"title": "Define allocation constraints", "desc": "Capacity, minimum assortment and costs.", "prompt": "Create table named store_constraints with: max_category_capacity (sqft to units conversion by category), minimum_size_assortment (minimum size options per SKU), shipping_cost_usd_per_unit by distribution route, store_priority_score (1-5 based on revenue per sqft)."},
+    {"title": "Optimize initial allocation", "desc": "Allocation that maximizes sell-through.", "prompt": "Create allocation procedure: (1) Assign minimum assortment to all stores, (2) Distribute remaining units proportionally to 8-week demand forecast, (3) Apply capacity and priority adjustments, (4) Calculate expected sell-through vs flat historical baseline. Store results in table named recommended_allocation."},
+    {"title": "Simulate inter-store transfers", "desc": "Identify beneficial transfer opportunities.", "prompt": "Identify stores projected to run out of stock (stock below 2 weeks of demand) and overstocked stores (stock above 8 weeks of demand). Create table named transfer_recommendations with: source_store_id, destination_store_id, sku_id, transfer_units, transfer_cost_usd, estimated_revenue_uplift_usd."},
+    {"title": "Streamlit allocation dashboard", "desc": "Buying and allocation planning panel.", "prompt": "Build a Streamlit app with: store allocation map showing units per store for selected SKU, category performance heatmap by store type, sell-through projection chart comparing optimized vs historical flat allocation, transfer recommendation table with cost-benefit analysis, and launch summary with total units allocated and expected sell-through."}
+  ]},
+  UC13: {"title": "Customer Churn Prediction and Retention", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build a churn predictor that identifies customers at risk of abandonment 60-90 days in advance.", "steps": [
+    {"title": "Set up environment", "desc": "Database for churn prediction.", "prompt": "Create database CHURN_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate customer activity history", "desc": "10,000 customers with churn patterns.", "prompt": "Generate table named churn_customers with 10,000 rows: customer_id, join_date, segment, acquisition_channel, loyalty_program. Flag 15% as churned (no purchase in over 120 days). Generate table named customer_activity with approximately 100,000 records: customer_id, activity_date, event_type (purchase, web_visit, email_open, complaint, return)."},
+    {"title": "Churn signal feature engineering", "desc": "Build abandonment indicator variables.", "prompt": "Create view named churn_features with: days_since_last_purchase, frequency_trend_3m (growing, stable, or declining), spending_trend_3m (growing, stable, or declining), return_ratio_6m, complaint_count_6m, email_open_rate_pct, channel_shift_flag (changed preferred channel), loyalty_program_active_flag."},
+    {"title": "Train churn prediction model", "desc": "90-day churn classifier.", "prompt": "Split 80/20. Train SNOWFLAKE.ML.CLASSIFICATION with model name churn_model_retail, target is_churned, and set evaluate to TRUE. Review AUC, precision, recall and F1 score metrics."},
+    {"title": "Analyze feature importance", "desc": "Identify most predictive churn signals.", "prompt": "Call SHOW_FEATURE_IMPORTANCE on churn_model_retail. Rank features by importance and interpret the top signals (recency, frequency, complaints, email engagement). Create table named feature_importance_report with ranked features and business interpretation per signal."},
+    {"title": "Score active customers by churn risk", "desc": "Assign risk segment to all active customers.", "prompt": "Score all active customers using churn_model_retail. Create table named churn_risk_scores with: customer_id, churn_probability, risk_segment (Imminent above 70%, High 40-70%, Moderate 20-40%, Low below 20%), at_risk_value_usd (estimated CLV times churn_probability), days_since_last_purchase."},
+    {"title": "Generate personalized retention actions", "desc": "Tailored retention by risk profile.", "prompt": "Use CORTEX.COMPLETE to generate a retention action per customer: preferred channel plus offer type plus message tone. Create table named retention_actions with: customer_id, risk_segment, recommended_channel, offer_type (Win-Back Discount, Loyalty Bonus, Personal Outreach, or Value Communication), estimated_retention_lift_pct."},
+    {"title": "Streamlit retention dashboard", "desc": "Churn management and ROI panel.", "prompt": "Build a Streamlit app with: churn risk distribution funnel, at-risk revenue by segment bar chart, top 50 imminent-risk customers table with recommended actions, retention campaign ROI calculator (inputs: campaign cost, estimated retention rate, avg CLV), and historical churn rate trend line chart."}
+  ]},
+  UC14: {"title": "Product Feature Store for Merchandising", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build a Feature Store consolidating performance attributes of each product for merchandising and assortment decisions.", "steps": [
+    {"title": "Set up environment", "desc": "Database for product Feature Store.", "prompt": "Create database PRODUCT_FS_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate product sales data", "desc": "2,000 products x 12 months.", "prompt": "Generate table named product_sales with 2,000 products x 12 months: product_id, month_date, units_sold, revenue_usd, return_units, channel (Online, Store). Include realistic variability by category and seasonal patterns."},
+    {"title": "Generate margin data", "desc": "Cost and margin structure per product.", "prompt": "Generate table named product_margins with 2,000 rows: product_id, unit_cost_usd, retail_price_usd, avg_sale_price_usd (accounting for promotions), gross_margin_pct, net_margin_pct (after discounts and returns), annual_storage_cost_usd."},
+    {"title": "Generate customer perception data", "desc": "Reviews, ratings and sentiment.", "prompt": "Generate table named product_perception with 2,000 rows: product_id, avg_rating (2.5-5.0), review_count, avg_sentiment_score (-1 to +1), return_rate_pct, nps_score (-100 to +100), share_of_voice_pct (0-100)."},
+    {"title": "Generate competitive positioning data", "desc": "Price index and market position.", "prompt": "Generate table named product_competition with 2,000 rows: product_id, price_index (85-130 vs competitor average), category_rank (1-50), share_of_search_pct, sector_demand_trend (growing, stable, declining)."},
+    {"title": "Create Entity and FeatureViews", "desc": "Snowflake Feature Store for products.", "prompt": "Using Python with snowflake.ml.feature_store: (1) Create Entity named product with join_keys set to product_id. (2) FeatureView sales_metrics: revenue_12m_usd, units_12m, yoy_growth_pct, turnover_velocity. (3) FeatureView margin_health: gross_margin_pct, net_margin_pct, category_contribution_pct. (4) FeatureView customer_perception: avg_rating, avg_sentiment, return_rate_pct, nps_score. Register all FeatureViews with daily refresh schedule."},
+    {"title": "Build BCG product portfolio scoring", "desc": "Classify products into portfolio quadrants.", "prompt": "Retrieve features for all products. Calculate market_growth_score (from sector_demand_trend and yoy_growth_pct) and relative_market_share (from revenue_12m and category_rank). Classify each product: Star (high growth high share), Cash Cow (low growth high share), Question Mark (high growth low share), Dog (low growth low share). Store in table named bcg_classification."},
+    {"title": "Streamlit merchandising dashboard", "desc": "Product portfolio management panel.", "prompt": "Build a Streamlit app with: BCG matrix scatter plot with quadrant color coding, product table filterable by BCG quadrant with key metrics, margin waterfall chart for selected product, top 20 products by revenue contribution, and category performance heatmap showing net margin vs customer sentiment by subcategory."}
+  ]},
+  UC15: {"title": "Personalized Next Best Offer with AI", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build a Next Best Offer engine that selects the optimal product, discount, channel and timing per customer.", "steps": [
+    {"title": "Set up environment", "desc": "Database for NBO.", "prompt": "Create database NBO_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate customer preference profiles", "desc": "8,000 customers with campaign preferences.", "prompt": "Generate table named nbo_customers with 8,000 rows: customer_id, segment, preferred_channel, best_contact_time (morning, midday, afternoon, night), preferred_categories (top 3), discount_sensitivity (high, medium, low), max_weekly_contact_frequency."},
+    {"title": "Generate campaign interaction history", "desc": "50,000 campaign interactions.", "prompt": "Generate table named campaign_history with 50,000 rows: campaign_id, customer_id, sent_date, channel (Email 40%, Push 25%, SMS 15%, Web 20%), product_offered, discount_pct (0-30%), was_opened (TRUE or FALSE), was_clicked (TRUE or FALSE), resulted_in_purchase (TRUE or FALSE). Use realistic response rates by channel and segment."},
+    {"title": "NBO feature engineering", "desc": "Build customer propensity features.", "prompt": "Create table named nbo_features with: category_affinity_score (per category), channel_response_rate (per channel), price_sensitivity_score, monthly_purchase_frequency, days_since_last_campaign, communication_fatigue_score (recent non-responses), historical_purchase_propensity."},
+    {"title": "Train propensity to purchase model", "desc": "Purchase probability per offer type.", "prompt": "Train SNOWFLAKE.ML.CLASSIFICATION with model name nbo_model_retail, target resulted_in_purchase. Features: category_affinity_score, channel, discount_pct, contact_hour, days_since_last_campaign, communication_fatigue_score, price_sensitivity_score. Set evaluate to TRUE."},
+    {"title": "Generate ranked offer candidates", "desc": "Top 3 best offers per customer.", "prompt": "For each active customer generate 5 candidate offers (product times discount times channel combinations). Score each with nbo_model_retail. Select top 3 with highest propensity that respect max_weekly_contact_frequency and do not exceed fatigue_score threshold. Store in table named nbo_candidates."},
+    {"title": "Generate personalized offer content with AI", "desc": "AI-written personalized messages.", "prompt": "Use CORTEX.COMPLETE to generate a personalized offer message per customer: given their segment, preferred channel, top recommended product and communication tone. Produce a short message of 2-3 sentences, a subject line, and a call to action. Store in table named nbo_content with customer_id, channel, subject_line, message_body, call_to_action."},
+    {"title": "Streamlit NBO campaign dashboard", "desc": "Next Best Offer management panel.", "prompt": "Build a Streamlit app with: offer distribution by channel chart, top 100 customers ranked by purchase propensity, personalized content preview for a selected customer, A/B test setup panel with test vs control split configuration, and live campaign performance metrics showing CTR and conversion rate by customer segment."}
+  ]},
+  UC16: {"title": "Shopping Basket Analysis and Cross-Selling", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build a market basket analysis to identify product associations and generate actionable cross-selling rules.", "steps": [
+    {"title": "Set up environment", "desc": "Database for basket analysis.", "prompt": "Create database BASKET_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate product catalog", "desc": "1,000 products with categories and margins.", "prompt": "Generate table named basket_catalog with 1,000 rows: product_id, product_name, category, subcategory, price_usd, margin_pct."},
+    {"title": "Generate purchase transactions", "desc": "50,000 tickets with 2-8 products each.", "prompt": "Generate table named purchase_tickets with 50,000 tickets: ticket_id, customer_id (15,000 unique), purchase_date, store_id, channel (Store 60%, Online 40%). Generate table named ticket_lines with approximately 200,000 rows: ticket_id, product_id, quantity, line_amount_usd. Embed realistic co-purchase patterns: Milk and Bread and Cereal, T-Shirt and Pants and Belt, Shampoo and Conditioner and Hair Mask."},
+    {"title": "Calculate product association metrics", "desc": "Support, confidence and lift per pair.", "prompt": "Create view named product_associations with product pairs: product_a_id, product_b_id, support_pct (pct of tickets containing both), confidence_pct (P(B given A) as pct), lift_ratio (confidence divided by baseline P(B)). Apply filters: support above 0.5%, confidence above 15%, lift above 1.5."},
+    {"title": "Rank top association rules", "desc": "Top 100 strongest associations.", "prompt": "Create view named top_rules with top 100 associations ordered by lift times support score. Include: category names for both products, potential_revenue_usd if 10% of product A buyers also purchase product B. Flag high-priority rules where both products have margin above 30%."},
+    {"title": "Category affinity analysis", "desc": "Cross-category buying patterns.", "prompt": "Create view named category_affinity with: category_a, category_b, avg_lift_ratio, rule_count, potential_incremental_revenue_usd. Identify the top 10 category pairs most suitable for store layout optimization, bundle creation and targeted promotions."},
+    {"title": "Build contextual checkout rules", "desc": "Point-of-sale suggestion rules.", "prompt": "Create table named checkout_rules: for each product with at least one association where lift is above 3.0, define suggestion_product_id, suggestion_timing (at_checkout, post_purchase_email, product_page), expected_conversion_pct, lift_ratio. Limit to 2 suggestions per trigger product to avoid decision fatigue."},
+    {"title": "Streamlit basket analysis dashboard", "desc": "Cross-selling and store layout panel.", "prompt": "Build a Streamlit app with: top associations table filterable by minimum lift threshold, category affinity heatmap, product lookup showing its top associated items, checkout suggestion preview for a selected product, and a store layout recommendation based on the strongest inter-category associations."}
+  ]},
+  UC17: {"title": "Competition Price Monitoring", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build a competitive intelligence system that compares own prices vs competition and correlates price gaps with conversion.", "steps": [
+    {"title": "Set up environment", "desc": "Database for competitive pricing intelligence.", "prompt": "Create database COMPETITIVE_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate own product catalog", "desc": "1,000 products with pricing.", "prompt": "Generate table named own_catalog with 1,000 rows: product_id, product_name, category, subcategory, current_price_usd, unit_cost_usd, margin_pct, ean_barcode."},
+    {"title": "Generate competitor price history", "desc": "5 competitors x 90 days of prices.", "prompt": "Generate table named competitor_prices with 1,000 products x 5 competitors x 90 days: product_id, competitor_name (Retailer A, Retailer B, Retailer C, Retailer D, Retailer E), price_date, competitor_price_usd (variation plus or minus 3-15% vs own price with weekly price movement patterns)."},
+    {"title": "Generate own conversion data", "desc": "Daily visits and purchase conversion.", "prompt": "Generate table named own_conversion with 1,000 products x 90 days: product_id, conversion_date, visit_count, add_to_cart_count, purchase_count, conversion_rate_pct. Conversion rate varies inversely with the price gap vs the cheapest competitor."},
+    {"title": "Calculate price index", "desc": "Own price position vs market.", "prompt": "Create view named price_index_view with: product_id, price_date, own_price_usd, avg_competitor_price_usd, min_competitor_price_usd, price_index (100 equals parity, above 100 means more expensive, below 100 means cheaper). Include 14-day rolling trend direction."},
+    {"title": "Correlate relative price with conversion", "desc": "Measure price sensitivity per product.", "prompt": "Create correlation analysis: for each product calculate the Pearson correlation between price_index and conversion_rate_pct over 90 days. Classify using SNOWFLAKE.ML.CLASSIFICATION into: Price Sensitive (strong negative correlation), Moderate, or Price Insensitive (no significant correlation). Store in table named price_sensitivity_classification."},
+    {"title": "Identify pricing opportunities", "desc": "Products where price adjustment recovers revenue.", "prompt": "Create view named pricing_opportunities: for Price Sensitive products where price_index is above 108, calculate estimated conversion_uplift_pct if price is reduced to parity, incremental_revenue_usd, margin_sacrifice_usd, and net_opportunity_usd. Rank by net opportunity and assign alert_level (Critical above 115, High 108-115)."},
+    {"title": "Streamlit competitive intelligence dashboard", "desc": "Pricing intelligence and alert panel.", "prompt": "Build a Streamlit app with: price index distribution histogram, top 20 overpriced products vs competition table, price sensitivity classification breakdown pie chart, product detail view showing 90-day price timeline vs competitors alongside conversion trend, and a weekly pricing alert email summary generator using CORTEX.COMPLETE."}
+  ]},
+  UC18: {"title": "Fraud Detection in E-Commerce and Payments", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build an ML fraud detection system for e-commerce transactions to reduce chargebacks and payment fraud losses.", "steps": [
+    {"title": "Set up environment", "desc": "Database for fraud detection.", "prompt": "Create database FRAUD_DETECTION_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate transaction dataset", "desc": "50,000 transactions with 2.5% fraud rate.", "prompt": "Generate table named ecommerce_transactions with 50,000 rows: txn_id, txn_date, customer_id, amount_usd (5-2000), payment_method (Card 60%, PayPal 20%, Mobile Pay 10%, Bank Transfer 10%), card_bin (first 6 digits), device_type (Desktop, Mobile, Tablet), ip_country, shipping_country, local_hour_of_day."},
+    {"title": "Generate fraud risk signals", "desc": "Behavioral and contextual features.", "prompt": "Generate table named fraud_features with: txn_id, velocity_1h (transaction count in last 60 minutes), new_device_flag, country_mismatch_flag (ip_country different from shipping_country), amount_vs_customer_avg_ratio, new_payment_method_flag, prior_failed_attempts_count, unusual_hour_flag (between 2am and 5am), billing_shipping_mismatch_flag. Set is_fraud TRUE for 2.5% of records correlated with these signals."},
+    {"title": "Train fraud detection model", "desc": "Binary classification for fraud.", "prompt": "Split 80/20, train SNOWFLAKE.ML.CLASSIFICATION with model name fraud_detection_model, target is_fraud, and set evaluate to TRUE. Optimize for high precision (minimize false positives) while maintaining recall above 80%."},
+    {"title": "Evaluate fraud model performance", "desc": "Fraud-specific performance metrics.", "prompt": "Show AUC, precision, recall, F1 score and confusion matrix for fraud_detection_model. Calculate business impact: false_positive_count (legitimate customers incorrectly blocked), false_negative_count (undetected fraud), cost_per_false_positive, cost_per_false_negative. Find optimal probability threshold minimizing total expected loss."},
+    {"title": "Score new transactions in real time", "desc": "Apply decision rules by risk level.", "prompt": "Generate 100 new transactions. Score each with fraud_detection_model. Show fraud probability distribution. Apply tiered decision rules: above 80% probability block and trigger 3DS verification, 50-80% flag for manual review before shipping, 20-50% accept with enhanced monitoring, below 20% process normally."},
+    {"title": "Calculate fraud prevention ROI", "desc": "Financial impact of fraud detection.", "prompt": "Create table named fraud_prevention_summary with: total_transactions_scored, true_positives (fraud correctly caught), false_negatives (fraud missed), chargebacks_prevented_count, revenue_saved_usd, false_positive_rate_pct, net_fraud_detection_roi_pct."},
+    {"title": "Streamlit fraud monitoring dashboard", "desc": "Real-time fraud alert and analytics panel.", "prompt": "Build a Streamlit app with: fraud score distribution chart, hourly fraud rate trend line, top fraud signal feature importance bar chart, manual review queue showing high-risk transactions, chargeback prevention ROI metric cards, and a threshold sensitivity slider showing precision-recall trade-off."}
+  ]},
+  UC19: {"title": "Return Fraud and Policy Abuse Detection", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build a return abuse detection system analyzing behavior patterns and NLP on return reason text.", "steps": [
+    {"title": "Set up environment", "desc": "Database for return fraud detection.", "prompt": "Create database RETURN_FRAUD_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate return history dataset", "desc": "20,000 returns with embedded abuse patterns.", "prompt": "Generate table named retail_returns with 20,000 rows: return_id, customer_id (5,000 unique), product_id, purchase_date, return_date, reason_text (free-form text), amount_usd, purchase_channel, return_channel, product_condition (Perfect 60%, Used 25%, Damaged 10%, Missing Tag 5%). Set is_abuse TRUE for 8% of records."},
+    {"title": "Return abuse feature engineering", "desc": "Build abuse signal variables per customer.", "prompt": "Create table named return_features with: customer_id, return_ratio_12m (returns divided by purchases), return_count_6m, avg_days_between_purchase_and_return, most_returned_product_pct, channel_mismatch_pct (bought online returned in store or vice versa), high_value_product_return_pct, late_window_return_pct (returned on last allowed day)."},
+    {"title": "Classify return reasons with NLP", "desc": "Automatic categorization of reason text.", "prompt": "Use CORTEX.COMPLETE to classify the reason_text of each return into one of: Wrong Size, Product Defect, Did Not Like, Different From Photo, Suspected Wardrobing, or Other. Store results in table named classified_reasons. Flag customers with generic or repetitively similar reason text as potential abuse indicators."},
+    {"title": "Train return abuse detection model", "desc": "Customer risk profile classifier.", "prompt": "Train SNOWFLAKE.ML.CLASSIFICATION with model name return_abuse_model. Features: all return_features columns plus classified_reason. Target: risk_profile (Legitimate, Suspicious, Systematic Abuse). Set evaluate to TRUE and review per-class precision and recall."},
+    {"title": "Score customer return risk profiles", "desc": "Assign risk tier to all customers.", "prompt": "Score all customers with return activity. Create table named return_risk_profiles with: customer_id, risk_profile_label, abuse_probability, return_cost_12m_usd, return_frequency_per_year. Identify the top 100 highest-cost abuse accounts and calculate the projected annual revenue loss."},
+    {"title": "Define differentiated return policies", "desc": "Policy assignment by risk profile.", "prompt": "Create table named return_policy_assignments: Legitimate - standard 30-day full refund with free return shipping. Suspicious - physical inspection required before refund is issued. Systematic Abuse - manual review of return request with possible account-level audit. Use CORTEX.COMPLETE to draft a customer-facing policy notification message for each risk profile tier."},
+    {"title": "Streamlit return fraud dashboard", "desc": "Loss prevention panel.", "prompt": "Build a Streamlit app with: return abuse rate trend chart over time, customer risk profile distribution pie chart, top 50 high-cost abuse accounts table with recommended action, return reason category breakdown bar chart, projected annual savings from abuse detection, and policy tier assignment summary counts."}
+  ]},
+  UC20: {"title": "Inventory Anomaly and Shrinkage Detection", "intro": "Open Cortex Code in Snowsight and run these prompts sequentially. You will build an inventory anomaly detection system to identify unknown shrinkage, theft and internal fraud patterns.", "steps": [
+    {"title": "Set up environment", "desc": "Database for shrinkage detection.", "prompt": "Create database SHRINKAGE_RETAIL_DB with schema PUBLIC and warehouse COMPUTE_WH."},
+    {"title": "Generate daily inventory data", "desc": "50 stores x 500 products x 90 days.", "prompt": "Generate table named daily_inventory with 50 stores x 500 products x 90 days: store_id, product_id, inventory_date, theoretical_stock (sales plus receipts minus adjustments), physical_stock_count (periodic count with discrepancies), shrinkage_units (theoretical minus physical), work_shift (Morning, Afternoon, Night)."},
+    {"title": "Embed realistic shrinkage patterns", "desc": "Normal records plus anomaly clusters.", "prompt": "Adjust the shrinkage_units distribution: 80% of records set to 0 (no discrepancy), 15% set to 1-3 units (normal operational variance), 5% set to 4 or more units (anomaly). Concentrate anomalies: 30% in 3 specific problem stores, 25% in Electronics and Perfumery categories, 20% in the Night shift."},
+    {"title": "Statistical anomaly detection", "desc": "Z-score analysis by store and category.", "prompt": "Create view named zscore_anomalies with: store_id, product_id, inventory_date, shrinkage_units, rolling_avg_shrinkage, rolling_std_dev, z_score. Flag anomaly_flag as TRUE where absolute z_score exceeds 2.0. Aggregate anomaly counts by store and category to distinguish systemic from isolated incidents."},
+    {"title": "Classify shrinkage type with ML", "desc": "Identify probable cause per anomaly.", "prompt": "Train SNOWFLAKE.ML.CLASSIFICATION to classify each anomalous record into a shrinkage type: Operational Error (counting mistake), External Theft (shoplifting), Internal Fraud (employee), or Receiving Error (supplier). Features: work_shift, product_category, unit_value_usd, anomaly_frequency, store_id, day_of_week."},
+    {"title": "Store-level investigation view", "desc": "Rank stores by shrinkage severity.", "prompt": "Create view named store_investigation with: store_id, total_shrinkage_90d_usd, shrinkage_vs_chain_avg_ratio, top_anomalous_categories, most_anomalous_shift, employee_count_on_anomalous_shifts. Rank all stores by total shrinkage value and flag stores exceeding 2 sigma above chain average."},
+    {"title": "Quantify economic impact", "desc": "Shrinkage financial loss analysis.", "prompt": "Create table named shrinkage_impact with breakdowns by store, category and work_shift: total_shrinkage_units, total_shrinkage_usd, shrinkage_as_pct_of_sales, annualized_loss_usd, type_breakdown (pct by classified shrinkage type). Identify top 10 store-category combinations that account for 80% of total shrinkage loss."},
+    {"title": "Streamlit loss prevention dashboard", "desc": "Inventory anomaly investigation panel.", "prompt": "Build a Streamlit app with: store heatmap showing shrinkage rate by location, anomaly count timeline for selected store and category, z-score distribution histogram with adjustable threshold slider, top 20 anomalies requiring immediate investigation, shrinkage type breakdown pie chart, and economic impact summary with annualized loss projection."}
+  ]}
+};
+
+function verGuia(ucId) {
+  const g = GUIAS[ucId];
+  if (!g) return;
+  const html = `
+    <span class="guide-badge">${ucId}</span>
+    <h2>${g.title}</h2>
+    <p>${g.context}</p>
+    <h3>Focus</h3><p>${g.focus}</p>
+    <h3>Challenge</h3><p>${g.challenge}</p>
+    <h3>Objectives</h3><ul>${g.objectives.map(o=>`<li>${o}</li>`).join('')}</ul>
+    <h3>Snowflake Features</h3><ul>${g.features_list.map(f=>`<li>${f}</li>`).join('')}</ul>
+    <h3>Data</h3><ul>${g.data.map(d=>`<li>${d}</li>`).join('')}</ul>
+    <h3>Stratification</h3><ul>${g.stratification.map(e=>`<li>${e}</li>`).join('')}</ul>
+    <h3>How to Use</h3><ul>${g.how_to_use.map(c=>`<li>${c}</li>`).join('')}</ul>
+    <div class="guide-footer">Guide generated for Snowflake Cortex Code</div>`;
+  document.getElementById('modalContent').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function verPrompts(ucId) {
+  const data = PROMPTS[ucId];
+  if (!data) return;
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  let html = `<span class="guide-badge">${ucId}</span><h2>${data.title}</h2>`;
+  html += `<p class="prompt-intro">${data.intro}</p>`;
+  data.steps.forEach((s,i) => {
+    html += `<div class="prompt-step">
+      <div class="prompt-step-header">
+        <span class="prompt-step-num">${i+1}</span>
+        <span class="prompt-step-title">${s.title}</span>
+      </div>
+      <p class="prompt-step-desc">${s.desc}</p>
+      <div class="prompt-code"><button class="copy-btn" onclick="copiarPrompt(this)">Copy</button>${esc(s.prompt)}</div>
+    </div>`;
+  });
+  document.getElementById('modalContent').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function copiarPrompt(btn) {
+  const code = btn.parentElement.textContent.replace('Copy','').trim();
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied';setTimeout(()=>btn.textContent='Copy',1500);});
+}
+
+function cerrarModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+</script>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)cerrarModal();">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarModal()">&times;</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+</body>
+</html>

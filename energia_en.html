@@ -1,0 +1,2352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <title>Snowflake — AI/ML Solutions for Energy & Utilities</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #1a1a1a; }
+    .hero { background: linear-gradient(135deg, #003545, #11567F); color: #fff; padding: 32px 48px 36px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+    .hero-left { flex: 1; }
+    .logos { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .logo-snowflake { display: flex; align-items: center; gap: 7px; color: #fff; font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+    .hero-eyebrow { font-size: 11px; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.8); margin-bottom: 8px; }
+    .hero-title { font-size: 42px; font-weight: 700; line-height: 1.1; margin-bottom: 10px; }
+    .hero-subtitle { font-size: 15px; font-weight: 500; color: rgba(255,255,255,0.9); margin-bottom: 6px; }
+    .hero-tagline { font-size: 12px; color: rgba(255,255,255,0.65); }
+    .stats-box { background: #fff; border-radius: 10px; padding: 20px 28px; text-align: center; color: #1a1a1a; min-width: 160px; flex-shrink: 0; }
+    .stats-box .stat-number { font-size: 40px; font-weight: 700; color: #F57C00; line-height: 1; }
+    .stats-box .stat-label { font-size: 12px; color: #666; margin-bottom: 14px; }
+    .stats-box .stat-time { font-size: 20px; font-weight: 700; color: #1a1a1a; line-height: 1; }
+    .stats-box .stat-time-label { font-size: 12px; color: #666; }
+    .stats-divider { border: none; border-top: 1px solid #e8e8e8; margin: 10px 0; }
+    .intro { background: #fff; text-align: center; padding: 48px 24px 32px; }
+    .intro h2 { font-size: 22px; font-weight: 700; color: #11567F; margin-bottom: 14px; }
+    .intro p { max-width: 600px; margin: 0 auto; font-size: 14px; color: #555; line-height: 1.7; }
+    .filters-bar { background: #fff; padding: 20px 48px 0; border-bottom: 1px solid #e8e8e8; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .filters-left { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
+    .filter-btn { padding: 8px 18px; border-radius: 80px; border: 1.5px solid #ccc; background: transparent; font-size: 13px; font-weight: 500; color: #444; cursor: pointer; transition: all 0.15s; }
+    .filter-btn:hover { border-color: #29B5E8; color: #29B5E8; }
+    .filter-btn.active { background: #29B5E8; border-color: #29B5E8; color: #fff; }
+    .search-box { display: flex; align-items: center; border: 1.5px solid #ccc; border-radius: 80px; padding: 7px 14px; gap: 8px; min-width: 200px; background: #fff; }
+    .search-box input { border: none; outline: none; font-size: 13px; color: #444; width: 100%; background: transparent; }
+    .search-box input::placeholder { color: #aaa; }
+    .results-count { padding: 14px 48px 8px; font-size: 13px; color: #666; background: #f5f5f5; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; padding: 16px 48px 48px; background: #f5f5f5; }
+    .card { background: #fff; border-radius: 10px; border: 1px solid #e2e2e2; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.2s; }
+    .card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.1); }
+    .card-header { padding: 16px 18px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .card-badges { display: flex; gap: 6px; align-items: center; }
+    .badge-id { font-size: 11px; font-weight: 700; color: #888; letter-spacing: 0.5px; }
+    .badge-cat { background: #E0F4FD; color: #11567F; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 50px; }
+    .badge-cat.renovable   { background: #E8F5E9; color: #2E7D32; }
+    .badge-cat.red         { background: #FFF3E0; color: #E65100; }
+    .badge-cat.cliente     { background: #E3F2FD; color: #1565C0; }
+    .badge-cat.operaciones { background: #EDE7F6; color: #5E35B1; }
+    .badge-cat.seguridad   { background: #FCE4EC; color: #C62828; }
+    .card-time { font-size: 12px; color: #888; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+    .card-title { padding: 0 18px 12px; font-size: 17px; font-weight: 700; color: #11567F; line-height: 1.3; }
+    .pain-point { margin: 0 18px 14px; background: #FFF8E1; border-radius: 8px; padding: 12px 14px; }
+    .pain-point-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: #F57C00; margin-bottom: 6px; text-transform: uppercase; }
+    .pain-point p { font-size: 13px; color: #2a2a2a; line-height: 1.55; }
+    .card-desc { padding: 0 18px 14px; font-size: 13px; color: #555; line-height: 1.65; flex: 1; }
+    .card-features { padding: 0 18px 16px; list-style: none; }
+    .card-features li { font-size: 13px; color: #444; display: flex; align-items: flex-start; gap: 6px; margin-bottom: 4px; }
+    .card-features li::before { content: '\2713'; color: #29B5E8; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .card-actions { padding: 14px 18px 18px; display: flex; gap: 10px; border-top: 1px solid #f0f0f0; flex-wrap: wrap; }
+    .btn-secondary { flex: 1; padding: 10px; background: #29B5E8; color: #fff; border: none; border-radius: 80px; font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; transition: background 0.15s; text-decoration: none; display: block; }
+    .btn-secondary:hover { background: #11567F; }
+    .btn-tertiary { flex: 1; padding: 10px; background: #003545; color: #29B5E8; border: none; border-radius: 80px; font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; transition: background 0.15s; text-decoration: none; display: block; }
+    .btn-tertiary:hover { background: #11567F; }
+    .prompt-step { margin-bottom: 18px; }
+    .prompt-step-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .prompt-step-num { background: #003545; color: #29B5E8; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+    .prompt-step-title { font-size: 13px; font-weight: 600; color: #333; }
+    .prompt-step-desc { font-size: 12px; color: #666; margin-bottom: 6px; line-height: 1.5; }
+    .prompt-code { position: relative; background: #003545; color: #e0e0e0; border-radius: 8px; padding: 12px 14px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12.5px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+    .prompt-code .copy-btn { position: absolute; top: 6px; right: 8px; background: rgba(255,255,255,0.1); border: none; color: #aaa; font-size: 11px; padding: 3px 8px; border-radius: 4px; cursor: pointer; }
+    .prompt-code .copy-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
+    .modal-box .prompt-intro { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid #eee; }
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-overlay.active { display: flex; }
+    .modal-box { background: #fff; border-radius: 12px; max-width: 700px; width: 92%; max-height: 85vh; overflow-y: auto; padding: 32px 28px; position: relative; box-shadow: 0 8px 40px rgba(0,0,0,0.2); }
+    .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 22px; cursor: pointer; color: #888; line-height: 1; }
+    .modal-close:hover { color: #F57C00; }
+    .modal-box h2 { color: #11567F; font-size: 20px; margin-bottom: 6px; }
+    .modal-box h3 { font-size: 15px; color: #333; margin: 18px 0 8px; }
+    .modal-box p, .modal-box li { font-size: 13px; line-height: 1.7; color: #444; }
+    .modal-box ul { padding-left: 20px; margin: 6px 0; }
+    .modal-box .guide-badge { display: inline-block; background: #E0F4FD; color: #11567F; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 50px; margin-bottom: 10px; }
+    .modal-box .guide-footer { margin-top: 20px; padding-top: 14px; border-top: 1px solid #eee; font-size: 12px; color: #888; }
+    @media (max-width: 700px) {
+      .hero { flex-direction: column; padding: 24px 20px; }
+      .cards-grid { grid-template-columns: 1fr; padding: 16px 16px 48px; }
+      .filters-bar { padding: 16px 16px 0; }
+      .results-count { padding: 12px 16px 6px; }
+    }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-left">
+    <div class="logos"><div class="logo-snowflake"><img src="bug-white.png" alt="Snowflake" width="32" height="32" /> Snowflake</div></div>
+    <a href="index_en.html" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:rgba(255,255,255,0.75);text-decoration:none;margin-bottom:8px;transition:color 0.15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="12,4 6,10 12,16"/></svg>Back to Industry Index</a>
+    <p class="hero-eyebrow">Energy &amp; Utilities Sector &times; Snowflake</p>
+    <h1 class="hero-title">AI/ML Solutions for Energy &amp; Utilities</h1>
+    <p class="hero-subtitle">Cortex Code Guides &amp; Prompts ready to deploy for renewable generation, smart grids, operations, and customer experience</p>
+    <p class="hero-tagline">Built with Snowflake Cortex AI | Immediate impact</p>
+  </div>
+  <div class="stats-box">
+    <div class="stat-number">20</div>
+    <div class="stat-label">Use Cases</div>
+    <hr class="stats-divider"/>
+    <div class="stat-time">8-15 min</div>
+    <div class="stat-time-label">Setup Time</div>
+  </div>
+</header>
+<section class="intro">
+  <h2>Accelerate Your Analytics with Pre-Built AI Solutions for Energy &amp; Utilities</h2>
+  <p>Each solution includes Snowflake Cortex Code Prompts with synthetic data, step-by-step guides
+     and SQL-first implementations powered by Cortex AI/ML. Includes Feature Store and Model Registry for production
+     deployment. Optimize renewable generation, predict demand, detect energy fraud and manage smart grids &mdash;
+     all within Snowflake, with no external dependencies, ready to customize with your own data.</p>
+</section>
+<div class="filters-bar">
+  <div class="filters-left" id="filterBtns">
+    <button class="filter-btn active" data-filter="all">All (20)</button>
+    <button class="filter-btn" data-filter="renovable">Renewable Generation (4)</button>
+    <button class="filter-btn" data-filter="red">Grid &amp; Smart Grid (4)</button>
+    <button class="filter-btn" data-filter="cliente">Customer Experience (4)</button>
+    <button class="filter-btn" data-filter="operaciones">Operations &amp; Efficiency (4)</button>
+    <button class="filter-btn" data-filter="seguridad">Security &amp; Compliance (4)</button>
+  </div>
+  <div class="search-box">
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="9" r="7"/><line x1="15" y1="15" x2="19" y2="19"/></svg>
+    <input id="searchInput" type="text" placeholder="Search use cases…" />
+  </div>
+</div>
+<div class="results-count" id="resultsCount">Showing 20 of 20 use cases</div>
+<main class="cards-grid" id="cardsGrid"></main>
+<script>
+const USE_CASES = [
+  {
+    "id": "UC01",
+    "cat": "red",
+    "catLabel": "Grid & Smart Grid",
+    "time": "15 min",
+    "title": "Electricity Demand Forecasting with Model Registry",
+    "pain": "Demand forecast errors of 8-12% generate balancing costs of $50-100M/year per utility. Renewable volatility and new consumption patterns (EVs, self-generation, heat pumps) make historical-based models obsolete.",
+    "desc": "ML demand forecasting model by zone, hour, and customer type using ML.FORECAST integrating weather, calendars, market prices, and electrification trends. The model is registered in Snowflake Model Registry for continuous operation.",
+    "features": [
+      "Demand forecast with ML.FORECAST + Model Registry",
+      "Model versioning with log_model() and deploy()",
+      "Exogenous variables: weather, price, events, EV, self-generation",
+      "Streamlit demand planning dashboard"
+    ]
+  },
+  {
+    "id": "UC02",
+    "cat": "renovable",
+    "catLabel": "Renewable Generation",
+    "time": "14 min",
+    "title": "Solar PV Generation Forecasting",
+    "pain": "Solar generation has 30-50% daily variability due to cloud cover, and forecast errors cause wholesale market deviations costing $2-5/MWh. With 20+ GW of installed solar, each improvement point is worth millions.",
+    "desc": "Solar generation forecast model by plant and hour using ML.FORECAST integrating irradiance, cloud cover, ambient temperature, panel degradation, and seasonal shadows.",
+    "features": [
+      "Hourly forecast with ML.FORECAST multi-plant",
+      "Variables: irradiance, cloud cover, temperature, degradation",
+      "95% confidence intervals per plant",
+      "Streamlit solar generation management dashboard"
+    ]
+  },
+  {
+    "id": "UC03",
+    "cat": "renovable",
+    "catLabel": "Renewable Generation",
+    "time": "14 min",
+    "title": "Wind Generation Forecasting with Model Registry",
+    "pain": "Wind generation is the most powerful renewable source but also the most volatile. Wind speed forecast errors generate market deviations of $3-8/MWh and affect system stability.",
+    "desc": "Wind generation forecast model by farm using ML.FORECAST integrating multi-model weather forecasts, power curves per turbine, and wake effects. Registered in Model Registry.",
+    "features": [
+      "Wind forecast with ML.FORECAST + Model Registry",
+      "Variables: wind (speed, direction, gusts), temperature, pressure",
+      "Power curves per turbine model",
+      "Accuracy tracking with MAPE per farm"
+    ]
+  },
+  {
+    "id": "UC04",
+    "cat": "renovable",
+    "catLabel": "Renewable Generation",
+    "time": "13 min",
+    "title": "Battery Energy Storage System (BESS) Optimization",
+    "pain": "Battery storage systems (BESS) represent investments of $200-500/kWh but profitability depends on charge/discharge strategy. Suboptimal operation reduces ROI by 30-40% and accelerates degradation.",
+    "desc": "Battery charge/discharge cycle optimization engine that maximizes revenue from market arbitrage, regulation services, and self-consumption while minimizing battery degradation.",
+    "features": [
+      "Optimization with ML.FORECAST of prices + demand",
+      "Variables: market price, local demand, SoC, degradation, regulation",
+      "Strategy simulation: arbitrage, peak shaving, regulation",
+      "Streamlit BESS management dashboard"
+    ]
+  },
+  {
+    "id": "UC05",
+    "cat": "red",
+    "catLabel": "Grid & Smart Grid",
+    "time": "14 min",
+    "title": "Technical and Non-Technical Loss Detection in Grid",
+    "pain": "Electrical losses represent 8-12% of distributed energy, with non-technical losses (fraud) at 1-3%. Each percentage point reduction means $200-400M in recovered revenue for the system.",
+    "desc": "ML loss detection system that differentiates technical (infrastructure) from non-technical (fraud, meter tampering) losses by analyzing energy balances per transformer, consumption patterns, and anomalies.",
+    "features": [
+      "Detection with ML.CLASSIFICATION + energy balance",
+      "Variables: measured consumption, injected energy, load factor, pattern",
+      "Differentiation of technical vs non-technical losses",
+      "Streamlit loss management dashboard"
+    ]
+  },
+  {
+    "id": "UC06",
+    "cat": "red",
+    "catLabel": "Grid & Smart Grid",
+    "time": "13 min",
+    "title": "Congestion Management in Distribution Grid",
+    "pain": "Distributed generation (self-consumption + EV) creates bidirectional flows that congest transformers designed for unidirectional flow. 15% of urban transformers reach overload during peak solar injection hours.",
+    "desc": "Congestion prediction and management engine for distribution networks that anticipates overloads in transformers and lines, and recommends flexibility actions (demand response, curtailment, storage).",
+    "features": [
+      "Congestion prediction with ML.FORECAST per node",
+      "Variables: distributed generation, consumption, EV, temperature, grid",
+      "Flexibility recommendations by priority",
+      "Streamlit grid management dashboard"
+    ]
+  },
+  {
+    "id": "UC07",
+    "cat": "operaciones",
+    "catLabel": "Operations & Efficiency",
+    "time": "14 min",
+    "title": "Predictive Maintenance for Wind Turbines",
+    "pain": "A major wind turbine failure costs $100-300K and 2-4 weeks of downtime. Calendar-based maintenance wastes 30% of interventions and misses 25% of incipient failures.",
+    "desc": "Predictive failure model for wind turbines analyzing SCADA signals (vibration, generator/gearbox temperature, pitch, yaw, power) to detect degradation and prioritize maintenance.",
+    "features": [
+      "Failure prediction with ML.CLASSIFICATION on SCADA",
+      "Variables: vibration, temperature, pitch, yaw, power, wind",
+      "Prioritization by economic impact and risk",
+      "Streamlit wind fleet health dashboard"
+    ]
+  },
+  {
+    "id": "UC08",
+    "cat": "cliente",
+    "catLabel": "Customer Experience",
+    "time": "15 min",
+    "title": "Customer Energy 360 Feature Store",
+    "pain": "Energy customer data is scattered across CRM, billing, smart meters, app, call center, and distributed generation. No unified view exists for personalization, energy efficiency, and commercial opportunity detection.",
+    "desc": "Centralized Feature Store in Snowflake consolidating features for each customer from all systems. Serves features in real time for personalization, energy efficiency, fraud detection, and retention.",
+    "features": [
+      "Snowflake Feature Store with Entity and FeatureView",
+      "Features: consumption, billing, smart meter, generation, digital",
+      "Automatic versioning of customer profile",
+      "Ingestion pipeline from billing, metering, CRM, app"
+    ]
+  },
+  {
+    "id": "UC09",
+    "cat": "cliente",
+    "catLabel": "Customer Experience",
+    "time": "12 min",
+    "title": "Customer Segmentation and Energy Efficiency",
+    "pain": "Energy efficiency campaigns have 5-8% adoption rates because they are sent in bulk without considering consumption profile, investment capacity, or customer motivation.",
+    "desc": "Segmentation engine that classifies customers by consumption profile, savings potential, self-consumption propensity, price sensitivity, and digital engagement to personalize efficiency programs and commercial offers.",
+    "features": [
+      "Segmentation with ML.CLASSIFICATION multivariable",
+      "Variables: load curve, seasonality, self-consumption, rate, digital",
+      "Savings potential calculation per customer",
+      "Streamlit efficiency programs dashboard"
+    ]
+  },
+  {
+    "id": "UC10",
+    "cat": "renovable",
+    "catLabel": "Renewable Generation",
+    "time": "12 min",
+    "title": "Renewable Generation Portfolio Optimization",
+    "pain": "Producers manage portfolios of 500+ MW with geographically dispersed solar and wind plants. Market bidding requires precise aggregated forecasts, and deviations cost $3-10/MWh.",
+    "desc": "Portfolio optimization engine generating optimal bids for day-ahead and intraday markets by combining solar/wind generation forecasts, market prices, PPA contracts, and regulatory constraints.",
+    "features": [
+      "Optimization with ML.FORECAST multi-plant + prices",
+      "Variables: forecasted generation, market prices, PPAs, constraints",
+      "Optimal bids for day-ahead and intraday markets",
+      "Streamlit energy trading dashboard"
+    ]
+  },
+  {
+    "id": "UC11",
+    "cat": "operaciones",
+    "catLabel": "Operations & Efficiency",
+    "time": "13 min",
+    "title": "Predictive Maintenance for Distribution Network",
+    "pain": "Failures in distribution lines and transformers cause outages affecting thousands of homes. Average outage time is 45 min/year, with significant regulatory penalty and reputational costs.",
+    "desc": "Predictive failure model for distribution infrastructure (transformers, lines, switchgear) analyzing telemetry, age, historical load, and environmental conditions.",
+    "features": [
+      "Prediction with ML.CLASSIFICATION on grid telemetry",
+      "Variables: load, temperature, humidity, age, failure history",
+      "Prioritization by avoided outage time and affected customers",
+      "Streamlit distribution grid health dashboard"
+    ]
+  },
+  {
+    "id": "UC12",
+    "cat": "operaciones",
+    "catLabel": "Operations & Efficiency",
+    "time": "12 min",
+    "title": "NLP on Incidents and Work Orders",
+    "pain": "Utilities process 200,000-500,000 work orders annually. Manual classification is slow, 20% are misrouted, and resolution knowledge resides with veteran technicians who are retiring.",
+    "desc": "NLP pipeline that automatically classifies incidents, extracts root cause, assigns priority, and suggests resolution based on history. Captures and systematizes the organization's technical knowledge.",
+    "features": [
+      "Classification with CORTEX.COMPLETE + ML.CLASSIFICATION",
+      "Technical knowledge extraction with CORTEX.COMPLETE",
+      "Variables: incident text, equipment, zone, history, weather",
+      "Streamlit work order management dashboard"
+    ]
+  },
+  {
+    "id": "UC13",
+    "cat": "cliente",
+    "catLabel": "Customer Experience",
+    "time": "13 min",
+    "title": "RAG Chatbot for Energy Customer Service",
+    "pain": "Call centers handle 60% of repetitive queries (billing, readings, rate changes, outages) at a cost of $4-7 per interaction. Rule-based chatbots only resolve 15% of queries.",
+    "desc": "RAG conversational assistant with Cortex Search indexing rates, regulations, savings guides, FAQ, and grid status. Resolves 65% of queries without a human agent with responses contextualized to the customer profile.",
+    "features": [
+      "RAG with Cortex Search + CORTEX.COMPLETE",
+      "Knowledge base: rates, regulation, savings, FAQ, grid",
+      "Personalization via Feature Store profile (consumption, rate)",
+      "Streamlit chat dashboard with agent escalation"
+    ]
+  },
+  {
+    "id": "UC14",
+    "cat": "operaciones",
+    "catLabel": "Operations & Efficiency",
+    "time": "15 min",
+    "title": "Grid Asset Performance Feature Store",
+    "pain": "Grid asset performance KPIs (transformers, lines, substations) are calculated in batch with 24-48h delay. Regulated investment decisions are made with stale data, risking outage-time penalties.",
+    "desc": "Feature Store in Snowflake consolidating performance metrics for each grid asset: load, temperature, availability, incidents, and benchmarks. Serves features for operational and regulated investment decisions.",
+    "features": [
+      "Snowflake Feature Store with Entity per asset",
+      "FeatureViews: load, temperature, availability, incidents, benchmark",
+      "Features served for operational and regulatory decisions",
+      "Automatic multi-source update pipeline"
+    ]
+  },
+  {
+    "id": "UC15",
+    "cat": "seguridad",
+    "catLabel": "Security & Compliance",
+    "time": "12 min",
+    "title": "Electricity Fraud Detection with Smart Meters",
+    "pain": "Electricity fraud causes $150-300M/year in losses. Smart meter tampering, bypasses, and illegal connections are hard to detect with manual inspections (cost $200/inspection, 30% success rate).",
+    "desc": "ML fraud detection system analyzing smart meter load curves, anomalous consumption patterns, peer comparisons, and tampering signals to prioritize inspections with high probability of success.",
+    "features": [
+      "Detection with ML.CLASSIFICATION on smart meter data",
+      "Variables: load curve, consumption vs estimated, peers, history",
+      "Inspection prioritization by probability x amount",
+      "Streamlit energy anti-fraud dashboard"
+    ]
+  },
+  {
+    "id": "UC16",
+    "cat": "seguridad",
+    "catLabel": "Security & Compliance",
+    "time": "13 min",
+    "title": "OT/IT Cybersecurity for Energy Infrastructure",
+    "pain": "Energy infrastructures are priority targets for cyberattacks (200% increase in 2023-2025). OT/IT convergence exposes SCADA, RTUs, and PLCs to threats that can cause massive outages.",
+    "desc": "ML threat detection pipeline for OT/IT networks of energy infrastructure. Analyzes industrial network traffic, SCADA device behavior, and access patterns to detect attacks and automate response.",
+    "features": [
+      "Threat detection with ML.CLASSIFICATION on OT traffic",
+      "Variables: Modbus/DNP3, SCADA behavior, access, anomalies",
+      "Risk scoring per asset and critical infrastructure",
+      "Streamlit industrial SOC dashboard"
+    ]
+  },
+  {
+    "id": "UC17",
+    "cat": "cliente",
+    "catLabel": "Customer Experience",
+    "time": "12 min",
+    "title": "Energy Community and Self-Consumption Management",
+    "pain": "Energy communities and collective self-consumption are growing 40% annually. Energy sharing, surplus billing, and community battery management require analytics that most utilities lack.",
+    "desc": "Energy community management engine that optimizes energy distribution among members, calculates surpluses and compensation, forecasts generation/consumption per member, and generates detailed billing.",
+    "features": [
+      "Sharing optimization with ML.FORECAST per member",
+      "Variables: generation, consumption, community battery, surpluses",
+      "Automatic billing with dynamic coefficients",
+      "Streamlit community management dashboard"
+    ]
+  },
+  {
+    "id": "UC18",
+    "cat": "seguridad",
+    "catLabel": "Security & Compliance",
+    "time": "11 min",
+    "title": "Regulatory Compliance and ESG Reporting",
+    "pain": "Utilities must report to regulators, EU Taxonomy, and ESG standards with data from multiple systems. Manual preparation of regulatory reports consumes 2,000-5,000 hours/year and errors generate penalties.",
+    "desc": "Regulatory reporting automation system that consolidates operational, financial, and environmental data, verifies consistency, generates ESG metrics, and produces reports for regulators and stakeholders.",
+    "features": [
+      "Automatic multi-source consolidation for reporting",
+      "Consistency verification with rules + ML",
+      "Variables: outage time, emissions, renewables, investment, quality",
+      "Streamlit compliance and ESG dashboard"
+    ]
+  },
+  {
+    "id": "UC19",
+    "cat": "red",
+    "catLabel": "Grid & Smart Grid",
+    "time": "11 min",
+    "title": "Electric Vehicle Charging Load Management",
+    "pain": "By 2030, millions of EVs are expected. Simultaneous charging during peak hours (7-10pm) can overload low-voltage transformers by 40%. Without smart management, grid reinforcement investment would reach $10-15B.",
+    "desc": "Smart EV charging management engine that predicts charging demand by zone, coordinates deferred (V1G) and bidirectional (V2G) charging, and optimizes use of the existing distribution network.",
+    "features": [
+      "EV charging demand forecast with ML.FORECAST by zone",
+      "Variables: EV fleet, charging habits, rate, grid, generation",
+      "V1G/V2G optimization to minimize grid reinforcement",
+      "Streamlit EV charging management dashboard"
+    ]
+  },
+  {
+    "id": "UC20",
+    "cat": "seguridad",
+    "catLabel": "Security & Compliance",
+    "time": "10 min",
+    "title": "Energy Market Anomaly Detection",
+    "pain": "Energy markets are susceptible to price manipulation, market power abuse, and collusive behavior. Manual detection by regulators has a delay of weeks to months.",
+    "desc": "ML market surveillance system analyzing bids, prices, and market positions to detect anomalies: capacity withholding, coordinated bids, artificial price spikes, and dominant position abuse.",
+    "features": [
+      "Anomaly detection with ML.CLASSIFICATION on bids",
+      "Variables: bids, prices, capacity, positions, history",
+      "Correlation with grid events and scarcity",
+      "Streamlit market surveillance dashboard"
+    ]
+  }
+];
+const TOTAL = 20;
+
+function renderCards(list) {
+  const grid = document.getElementById('cardsGrid');
+  const count = document.getElementById('resultsCount');
+  grid.innerHTML = '';
+  count.textContent = 'Showing ' + list.length + ' of ' + TOTAL + ' use cases';
+  list.forEach(uc => {
+    const catClass = uc.cat;
+    grid.innerHTML += '<article class="card">' +
+      '<div class="card-header"><div class="card-badges"><span class="badge-id">' + uc.id + '</span><span class="badge-cat ' + catClass + '">' + uc.catLabel + '</span></div><span class="card-time">\u23F1 ' + uc.time + '</span></div>' +
+      '<div class="card-title">' + uc.title + '</div>' +
+      '<div class="pain-point"><div class="pain-point-label">Problema</div><p>' + uc.pain + '</p></div>' +
+      '<div class="card-desc">' + uc.desc + '</div>' +
+      '<ul class="card-features">' + uc.features.map(function(f){return '<li>' + f + '</li>';}).join('') + '</ul>' +
+      '<div class="card-actions"><button class="btn-secondary" onclick="verGuia(\'' + uc.id + '\')">Ver Gu\u00EDa</button><button class="btn-tertiary" onclick="verPrompts(\'' + uc.id + '\')">Ver Prompts</button></div>' +
+      '</article>';
+  });
+}
+
+let currentFilter = 'all';
+let currentSearch = '';
+function applyFilters() {
+  let list = USE_CASES;
+  if (currentFilter !== 'all') list = list.filter(function(u){return u.cat === currentFilter;});
+  if (currentSearch) { const q = currentSearch.toLowerCase(); list = list.filter(function(u){return (u.title + ' ' + u.desc + ' ' + u.id + ' ' + u.catLabel).toLowerCase().indexOf(q) !== -1;}); }
+  renderCards(list);
+}
+
+document.getElementById('filterBtns').addEventListener('click', function(e) {
+  if (!e.target.classList.contains('filter-btn')) return;
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+  e.target.classList.add('active');
+  currentFilter = e.target.getAttribute('data-filter');
+  applyFilters();
+});
+
+document.getElementById('searchInput').addEventListener('input', function(e) {
+  currentSearch = e.target.value;
+  applyFilters();
+});
+
+renderCards(USE_CASES);
+
+
+const GUIAS = {
+  "UC01": {
+    "title": "Electricity Demand Forecasting with Model Registry",
+    "context": "Utilities manage energy purchases in the wholesale market 24 hours in advance. Demand forecast errors of 8-12% generate balancing costs of $50-100M/year. Accelerated electrification (EVs, heat pumps, self-generation) makes historical patterns increasingly unrepresentative.",
+    "focus": "Build an ML electricity demand forecast model by zone and time slot using ML.FORECAST, registering it in Snowflake Model Registry for continuous operation with versioning and deployment.",
+    "challenge": "Demand depends on dozens of variables (weather, calendar, price, electrification trends) and varies dramatically by zone. A single model cannot capture territorial heterogeneity.",
+    "objectives": [
+      "Reduce demand forecast MAPE to <4% at 24h horizon",
+      "Register model in Model Registry with log_model() and versioning",
+      "Automate weekly retraining with new data",
+      "Generate optimized procurement plan for day-ahead market",
+      "Implement deviation alerts >5% for immediate action"
+    ],
+    "features": [
+      "ML.FORECAST for demand time series by zone",
+      "Snowflake Model Registry: log_model(), get_model(), deploy()",
+      "Exogenous variables: weather, calendar, price, EV, self-generation",
+      "Real-time Streamlit demand planning dashboard",
+      "Automatic weekly retraining pipeline"
+    ],
+    "data": [
+      "Hourly electricity demand by supply point (smart meters)",
+      "Weather forecasts by zone (temperature, humidity, wind, irradiance)",
+      "Labor calendar, holidays, special events by region",
+      "Wholesale market prices (day-ahead and intraday)",
+      "EV fleet by zone, self-generation installations, heat pumps"
+    ],
+    "stratification": [
+      "By distribution zone and substation",
+      "By customer type: residential, commercial, industrial",
+      "By time slot: peak, mid-peak, off-peak",
+      "By season: summer (AC), winter (heating)",
+      "By electrification trend: zones with high EV/self-generation penetration"
+    ],
+    "how_to_use": [
+      "Run prompts in Cortex Code sequentially",
+      "Model trains on 3 years of history and registers in Model Registry",
+      "Adjust forecast horizons according to market (24h, 168h)",
+      "Customize deviation alerts according to operational tolerance",
+      "Connect with trading systems for automatic procurement"
+    ]
+  },
+  "UC02": {
+    "title": "Solar PV Generation Forecasting",
+    "context": "Installed solar capacity exceeds 20+ GW, growing 30% annually. Each plant needs accurate forecasts to bid in the wholesale market and minimize deviations costing $2-5/MWh.",
+    "focus": "Build a solar generation forecast model per plant integrating irradiance, cloud cover, temperature, and degradation to optimize bids in the electricity market.",
+    "challenge": "Cloud cover introduces 30-50% daily variability in generation. Weather models carry uncertainty that is amplified in the conversion to electrical output.",
+    "objectives": [
+      "Reduce solar forecast MAPE to <8% at 24h horizon",
+      "Generate 95% confidence intervals for risk management",
+      "Incorporate panel degradation and soiling effects",
+      "Optimize day-ahead and intraday market bids",
+      "Automate forecast pipeline for plant portfolio"
+    ],
+    "features": [
+      "ML.FORECAST with irradiance and weather variables",
+      "Plant-level model with specific characteristics (orientation, technology)",
+      "Confidence intervals for risk quantification",
+      "Automatic adjustment for degradation and maintenance",
+      "Streamlit solar generation management dashboard"
+    ],
+    "data": [
+      "Hourly historical production per plant and inverter",
+      "Global horizontal irradiance (GHI) and direct normal irradiance (DNI) by location",
+      "Cloud cover, ambient temperature, humidity, wind per plant",
+      "Technical specs: peak power, orientation, tilt, technology",
+      "Maintenance, cleaning schedule and measured degradation"
+    ],
+    "stratification": [
+      "By solar plant and geographic location",
+      "By technology: fixed, 1-axis tracking, 2-axis tracking",
+      "By season and regional cloud patterns",
+      "By age and degradation rate",
+      "By destination market: day-ahead, intraday, PPA"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Adjust plant parameters according to actual characteristics",
+      "Calibrate models with at least 1 year of historical data",
+      "Integrate with trading platform for automatic bids",
+      "Review accuracy monthly and retrain if MAPE >10%"
+    ]
+  },
+  "UC03": {
+    "title": "Wind Generation Forecasting with Model Registry",
+    "context": "Wind capacity exceeds 30+ GW, being the second generation source. Wind volatility generates market deviations of $3-8/MWh. Producers need reliable forecasts to bid and manage PPA contracts.",
+    "focus": "Build a wind forecast model per farm using ML.FORECAST integrating multi-model wind forecasts, power curves per turbine, and wake effects. Registered in Model Registry for production.",
+    "challenge": "Wind has extreme variability and depends on local orography, wake effects between turbines, and complex weather phenomena. NWP models carry uncertainty of 2-4 m/s that is exponentially amplified in the power curve.",
+    "objectives": [
+      "Reduce wind forecast MAPE to <10% at 24h horizon",
+      "Register model in Model Registry with log_model() and versioning",
+      "Incorporate specific power curves per turbine model",
+      "Combine forecasts from multiple weather models (ensemble)",
+      "Automatic accuracy tracking with MAPE per farm and horizon"
+    ],
+    "features": [
+      "ML.FORECAST for wind generation time series",
+      "Snowflake Model Registry: log_model(), accuracy metrics",
+      "Weather model ensemble (GFS, ECMWF, HIRLAM)",
+      "Power curves per turbine model with wake correction",
+      "Streamlit wind generation management dashboard"
+    ],
+    "data": [
+      "Historical production per turbine and farm (10-min, hourly)",
+      "Multi-model wind forecasts: speed, direction, gusts, pressure",
+      "Temperature, humidity, atmospheric stability per farm",
+      "Manufacturer power curves per turbine model",
+      "Farm layout for wake effect calculation"
+    ],
+    "stratification": [
+      "By wind farm and geographic location",
+      "By turbine model and unit power",
+      "By wind regime: Atlantic, Mediterranean, continental",
+      "By forecast horizon: intraday, day+1, week",
+      "By destination: wholesale market, PPA, regulation services"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Model registers in Model Registry for continuous operation",
+      "Adjust power curves based on actual farm data",
+      "Calibrate ensemble weights by accuracy per zone",
+      "Connect with trading platform for automatic bids"
+    ]
+  },
+  "UC04": {
+    "title": "Battery Energy Storage System (BESS) Optimization",
+    "context": "BESS systems are key to renewable integration but profitability depends on operational strategy. A 100 MWh battery can generate $5-15M/year from arbitrage and regulation services if operated optimally.",
+    "focus": "Optimize battery charge/discharge cycles maximizing revenue from arbitrage, regulation services, and self-consumption while minimizing battery degradation.",
+    "challenge": "Optimization requires simultaneous forecasts of market prices, local demand, renewable generation, and battery health. Degradation is non-linear and depends on depth of discharge, temperature, and cycles.",
+    "objectives": [
+      "Maximize BESS revenue from arbitrage and ancillary services",
+      "Reduce battery degradation by 20% vs unoptimized operation",
+      "Forecast market prices with MAPE <8% at 24h horizon",
+      "Optimize multi-service strategy: arbitrage + regulation + peak shaving",
+      "Generate ROI simulations for different strategies"
+    ],
+    "features": [
+      "ML.FORECAST for price and demand forecasting",
+      "Battery degradation model based on cycles and DoD",
+      "Multi-objective optimization: revenue vs degradation",
+      "Strategy simulation: pure arbitrage, peak shaving, regulation",
+      "Streamlit BESS management dashboard"
+    ],
+    "data": [
+      "Wholesale market prices: day-ahead, intraday, ancillary services",
+      "Battery telemetry: SoC, temperature, current, cycles, SoH",
+      "Local demand and associated renewable generation",
+      "Network access tariffs and time-of-use rates",
+      "Secondary and tertiary regulation service prices"
+    ],
+    "stratification": [
+      "By BESS installation and technology (lithium, flow, etc.)",
+      "By service: arbitrage, regulation, peak shaving, backup",
+      "By time slot and season",
+      "By degradation level and remaining useful life",
+      "By location: grid-connected, behind-the-meter, hybrid"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Adjust battery parameters per manufacturer specifications",
+      "Calibrate degradation model with actual cycling data",
+      "Adapt strategy to current ancillary services regulation",
+      "Review ROI monthly and adjust operational thresholds"
+    ]
+  },
+  "UC05": {
+    "title": "Technical and Non-Technical Loss Detection in Grid",
+    "context": "Losses in the distribution grid represent 8-12% of transported energy. Non-technical losses (fraud, tampering) account for 1-3% and are especially difficult to detect without advanced analytics.",
+    "focus": "Build an ML loss detection system that differentiates technical from non-technical losses by analyzing energy balances per transformer, consumption patterns, and smart meter anomalies.",
+    "challenge": "Technical losses depend on network topology and load conditions, while non-technical losses require detecting subtle manipulation patterns across millions of smart meters.",
+    "objectives": [
+      "Reduce non-technical losses by 30% in the first year",
+      "Identify zones with highest loss ratio to prioritize investment",
+      "Increase fraud inspection success rate from 30% to 65%",
+      "Automatically differentiate technical vs non-technical losses",
+      "Prioritize corrective actions by economic impact"
+    ],
+    "features": [
+      "ML.CLASSIFICATION for consumption anomaly detection",
+      "Energy balance per transformer: injected vs measured",
+      "Smart meter consumption pattern analysis",
+      "Consumption comparison with similar customers (peer analysis)",
+      "Streamlit loss management dashboard"
+    ],
+    "data": [
+      "Hourly consumption per smart meter (load curves)",
+      "Energy injected per distribution transformer",
+      "Grid topology: CT-to-customer connections, line lengths",
+      "Supply point characteristics: power, rate, type",
+      "Inspection history: fraud detected, complaints"
+    ],
+    "stratification": [
+      "By transformer center and geographic zone",
+      "By loss type: technical (infrastructure) vs non-technical (fraud)",
+      "By customer type: residential, commercial, industrial",
+      "By loss level: critical >15%, high 10-15%, medium 5-10%",
+      "By seasonality: summer (AC), winter (heating), baseline"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Calibrate detection thresholds with historical inspection data",
+      "Validate results with loss management team before scheduling inspections",
+      "Integrate with work order system to automate campaigns",
+      "Update model quarterly with inspection results"
+    ]
+  },
+  "UC06": {
+    "title": "Congestion Management in Distribution Grid",
+    "context": "Distributed generation and EVs create bidirectional flows that congest transformers designed decades ago. In many grids, 15% of urban transformer centers reach overload during peak solar injection hours.",
+    "focus": "Predict congestion in distribution networks and recommend flexibility actions (demand response, curtailment, storage) to avoid grid reinforcement investments.",
+    "challenge": "Bidirectional flows in low-voltage grids are unpredictable and depend on local combination of self-generation, EV charging, heat pumps, and customer behavior. Low-voltage SCADA data is limited.",
+    "objectives": [
+      "Predict congestions 4-24h in advance per network node",
+      "Reduce transformer overload by 40%",
+      "Optimize flexibility signals for demand response",
+      "Defer grid reinforcement investments by 3-5 years",
+      "Meet supply quality regulatory requirements"
+    ],
+    "features": [
+      "ML.FORECAST for load prediction per network node",
+      "Variables: distributed generation, consumption, EV, temperature, grid",
+      "Flexibility action optimization by priority and cost",
+      "Scenario simulation for DG and EV growth",
+      "Streamlit congestion management dashboard"
+    ],
+    "data": [
+      "Transformer telemetry: load, voltage, temperature",
+      "Distributed generation per CT: self-consumption, surpluses",
+      "EV load by zone: charging points, power, schedules",
+      "Local weather forecasts for solar generation",
+      "Low-voltage grid topology: connections, capacities, age"
+    ],
+    "stratification": [
+      "By transformer center and LV line",
+      "By congestion type: overload, overvoltage, undervoltage",
+      "By cause: distributed generation, EV, AC, heating",
+      "By risk level: critical, high, medium, low",
+      "By recommended action: curtailment, DR, storage, reinforcement"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Calibrate with actual SCADA data from transformer centers",
+      "Adjust overload thresholds according to current regulations",
+      "Integrate with flexibility management system",
+      "Validate predictions with actual data and recalibrate monthly"
+    ]
+  },
+  "UC07": {
+    "title": "Predictive Maintenance for Wind Turbines",
+    "context": "A major wind turbine failure costs $100-300K and 2-4 weeks of downtime. With 30,000+ turbines installed, calendar-based maintenance wastes interventions and misses incipient failures.",
+    "focus": "Build a predictive failure model for wind turbines analyzing SCADA signals to detect degradation and prioritize maintenance by economic impact.",
+    "challenge": "SCADA signals (vibration, temperature, pitch, yaw, power) generate TBs of data with subtle degradation patterns that evolve over weeks. The challenge is detecting early signals with a low false positive rate.",
+    "objectives": [
+      "Detect 80% of major failures 2-4 weeks in advance",
+      "Reduce unplanned maintenance by 40%",
+      "Prioritize interventions by economic impact (lost production)",
+      "Reduce maintenance cost by 20% by eliminating unnecessary interventions",
+      "Increase fleet availability to 97%"
+    ],
+    "features": [
+      "ML.CLASSIFICATION on turbine SCADA signals",
+      "Variables: vibration, generator/gearbox temperature, pitch, yaw",
+      "Prioritization by impact: lost production x failure probability",
+      "Alerts with intervention recommendation and optimal window",
+      "Streamlit wind fleet health dashboard"
+    ],
+    "data": [
+      "10-minute SCADA signals: power, rotor speed, pitch, yaw",
+      "Temperatures: generator, gearbox, bearings, oil",
+      "Main component vibration",
+      "Maintenance, failure, and spare parts history",
+      "Weather conditions: wind, temperature, humidity"
+    ],
+    "stratification": [
+      "By individual turbine and wind farm",
+      "By component: generator, gearbox, pitch, yaw, tower",
+      "By alert severity: critical, high, medium, informational",
+      "By age and turbine model",
+      "By economic impact: estimated lost production per failure"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Train with at least 2 years of SCADA + failure history",
+      "Adjust alert thresholds to minimize false positives",
+      "Validate with O&M team before scheduling interventions",
+      "Retrain model semi-annually with new failure data"
+    ]
+  },
+  "UC08": {
+    "title": "Customer Energy 360 Feature Store",
+    "context": "Energy customer data is scattered across 6-10 systems (CRM, billing, smart meters, app, call center, distributed generation). Without a unified view, personalization is impossible and cross-sell, efficiency, and retention opportunities are missed.",
+    "focus": "Implement a Feature Store in Snowflake that consolidates features for each energy customer from all systems, serving features in real time for personalization, energy efficiency, and fraud detection.",
+    "challenge": "Data comes from heterogeneous systems with different granularities (smart meter every 15min, monthly billing, occasional CRM). Features must update at different frequencies and be consistent for downstream consumption.",
+    "objectives": [
+      "Consolidate 360 customer view from 6+ sources in Snowflake Feature Store",
+      "Create Entity 'energy_customer' with specialized FeatureViews",
+      "Serve features with get_features() for real-time personalization",
+      "Reduce feature preparation time from 2 weeks to 2 hours",
+      "Enable shared features across ML, marketing, and operations teams"
+    ],
+    "features": [
+      "Snowflake Feature Store: Entity('energy_customer', join_keys=['customer_id'])",
+      "FeatureView: consumption_profile (load curve, seasonality, peak/off-peak)",
+      "FeatureView: billing_status (billing, payments, debt, rate)",
+      "FeatureView: smart_meter_analytics (patterns, anomalies, quality)",
+      "FeatureView: generation_profile (self-consumption, surpluses, battery)",
+      "FeatureView: digital_engagement (app, web, chatbot, satisfaction)"
+    ],
+    "data": [
+      "Smart meters: 15-min load curves, voltage, peak power",
+      "Billing: invoices, amounts, payments, debt, complaints",
+      "CRM: contacts, campaigns, offers, satisfaction, NPS",
+      "Distributed generation: panels, production, surpluses, battery",
+      "Digital: app usage, web portal, chatbot, notifications"
+    ],
+    "stratification": [
+      "By customer type: residential, commercial, industrial, prosumer",
+      "By engagement level: high, medium, low, inactive",
+      "By consumption profile: efficient, medium, high, seasonal",
+      "By commercial potential: cross-sell, efficiency, self-consumption",
+      "By risk: fraud, non-payment, churn, dissatisfaction"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Feature Store creates Entity and FeatureViews automatically",
+      "Features update with configured frequency per FeatureView",
+      "Consume features with fs.get_features() from any ML pipeline",
+      "Extend with new FeatureViews as business needs evolve"
+    ]
+  },
+  "UC09": {
+    "title": "Customer Segmentation and Energy Efficiency",
+    "context": "Mass energy efficiency campaigns have 5-8% adoption rates. Personalization based on actual consumption profile, investment capacity, and motivation can triple effectiveness.",
+    "focus": "Segment customers by consumption profile, savings potential, and propensity for efficiency/self-consumption programs to personalize offers and maximize adoption.",
+    "challenge": "Consumption profiles are multidimensional (load curve, seasonality, peak/off-peak, self-consumption) and customer motivations vary (economic savings, sustainability, energy independence).",
+    "objectives": [
+      "Identify customer segments with savings potential >20%",
+      "Personalize efficiency recommendations by segment",
+      "Increase efficiency program adoption rate from 5% to 15%",
+      "Prioritize efficiency investments by ROI for customer and utility",
+      "Generate propensity scoring for solar self-consumption"
+    ],
+    "features": [
+      "ML.CLASSIFICATION for multivariable segmentation",
+      "Savings potential calculation per customer based on load curve",
+      "Self-consumption and battery propensity scoring",
+      "Recommendation personalization by segment",
+      "Streamlit efficiency programs dashboard"
+    ],
+    "data": [
+      "15-min smart meter load curves",
+      "Historical billing: consumption, amounts, rate, contracted power",
+      "Demographic and housing data: type, area, climate zone",
+      "Campaign history: responses, conversions, satisfaction",
+      "Self-consumption data: existing installations, production, surpluses"
+    ],
+    "stratification": [
+      "By consumption profile: efficient, medium, high, seasonal, nocturnal",
+      "By savings potential: high >30%, medium 15-30%, low <15%",
+      "By self-consumption propensity: high, medium, low, already prosumer",
+      "By motivation: economic savings, sustainability, energy independence",
+      "By preferred channel: app, email, in-person, phone"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Train with at least 1 year of smart meter data",
+      "Validate segments with commercial and efficiency team",
+      "Integrate scoring in CRM for personalized campaigns",
+      "Measure ROI per segment and adjust recommendations quarterly"
+    ]
+  },
+  "UC10": {
+    "title": "Renewable Generation Portfolio Optimization",
+    "context": "Producers manage portfolios of 500+ MW with dispersed solar and wind plants. Geographic diversification reduces variability, but market bidding requires intelligent aggregation.",
+    "focus": "Optimize renewable portfolio bids for day-ahead and intraday markets combining multi-plant forecasts, market prices, PPA contracts, and regulatory constraints.",
+    "challenge": "Correlation between plants of the same technology reduces diversification. Individual forecast errors do not perfectly cancel out, and PPA contracts add volume and price constraints.",
+    "objectives": [
+      "Generate optimal bids for day-ahead and intraday markets",
+      "Minimize deviation costs by integrating multi-plant forecasts",
+      "Optimize PPA vs spot market allocation",
+      "Quantify portfolio risk with confidence intervals",
+      "Automate bidding process for trading desk"
+    ],
+    "features": [
+      "ML.FORECAST multi-plant with portfolio aggregation",
+      "Bid optimization under uncertainty (CVaR)",
+      "PPA management: optimal generation allocation to contracts",
+      "Scenario simulation: price, wind, irradiance",
+      "Streamlit energy trading dashboard"
+    ],
+    "data": [
+      "Generation forecasts per plant (solar and wind)",
+      "Wholesale market prices: day-ahead, intraday, ancillary services",
+      "PPA contracts: volume, price, penalties, priority",
+      "Regulatory constraints: technical minimums, ramps, zones",
+      "Historical correlations between portfolio plants"
+    ],
+    "stratification": [
+      "By plant and technology: fixed solar, tracker solar, wind",
+      "By destination market: day-ahead, intraday, PPA, regulation",
+      "By geographic zone and weather correlation",
+      "By risk level: conservative, moderate, aggressive",
+      "By horizon: day-ahead, intraday, week, month"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Configure portfolio with actual plants and PPA contracts",
+      "Adjust risk parameters according to company policy",
+      "Integrate with trading platform for automatic bid submission",
+      "Review performance vs benchmark weekly and adjust strategy"
+    ]
+  },
+  "UC11": {
+    "title": "Predictive Maintenance for Distribution Network",
+    "context": "Failures in the distribution network cause outages measured by average interruption time (45 min/year). Regulators penalize non-compliance and emergency repair costs are 3-5x preventive maintenance costs.",
+    "focus": "Predict failures in distribution infrastructure (transformers, lines, switchgear) by analyzing telemetry, age, load, and environmental conditions to prioritize maintenance by avoided outage time.",
+    "challenge": "The distribution network has millions of assets with heterogeneous data. Low-voltage transformers have little telemetry, and underground cables degrade without visible symptoms until catastrophic failure.",
+    "objectives": [
+      "Predict 70% of MV/LV transformer failures 1-3 months in advance",
+      "Prioritize maintenance by avoided outage time and affected customers",
+      "Reduce average outage time by 25% through proactive maintenance",
+      "Optimize grid renewal investment through risk analysis",
+      "Meet supply quality standards from regulators"
+    ],
+    "features": [
+      "ML.CLASSIFICATION on telemetry and grid asset state",
+      "Variables: load, temperature, humidity, age, failure history",
+      "Prioritization by impact: avoided outage time x affected customers",
+      "Optimal maintenance planning with crew constraints",
+      "Streamlit distribution grid health dashboard"
+    ],
+    "data": [
+      "Transformer telemetry: load, voltage, temperature",
+      "Asset inventory: age, manufacturer, technology, capacity",
+      "Failure, repair, and maintenance history",
+      "Grid topology: connections, redundancies, affected customers",
+      "Environmental conditions: temperature, humidity, salinity, pollution"
+    ],
+    "stratification": [
+      "By asset type: MV/LV transformer, overhead/underground line, switchgear",
+      "By risk level: critical, high, medium, low",
+      "By age: >40 years, 25-40, 15-25, <15",
+      "By outage impact: high (>1000 customers), medium (100-1000), low",
+      "By intervention type: replacement, inspection, monitoring"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Feed with asset inventory and available telemetry",
+      "Calibrate model with at least 5 years of failure history",
+      "Integrate with asset management system (GIS/EAM)",
+      "Validate prioritization with grid engineers before scheduling"
+    ]
+  },
+  "UC12": {
+    "title": "NLP on Incidents and Work Orders",
+    "context": "Utilities process 200,000-500,000 work orders annually. Resolution knowledge resides with veteran technicians who are retiring, and manual classification is slow with 20% errors.",
+    "focus": "NLP pipeline that automatically classifies incidents, extracts root cause, assigns priority, and suggests resolution based on history. Captures and systematizes technical knowledge.",
+    "challenge": "Incident text is unstructured, with sector-specific technical jargon, abbreviations, and multiple languages. Root cause often requires correlation with grid data.",
+    "objectives": [
+      "Automatically classify 90% of incidents with accuracy >85%",
+      "Reduce misrouting from 20% to 5%",
+      "Suggest resolution based on history for 60% of incidents",
+      "Capture technical resolution knowledge in structured database",
+      "Reduce average resolution time by 25%"
+    ],
+    "features": [
+      "CORTEX.COMPLETE for classification and information extraction",
+      "ML.CLASSIFICATION for automatic incident categorization",
+      "Root cause and technical entity extraction with NLP",
+      "Resolution knowledge base with Cortex Search",
+      "Streamlit incident and knowledge management dashboard"
+    ],
+    "data": [
+      "Incident text: description, technician comments, resolution",
+      "Historical classification: type, cause, component, zone, priority",
+      "Resolution data: time, resources, spare parts, cost",
+      "Technical manuals and resolution procedures",
+      "Associated grid data: equipment, location, affected customers"
+    ],
+    "stratification": [
+      "By incident type: failure, preventive maintenance, complaint, technical query",
+      "By component: transformer, line, service connection, meter, switchgear",
+      "By priority: urgent, high, normal, low",
+      "By geographic zone and intervention team",
+      "By root cause: weather, aging, overload, vandalism, wildlife"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Feed with at least 2 years of incident history",
+      "Validate automatic classification with team supervisors",
+      "Enrich knowledge base with validated resolutions",
+      "Integrate with work order management system (SAP PM, Maximo)"
+    ]
+  },
+  "UC13": {
+    "title": "RAG Chatbot for Energy Customer Service",
+    "context": "Energy call centers handle 60% of repetitive queries about billing, readings, rates, and outages. At $4-7 per interaction, automation delivers immediate ROI.",
+    "focus": "RAG conversational assistant with Cortex Search indexing rates, regulation, savings guides, FAQ, and grid status. Resolves queries by contextualizing responses to the customer profile.",
+    "challenge": "Electricity regulation is complex (time-of-use pricing, free market, social bonus, collective self-consumption) and changes frequently. Responses must be accurate, personalized to the customer contract, and compliant with consumer protection regulations.",
+    "objectives": [
+      "Resolve 65% of queries without human agent intervention",
+      "Reduce cost per interaction from $5 to $0.50",
+      "Personalize responses based on rate, consumption, and customer profile",
+      "Keep knowledge base updated with regulatory changes",
+      "Escalate to human agent with full context when needed"
+    ],
+    "features": [
+      "Cortex Search for energy knowledge base indexing",
+      "CORTEX.COMPLETE for contextualized response generation",
+      "Integration with UC08 Feature Store for customer profile",
+      "Smart escalation to human agent with context",
+      "Streamlit chatbot dashboard with resolution metrics"
+    ],
+    "data": [
+      "Electricity rates: time-of-use, free market, indexed, fixed, flat",
+      "Regulation: self-consumption decree, social bonus, consumer protection",
+      "Energy savings guides by housing type and climate",
+      "FAQ: readings, bills, rate changes, complaints, outages",
+      "Real-time grid status: outages, planned cuts, restoration"
+    ],
+    "stratification": [
+      "By query type: billing, rate, reading, outage, complaint",
+      "By customer profile: residential, commercial, prosumer, vulnerable",
+      "By channel: web chat, app, WhatsApp, phone",
+      "By complexity: simple (FAQ), medium (calculation), complex (complaint)",
+      "By satisfaction: resolved, partial, escalated, unsatisfied"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Index knowledge base with Cortex Search (rates, regulation, FAQ)",
+      "Configure integration with UC08 Feature Store for personalization",
+      "Train with actual query history to improve resolution",
+      "Monitor resolution rate and satisfaction weekly"
+    ]
+  },
+  "UC14": {
+    "title": "Grid Asset Performance Feature Store",
+    "context": "Regulated grid investment decisions (regulated by utilities commissions) are made with performance KPIs calculated in batch with 24-48h delay. Outage time penalties and investment planning require fresh data.",
+    "focus": "Implement a Feature Store in Snowflake consolidating performance metrics for each grid asset (transformers, lines, substations) for operational and regulated investment decisions.",
+    "challenge": "Grid assets generate heterogeneous data from SCADA, GIS, EAM, and remote control systems. Metrics must be consistent to compare assets of different technologies and ages.",
+    "objectives": [
+      "Consolidate asset performance metrics from 5+ sources",
+      "Create Entity per asset with specialized FeatureViews",
+      "Reduce KPI latency from 48h to near-real-time",
+      "Enable benchmarking between similar assets",
+      "Serve features for predictive maintenance models (UC11)"
+    ],
+    "features": [
+      "Snowflake Feature Store: Entity per asset_id with join_keys=['asset_id']",
+      "FeatureView: load_profile (load, peak, utilization factor)",
+      "FeatureView: thermal_status (temperature, gradients, aging)",
+      "FeatureView: availability (availability, interruptions, outage time)",
+      "FeatureView: incident_history (failures, maintenance, costs)",
+      "FeatureView: benchmark (comparison with similar assets)"
+    ],
+    "data": [
+      "SCADA: real-time load, voltage, current, temperature",
+      "GIS: location, zone, customers fed, redundancies",
+      "EAM: maintenance history, inspections, status",
+      "Failures: cause, duration, affected customers, repair cost",
+      "Inventory: manufacturer, model, installation year, nominal capacity"
+    ],
+    "stratification": [
+      "By asset type: MV/LV transformer, line, substation, switchgear",
+      "By criticality level: single feed, redundancy, backup",
+      "By age and useful life status",
+      "By geographic zone and environmental conditions",
+      "By load level: overloaded, nominal, underutilized"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Feature Store creates Entity and FeatureViews for grid assets",
+      "Features update from SCADA, GIS, and EAM",
+      "Consume features with fs.get_features() for ML and reporting",
+      "Extend with additional FeatureViews as sensing evolves"
+    ]
+  },
+  "UC15": {
+    "title": "Electricity Fraud Detection with Smart Meters",
+    "context": "Electricity fraud causes $150-300M/year in losses. Smart meters generate load curves that allow detection of manipulation patterns, but data volume (30M+ meters x 96 readings/day) requires scalable analytics.",
+    "focus": "ML fraud detection system analyzing smart meter load curves, anomalous patterns, peer comparisons, and tampering signals to prioritize inspections with high success probability.",
+    "challenge": "Fraud patterns constantly evolve (electronic, magnetic tampering, bypasses, direct connections). False positive rate must be <10% for inspections to be cost-effective.",
+    "objectives": [
+      "Increase inspection success rate from 30% to 70%",
+      "Detect 60% of active frauds in the first year",
+      "Reduce cost per detected fraud from $600 to $200",
+      "Prioritize by estimated fraud amount",
+      "Detect emerging new manipulation patterns"
+    ],
+    "features": [
+      "ML.CLASSIFICATION on smart meter load curves",
+      "Anomaly analysis: consumption vs estimated, variability, pattern",
+      "Peer comparison with neighbors and similar customers",
+      "Probability x amount scoring for inspection prioritization",
+      "Streamlit anti-fraud management dashboard"
+    ],
+    "data": [
+      "15-min smart meter load curves (3+ years)",
+      "Billed consumption vs transformer-metered energy",
+      "Meter events: tampering, opening, communication error",
+      "Supply point data: power, rate, housing type",
+      "Inspection history: results, fraud type, amount"
+    ],
+    "stratification": [
+      "By fraud type: electronic tampering, magnetic, bypass, direct connection",
+      "By fraud probability: very high >80%, high 60-80%, medium 40-60%",
+      "By estimated amount: high >$5,000/year, medium $1,000-5,000, low",
+      "By geographic zone and historical fraud rate",
+      "By pattern age: new, recurring, chronic"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Train with at least 3 years of inspection history",
+      "Calibrate scoring thresholds to maximize success rate",
+      "Coordinate with inspection team for continuous feedback",
+      "Update models quarterly with newly detected patterns"
+    ]
+  },
+  "UC16": {
+    "title": "OT/IT Cybersecurity for Energy Infrastructure",
+    "context": "Energy infrastructures are critical infrastructure and priority targets for cyberattacks (200% increase in 2023-2025). OT/IT convergence exposes SCADA, RTUs, and PLCs to increasingly sophisticated threats.",
+    "focus": "ML threat detection pipeline for OT/IT networks of energy infrastructure. Analyzes industrial network traffic, SCADA device behavior, and access patterns.",
+    "challenge": "Industrial protocols (Modbus, DNP3, IEC 61850) generate traffic with very regular patterns where any anomaly may be an attack. False positives in OT can cause unnecessary service outages.",
+    "objectives": [
+      "Detect 95% of OT traffic anomalies in <5 minutes",
+      "Reduce false positives in OT alerts to <2%",
+      "Correlate OT/IT events to detect multi-vector attacks",
+      "Automate response to low-severity incidents",
+      "Meet NIS2 and critical infrastructure requirements"
+    ],
+    "features": [
+      "ML.CLASSIFICATION on industrial protocol traffic",
+      "Normal behavior baseline per SCADA device",
+      "OT/IT event correlation for multi-vector detection",
+      "Risk scoring per asset and critical infrastructure",
+      "Streamlit industrial SOC (OT) dashboard"
+    ],
+    "data": [
+      "OT network traffic: Modbus, DNP3, IEC 61850, IEC 60870-5-104",
+      "SCADA, DCS, HMI access logs",
+      "Device behavior: RTU, PLC, IED, protection relays",
+      "IT security events: firewall, IDS/IPS, VPN, Active Directory",
+      "OT asset inventory: manufacturer, firmware, vulnerabilities"
+    ],
+    "stratification": [
+      "By threat type: reconnaissance, intrusion, manipulation, denial",
+      "By network zone: corporate, DMZ, control, field",
+      "By severity: critical (SCADA manipulation), high, medium, low",
+      "By affected asset: substation, control center, generation",
+      "By origin: external, internal, supply chain, insider"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Configure baseline with 2-4 weeks of normal OT traffic data",
+      "Integrate with existing SIEM/SOAR tools",
+      "Validate alerts with OT security team before automating",
+      "Update rules based on energy sector threat intelligence"
+    ]
+  },
+  "UC17": {
+    "title": "Energy Community and Self-Consumption Management",
+    "context": "Energy communities are growing 40% annually driven by regulatory changes. Energy sharing among members, surplus management, and detailed billing require advanced analytics.",
+    "focus": "Energy community management engine that optimizes energy distribution among members, calculates surpluses and compensation, forecasts generation/consumption per member, and generates billing.",
+    "challenge": "Each community has its own sharing coefficients, which can be fixed or dynamic. Shared generation must be optimally allocated considering individual consumption profiles.",
+    "objectives": [
+      "Optimize energy distribution among community members",
+      "Maximize collective self-consumption and minimize exported surpluses",
+      "Generate detailed billing per member with source breakdown",
+      "Forecast generation and consumption per member for planning",
+      "Simulate adding new members and expanding installation"
+    ],
+    "features": [
+      "ML.FORECAST of generation and consumption per member",
+      "Dynamic sharing coefficient optimization",
+      "Surplus and simplified compensation calculation",
+      "Detailed billing with breakdown: self-consumption, shared, grid",
+      "Streamlit energy community management dashboard"
+    ],
+    "data": [
+      "Shared installation generation (15-min)",
+      "Individual consumption per member (smart meter 15-min)",
+      "Sharing coefficients: fixed or dynamic",
+      "Applicable rates: self-consumption, surpluses, compensation",
+      "Community battery data if exists: SoC, charge, discharge"
+    ],
+    "stratification": [
+      "By community member and consumption profile",
+      "By energy source: individual self-consumption, shared, grid",
+      "By time slot: coincident with generation, nocturnal, peak",
+      "By season: summer (high generation), winter (low ratio)",
+      "By community type: residential, mixed, industrial, municipal"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Configure community with actual generation and consumption data",
+      "Adjust sharing coefficients per community agreement",
+      "Simulate expansion scenarios or battery addition",
+      "Generate monthly reports for members and administrator"
+    ]
+  },
+  "UC18": {
+    "title": "Regulatory Compliance and ESG Reporting",
+    "context": "Utilities must report to regulators, EU Taxonomy (sustainable activities), and multiple ESG standards. Manual preparation consumes 2,000-5,000 hours/year.",
+    "focus": "Automate data consolidation and generation of regulatory and ESG reports for utilities, verifying consistency and compliance with thresholds.",
+    "challenge": "Data comes from 15-20 different systems with different formats and periodicities. Regulatory requirements change frequently and errors generate significant penalties.",
+    "objectives": [
+      "Reduce regulatory reporting preparation time by 70%",
+      "Automate consistency verification between data sources",
+      "Generate ESG metrics per GRI, SASB, EU Taxonomy",
+      "Detect non-compliance before reporting date",
+      "Create complete audit trail for regulatory inspections"
+    ],
+    "features": [
+      "Automatic multi-source consolidation with consistency verification",
+      "CORTEX.COMPLETE for report narrative generation",
+      "ML for anomaly detection in regulatory data",
+      "Automatic KPI calculation: outage time, emissions, renewables, investment, quality",
+      "Streamlit regulatory compliance and ESG dashboard"
+    ],
+    "data": [
+      "Supply quality: interruptions, duration, affected customers",
+      "Emissions: CO2, NOx, particulates per plant and activity",
+      "Renewable generation: production, certificates, guarantees of origin",
+      "Grid investment: capex, opex, efficiency, modernization",
+      "Social indicators: employment, training, labor safety, communities"
+    ],
+    "stratification": [
+      "By target regulator: national regulators, EU Taxonomy, GRI",
+      "By indicator type: environmental, social, governance",
+      "By periodicity: monthly, quarterly, annual",
+      "By compliance level: compliant, at risk, non-compliant",
+      "By business area: generation, distribution, retail"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Configure data sources according to company structure",
+      "Map indicators to current regulatory requirements",
+      "Validate reports with compliance and audit teams",
+      "Schedule automatic generation according to regulatory calendar"
+    ]
+  },
+  "UC19": {
+    "title": "Electric Vehicle Charging Load Management",
+    "context": "Millions of EVs are projected by 2030. Simultaneous charging can overload LV transformers by 40%. Smart management can defer grid reinforcement investments of $10-15B.",
+    "focus": "Smart EV charging management engine that forecasts demand, coordinates deferred (V1G) and bidirectional (V2G) charging, and optimizes the existing network.",
+    "challenge": "EV charging behavior is uncertain and depends on mobility habits, charger type, rate, and local generation. V2G coordination requires incentives and bidirectional infrastructure.",
+    "objectives": [
+      "Forecast EV charging demand by zone with MAPE <15%",
+      "Reduce peak load by 30% through smart management (V1G)",
+      "Evaluate V2G potential for flexibility services",
+      "Identify transformers at risk of EV overload",
+      "Defer grid reinforcement investments by 3-5 years"
+    ],
+    "features": [
+      "ML.FORECAST of EV charging demand by zone and time slot",
+      "V1G optimization: deferred charging to off-peak hours",
+      "V2G assessment: grid injection potential and ancillary services",
+      "Overload risk map by transformer",
+      "Streamlit EV charging management dashboard"
+    ],
+    "data": [
+      "EV fleet by zone: units, models, battery capacity",
+      "Charging sessions: location, power, duration, energy, rate",
+      "LV transformer telemetry: load, temperature, capacity",
+      "Local solar generation and zone consumption",
+      "Market prices and time-of-use rates"
+    ],
+    "stratification": [
+      "By zone and transformer center",
+      "By charger type: home (3.7kW), semi-fast (11-22kW), fast (50+kW)",
+      "By schedule: home overnight, office workday, opportunistic",
+      "By management mode: free charging, V1G deferred, V2G bidirectional",
+      "By grid risk: current overload, forecast <1 year, forecast 1-3 years"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Configure with actual charging point and local grid data",
+      "Adjust V1G flexibility signals per current regulation",
+      "Simulate EV fleet growth scenarios for 3-5 years",
+      "Integrate with charging management systems (OCPP/OSCP)"
+    ]
+  },
+  "UC20": {
+    "title": "Energy Market Anomaly Detection",
+    "context": "Energy markets are susceptible to manipulation. Regulators need tools to detect capacity withholding, coordinated bids, and dominant position abuse.",
+    "focus": "ML market surveillance system analyzing bids, prices, and positions to detect market anomalies and anticompetitive behavior.",
+    "challenge": "Manipulation patterns are subtle and disguised as normal behavior. Distinguishing legitimate optimization from market abuse requires multidimensional analysis.",
+    "objectives": [
+      "Detect price anomalies with <24h delay",
+      "Identify capacity withholding patterns",
+      "Correlate bid behavior with grid events",
+      "Generate prioritized alerts for regulatory investigation",
+      "Reduce investigation time from weeks to days"
+    ],
+    "features": [
+      "ML.CLASSIFICATION on bids and market prices",
+      "Pattern detection: withholding, coordination, price spikes",
+      "Correlation with grid events and generation scarcity",
+      "Dominant position and market power analysis",
+      "Streamlit energy market surveillance dashboard"
+    ],
+    "data": [
+      "Day-ahead market bids: price, quantity, unit, agent",
+      "Clearing prices: day-ahead, intraday, ancillary services",
+      "Available vs offered capacity per generation unit",
+      "Grid events: technical constraints, unavailabilities",
+      "Market positions: market share, installed capacity, contracts"
+    ],
+    "stratification": [
+      "By anomaly type: withholding, coordination, spike, pivot player",
+      "By market: day-ahead, intraday, regulation, constraints",
+      "By market agent and corporate group",
+      "By time of day and system condition (scarcity, surplus)",
+      "By severity: critical (evident manipulation), high, medium, informational"
+    ],
+    "how_to_use": [
+      "Run prompts sequentially in Cortex Code",
+      "Configure with public market data",
+      "Adjust detection thresholds based on historical patterns",
+      "Validate alerts with market analysts before formal investigation",
+      "Integrate with regulatory reporting system"
+    ]
+  }
+};
+
+const PROMPTS = {
+  "UC01": {
+    "title": "Electricity Demand Forecasting with Model Registry",
+    "intro": "This guide walks you step by step through building an electricity demand forecast model with ML.FORECAST and registering it in Snowflake Model Registry for continuous operation.",
+    "steps": [
+      {
+        "title": "Set up environment and base data",
+        "desc": "Create database, schema, and warehouse for the demand forecasting project.",
+        "prompt": "Create database ENERGY_DEMAND_DB with schema ANALYTICS and warehouse ENERGY_WH (size S). Include descriptive comments about the electricity demand forecasting project."
+      },
+      {
+        "title": "Create supply points table",
+        "desc": "Generate synthetic supply point data with distribution zones, customer type, and contracted power.",
+        "prompt": "Create table SUPPLY_POINTS with fields: point_id, distribution_zone (5 zones: North, South, East, West, Central), customer_type (Residential, Commercial, Industrial), contracted_power_kw, municipality, postal_code, has_self_generation BOOLEAN, has_ev BOOLEAN, has_heat_pump BOOLEAN. Generate 50,000 synthetic records with realistic distribution: 70% residential, 20% commercial, 10% industrial. 15% have self-generation, 8% have EV, 5% have heat pump."
+      },
+      {
+        "title": "Create hourly demand history",
+        "desc": "Generate 3 years of hourly electricity demand data with seasonal, daily patterns and electrification trends.",
+        "prompt": "Create table HOURLY_DEMAND with fields: timestamp TIMESTAMP, distribution_zone, customer_type, demand_mwh FLOAT, temperature_c FLOAT, is_workday BOOLEAN, is_holiday BOOLEAN. Generate hourly data for 3 years (2022-2024) by zone and customer type. Apply realistic patterns: residential peak 7-10pm, commercial peak 10am-2pm, industrial peak 8am-6pm. Seasonality: summer +30% (AC), winter +20% (heating). 3% annual growth trend from electrification."
+      },
+      {
+        "title": "Load exogenous variables",
+        "desc": "Create table of weather, calendar, and market price variables that influence demand.",
+        "prompt": "Create table EXOGENOUS_VARIABLES with fields: timestamp TIMESTAMP, distribution_zone, temperature_c, humidity_pct, wind_speed_ms, irradiance_wm2, market_price_eur_mwh, is_holiday BOOLEAN, day_of_week INT, month INT, hour INT, ev_penetration_pct FLOAT, self_gen_penetration_pct FLOAT. Generate data aligned with HOURLY_DEMAND. Market prices between 20-200 EUR/MWh with spikes in peak hours. EV/self-generation penetration increasing from 2022 to 2024."
+      },
+      {
+        "title": "Train demand forecast model",
+        "desc": "Build demand forecast model with ML.FORECAST integrating exogenous variables.",
+        "prompt": "Use SNOWFLAKE.ML.FORECAST to train an electricity demand forecast model. The time series is demand_mwh grouped by distribution_zone, with timestamp. Include as exogenous variables: temperature_c, market_price_eur_mwh, is_holiday, day_of_week, hour, ev_penetration_pct. Train with 2022-2023 data and validate with 2024. Generate forecasts at 24h, 72h, and 168h horizons."
+      },
+      {
+        "title": "Evaluate model accuracy",
+        "desc": "Calculate error metrics (MAPE, RMSE, MAE) by zone and forecast horizon.",
+        "prompt": "Evaluate the demand forecast model calculating: MAPE (Mean Absolute Percentage Error), RMSE, and MAE. Compare forecasts vs actual 2024 data by distribution_zone and horizon (24h, 72h, 168h). Show summary table with metrics by zone and horizon. Identify zones and horizons with worst accuracy for diagnosis."
+      },
+      {
+        "title": "Register model in Model Registry",
+        "desc": "Save the trained model in Snowflake Model Registry with metadata and evaluation metrics.",
+        "prompt": "Register the demand model in Snowflake Model Registry using Python:\n\nfrom snowflake.ml.registry import Registry\nreg = Registry(session=session, database_name='ENERGY_DEMAND_DB', schema_name='ANALYTICS')\nreg.log_model(\n    model=demand_model,\n    model_name='demand_forecast_energy',\n    version_name='v1',\n    metrics={'mape_24h': mape_24, 'mape_72h': mape_72, 'mape_168h': mape_168},\n    comment='Electricity demand forecast model by zone with exogenous variables'\n)\n\nVerify registration by listing models and versions."
+      },
+      {
+        "title": "Generate market procurement plan",
+        "desc": "Use forecasts to generate optimized procurement bids for the day-ahead market by time slot.",
+        "prompt": "Create view MARKET_PROCUREMENT_PLAN using demand forecasts to generate a day-ahead market procurement plan. For each hour of the next day and zone: forecasted_demand_mwh, estimated_price_eur_mwh, estimated_cost_eur, confidence_interval_95_low, confidence_interval_95_high, procurement_strategy (day_ahead, intraday, bilateral). Include alerts when uncertainty exceeds 10%."
+      },
+      {
+        "title": "Create planning dashboard",
+        "desc": "Build a Streamlit dashboard showing forecasts, accuracy, and procurement plan.",
+        "prompt": "Generate Streamlit dashboard code for demand planning with:\n1. Zone and time horizon selector\n2. Chart of actual vs forecasted demand with confidence intervals\n3. Accuracy metrics: MAPE, RMSE by zone\n4. Day-ahead market procurement plan\n5. Deviation alerts >5% vs forecast\n6. Table of exogenous variables most influential per zone"
+      },
+      {
+        "title": "Automation and cleanup",
+        "desc": "Set up automatic retraining pipeline and document the project.",
+        "prompt": "Create a scheduled TASK to retrain the demand model weekly with new data:\n1. Task RETRAIN_DEMAND_MODEL running every Monday at 6:00am\n2. Update exogenous variable data\n3. Retrain model and register new version in Model Registry\n4. Compare accuracy with previous version and alert if it worsens\n5. Document the entire pipeline with comments on each created object."
+      }
+    ]
+  },
+  "UC02": {
+    "title": "Solar PV Generation Forecasting",
+    "intro": "This guide builds a solar generation forecast model per plant integrating irradiance, cloud cover, and degradation to optimize bids in the electricity market.",
+    "steps": [
+      {
+        "title": "Set up environment and base data",
+        "desc": "Create database and schema for the solar forecasting project.",
+        "prompt": "Create database ENERGY_SOLAR_DB with schema ANALYTICS and warehouse ENERGY_WH. Include descriptive comments for the solar PV generation forecasting project."
+      },
+      {
+        "title": "Create solar plant catalog",
+        "desc": "Generate synthetic solar plant data with technical characteristics.",
+        "prompt": "Create table SOLAR_PLANTS with fields: plant_id, name, location, latitude, longitude, peak_power_mw FLOAT, technology (Fixed, Tracker_1axis, Tracker_2axis), orientation_degrees INT, tilt_degrees INT, installation_date DATE, annual_degradation_rate_pct FLOAT. Generate 30 plants distributed across the region with capacities between 5-200 MW. Degradation rate 0.4-0.8%/year."
+      },
+      {
+        "title": "Load solar weather data",
+        "desc": "Create table of weather variables relevant to solar generation.",
+        "prompt": "Create table SOLAR_WEATHER with fields: timestamp TIMESTAMP, plant_id, ghi_wm2 FLOAT, dni_wm2 FLOAT, cloud_cover_pct FLOAT, ambient_temperature_c FLOAT, humidity_pct FLOAT, wind_speed_ms FLOAT. Generate hourly data for 2 years (2023-2024) per plant. Realistic patterns: irradiance 0-1000 W/m2 with daily and seasonal cycle, variable cloud cover with geographic correlation."
+      },
+      {
+        "title": "Create production history",
+        "desc": "Generate hourly historical production per plant based on irradiance and technical characteristics.",
+        "prompt": "Create table SOLAR_PRODUCTION with fields: timestamp TIMESTAMP, plant_id, production_mwh FLOAT, availability_pct FLOAT, capacity_factor FLOAT, under_maintenance BOOLEAN. Generate hourly data correlated with SOLAR_WEATHER. Production = f(irradiance, temperature, degradation, availability). Average capacity factor 18-22% annually. Include temperature losses (coeff -0.4%/degC above 25C)."
+      },
+      {
+        "title": "Train solar forecast model",
+        "desc": "Build ML.FORECAST model for solar generation per plant.",
+        "prompt": "Use SNOWFLAKE.ML.FORECAST to predict solar production per plant. Time series: production_mwh grouped by plant_id with timestamp. Exogenous variables: ghi_wm2, cloud_cover_pct, ambient_temperature_c. Train with 2023 data and validate with 2024. Generate forecasts at 6h, 24h, and 48h with 95% confidence intervals."
+      },
+      {
+        "title": "Evaluate accuracy and generate metrics",
+        "desc": "Calculate MAPE per plant and horizon, identify conditions with highest error.",
+        "prompt": "Evaluate the solar model calculating MAPE, RMSE, and MAE per plant_id, per horizon (6h, 24h, 48h), per month, and per weather condition (clear, partly cloudy, overcast). Show summary table. Identify plants and conditions with worst accuracy. Analyze whether error concentrates on cloudy days or transitions."
+      },
+      {
+        "title": "Generate bids for day-ahead market",
+        "desc": "Use forecasts to create optimal bids for day-ahead and intraday markets.",
+        "prompt": "Create view SOLAR_MARKET_BIDS that aggregates forecasts from all plants to generate bids per hour: forecasted_generation_mwh, confidence_interval_95, estimated_price_eur_mwh, day_ahead_bid_mwh (conservative with P10), intraday_bid_mwh (adjusted with latest forecast), deviation_risk_eur. Apply conservative strategy in day-ahead and adjustment in intraday."
+      },
+      {
+        "title": "Create solar management dashboard",
+        "desc": "Streamlit dashboard for generation monitoring and bids.",
+        "prompt": "Generate Streamlit code with:\n1. Map of solar plants with current vs forecasted production\n2. Chart of actual vs forecast generation with confidence bands\n3. Day-ahead and intraday bid table\n4. Accuracy metrics per plant (MAPE, bias)\n5. Alerts for deviation >10% and plants with low availability\n6. Estimated revenue summary per plant and portfolio"
+      },
+      {
+        "title": "Update pipeline and cleanup",
+        "desc": "Automate forecast updates and retraining.",
+        "prompt": "Create scheduled Tasks:\n1. UPDATE_SOLAR_WEATHER: every 6h updates weather forecasts\n2. GENERATE_SOLAR_FORECAST: every 6h generates new predictions\n3. RETRAIN_SOLAR_MODEL: monthly, retrains with recent data\n4. Document pipeline with comments on each object. Include alerts if monthly MAPE exceeds 12%."
+      }
+    ]
+  },
+  "UC03": {
+    "title": "Wind Generation Forecasting with Model Registry",
+    "intro": "Build a wind forecast model per farm with ML.FORECAST and Model Registry, integrating multi-model wind forecasts and power curves per turbine.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database and schema for wind forecasting.",
+        "prompt": "Create database ENERGY_WIND_DB with schema ANALYTICS and warehouse ENERGY_WH. Include project comments for wind generation forecasting with Model Registry."
+      },
+      {
+        "title": "Create wind farm catalog",
+        "desc": "Generate wind farm data with turbines and technical characteristics.",
+        "prompt": "Create table WIND_FARMS with: farm_id, name, location, latitude, longitude, installed_capacity_mw, num_turbines INT, turbine_model, unit_power_mw, hub_height_m INT, rotor_diameter_m INT, commissioning_date DATE. Generate 25 farms distributed across the region with capacities of 20-200 MW. Models: Vestas V136, Siemens Gamesa SG 5.8, Nordex N163."
+      },
+      {
+        "title": "Load multi-model weather forecasts",
+        "desc": "Wind data from multiple NWP models for ensemble.",
+        "prompt": "Create table WIND_WEATHER with: timestamp TIMESTAMP, farm_id, nwp_model (GFS, ECMWF, HIRLAM), wind_speed_ms FLOAT, wind_direction_degrees INT, max_gust_ms FLOAT, temperature_c FLOAT, pressure_hpa FLOAT, atmospheric_stability VARCHAR. Generate hourly data for 2 years per farm and NWP model. Wind speeds 0-25 m/s with regional patterns: Atlantic more intense, Mediterranean more variable."
+      },
+      {
+        "title": "Create wind production history",
+        "desc": "Generate production per farm correlated with wind and power curves.",
+        "prompt": "Create table WIND_PRODUCTION with: timestamp TIMESTAMP, farm_id, production_mwh FLOAT, avg_wind_speed_ms FLOAT, availability_pct FLOAT, curtailment_mwh FLOAT. Generate data using actual power curves: cut-in 3 m/s, rated 12-13 m/s, cut-out 25 m/s. Average capacity factor 25-32%. Include wake effects (5-15% loss), curtailment (1-3%), and maintenance shutdowns."
+      },
+      {
+        "title": "Train wind forecast model",
+        "desc": "ML.FORECAST model with ensemble of weather forecasts.",
+        "prompt": "Use SNOWFLAKE.ML.FORECAST to predict wind production per farm. Time series: production_mwh grouped by farm_id. Exogenous variables: wind_speed_ms (average of NWP models), wind_direction_degrees, max_gust_ms, temperature_c. Train with 2023 and validate with 2024. Generate forecasts at 6h, 24h, 48h, and 168h."
+      },
+      {
+        "title": "Register model in Model Registry",
+        "desc": "Save model in Registry with accuracy metrics.",
+        "prompt": "Register the wind model in Snowflake Model Registry:\n\nfrom snowflake.ml.registry import Registry\nreg = Registry(session=session, database_name='ENERGY_WIND_DB', schema_name='ANALYTICS')\nreg.log_model(\n    model=wind_model,\n    model_name='wind_generation_forecast',\n    version_name='v1',\n    metrics={'mape_6h': mape_6, 'mape_24h': mape_24, 'mape_168h': mape_168},\n    comment='Wind generation forecast model per farm with NWP ensemble'\n)\n\nVerify registration and list available versions."
+      },
+      {
+        "title": "Generate operational forecasts",
+        "desc": "Operational forecast pipeline with continuous updates.",
+        "prompt": "Create view OPERATIONAL_WIND_FORECAST generating for each hour and farm: forecasted_production_mwh, confidence_interval_95_low, confidence_interval_95_high, forecasted_wind_speed_ms, registry_model_version, forecast_timestamp. Include fallback logic: if most recent forecast is >6h old, use last available with warning flag."
+      },
+      {
+        "title": "Create trading bids",
+        "desc": "Integrate forecasts with trading strategy.",
+        "prompt": "Create view WIND_TRADING_BIDS aggregating wind portfolio forecasts for the wholesale market: hour, forecasted_portfolio_generation_mwh, day_ahead_bid_mwh (conservative P25), intraday_bid_mwh (updated), estimated_deviation_mwh, estimated_deviation_cost_eur. Strategy: bid P25 in day-ahead to minimize excess penalty and adjust in intraday."
+      },
+      {
+        "title": "Wind management dashboard",
+        "desc": "Streamlit for wind generation monitoring.",
+        "prompt": "Generate Streamlit code with:\n1. Map of farms with current and forecasted production (% of rated)\n2. Chart of actual vs forecast generation with confidence bands\n3. Wind rose per farm with frequency and production\n4. Model Registry accuracy metrics: MAPE per farm and horizon\n5. Trading bid table for trading desk\n6. Model version comparison in Model Registry"
+      },
+      {
+        "title": "Automation and cleanup",
+        "desc": "Automatic retraining and versioning pipeline.",
+        "prompt": "Create Tasks:\n1. UPDATE_WIND_WEATHER: every 3h updates NWP data\n2. GENERATE_WIND_FORECAST: every 3h generates forecasts using Registry model\n3. RETRAIN_WIND_MODEL: monthly, retrains and registers new version in Model Registry\n4. COMPARE_VERSIONS: weekly, compares version accuracy and activates the best\n5. Document everything with comments. Alert if monthly MAPE >15%."
+      }
+    ]
+  },
+  "UC04": {
+    "title": "Battery Energy Storage System (BESS) Optimization",
+    "intro": "Optimize battery storage system operation maximizing revenue from arbitrage and regulation services while minimizing degradation.",
+    "steps": [
+      {
+        "title": "Set up BESS environment",
+        "desc": "Create database for storage optimization.",
+        "prompt": "Create database ENERGY_BESS_DB with schema ANALYTICS and warehouse ENERGY_WH. Descriptive comments for the BESS energy storage optimization project."
+      },
+      {
+        "title": "Create BESS installation catalog",
+        "desc": "Generate storage system data with technical characteristics.",
+        "prompt": "Create table BESS_INSTALLATIONS with: bess_id, name, location, technology (Li-ion_NMC, Li-ion_LFP, Flow_Vanadium), power_mw FLOAT, capacity_mwh FLOAT, roundtrip_efficiency_pct FLOAT, max_dod_pct FLOAT, guaranteed_cycles INT, installation_date DATE, investment_cost_usd FLOAT, state_of_health_pct FLOAT. Generate 15 installations with 5-100 MW power, 10-400 MWh capacity. Li-ion efficiency 88-92%, Flow 75-82%."
+      },
+      {
+        "title": "Load market prices",
+        "desc": "Market price data for arbitrage.",
+        "prompt": "Create table MARKET_PRICES with: timestamp TIMESTAMP, day_ahead_price_eur_mwh, intraday_price_eur_mwh, secondary_regulation_up_eur_mw, secondary_regulation_down_eur_mw, tertiary_regulation_price_eur_mwh, system_demand_mwh, renewable_generation_pct. Generate hourly data for 2 years. Prices 20-200 EUR/MWh with daily spread of 30-80 EUR/MWh between off-peak and peak."
+      },
+      {
+        "title": "Create battery telemetry",
+        "desc": "Generate operational battery data.",
+        "prompt": "Create table BESS_TELEMETRY with: timestamp TIMESTAMP, bess_id, soc_pct FLOAT (state of charge), power_kw FLOAT (+charge/-discharge), temperature_c FLOAT, current_a FLOAT, voltage_v FLOAT, accumulated_cycles INT, soh_pct FLOAT. Generate data every 15 min for 1 year. Simulate daily arbitrage cycles (charge in off-peak, discharge in peak) with progressive SoH degradation."
+      },
+      {
+        "title": "Forecast prices and optimize strategy",
+        "desc": "Price forecast for charge/discharge cycle optimization.",
+        "prompt": "Use ML.FORECAST to predict market prices 24h and 48h ahead. Then implement optimization logic that for each hour determines: action (charge, discharge, hold, regulation), power_kw, estimated_revenue_usd, estimated_degradation_cycles. Constraints: SoC between 10-90%, max power, cycle efficiency. Compare strategies: pure arbitrage, peak_shaving, regulation."
+      },
+      {
+        "title": "Battery degradation model",
+        "desc": "Model SoH degradation based on cycles, DoD, and temperature.",
+        "prompt": "Create a degradation model calculating SoH loss per cycle as a function of: depth of discharge (DoD), average temperature, charge/discharge rate, accumulated cycles. Model: degradation_per_cycle = f(DoD, T, C_rate) with empirical factors for Li-ion. Generate view USEFUL_LIFE_PROJECTION estimating end-of-life date (SoH=80%) for each BESS under current strategy."
+      },
+      {
+        "title": "Simulate strategy ROI",
+        "desc": "Compare revenue and degradation of different operational strategies.",
+        "prompt": "Create view BESS_ROI_SIMULATION comparing 4 strategies per installation: (1) Pure arbitrage: buy in off-peak, sell in peak, (2) Peak shaving: reduce demand peaks, (3) Regulation: ancillary services, (4) Mixed: arbitrage + regulation. For each strategy calculate: annual_revenue_usd, annual_degradation_pct, annual_roi_pct, payback_years, residual_value. Generate ranking by degradation-adjusted ROI."
+      },
+      {
+        "title": "BESS management dashboard",
+        "desc": "Streamlit for battery monitoring and optimization.",
+        "prompt": "Generate Streamlit code with:\n1. Status of each BESS: SoC, SoH, temperature, power\n2. Chart of forecasted vs actual prices with arbitrage signals\n3. ROI comparison by strategy and installation\n4. Useful life projection and degradation\n5. Operational plan for the next 24h\n6. Financial metrics: accumulated revenue, degradation cost"
+      },
+      {
+        "title": "Automation and cleanup",
+        "desc": "Continuous optimization operational pipeline.",
+        "prompt": "Create Tasks:\n1. UPDATE_PRICES: every hour loads market prices\n2. OPTIMIZE_BESS: every hour generates optimal operational plan per installation\n3. EVALUATE_DEGRADATION: daily, updates useful life projection\n4. MONTHLY_REPORT: generates summary of revenue, degradation, and ROI\n5. Document complete pipeline with comments on each object."
+      }
+    ]
+  },
+  "UC05": {
+    "title": "Technical and Non-Technical Loss Detection in Grid",
+    "intro": "Build an ML system to detect electrical losses differentiating technical from non-technical, prioritizing fraud inspections by probability and amount.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for loss detection.",
+        "prompt": "Create database ENERGY_LOSSES_DB with schema ANALYTICS and warehouse ENERGY_WH. Comments for the technical and non-technical loss detection project."
+      },
+      {
+        "title": "Create network topology",
+        "desc": "Generate grid structure: substations, transformers, lines.",
+        "prompt": "Create table GRID_TOPOLOGY with: element_id, type (Substation, MV_Line, Transformer_Center, LV_Line), capacity_kva FLOAT, length_km FLOAT, age_years INT, zone, num_customers_fed INT, impedance_ohm FLOAT, parent_element_id (grid hierarchy). Generate 200 transformer centers with 5 parent substations. Each CT feeds 50-500 customers."
+      },
+      {
+        "title": "Create energy balance per CT",
+        "desc": "Generate injected vs measured energy data per transformer center.",
+        "prompt": "Create table ENERGY_BALANCE with: date DATE, ct_id, injected_energy_kwh FLOAT (measured at CT head), metered_customer_energy_kwh FLOAT (sum of smart meters), losses_kwh FLOAT, loss_ratio_pct FLOAT. Generate daily data for 2 years. Normal technical losses 3-6%, add non-technical losses 2-8% in 15% of CTs to simulate fraud."
+      },
+      {
+        "title": "Load customer consumption",
+        "desc": "Smart meter consumption data per customer.",
+        "prompt": "Create table CUSTOMER_CONSUMPTION with: customer_id, ct_id, date DATE, consumption_kwh FLOAT, max_power_kw FLOAT, rate VARCHAR, housing_type VARCHAR, load_factor FLOAT, consumption_variability FLOAT, consumption_vs_estimated_ratio FLOAT. Generate daily data for 10,000 customers. 3% have fraud patterns: artificially low consumption, abnormal variability, periodic meter disconnection."
+      },
+      {
+        "title": "Calculate detection features",
+        "desc": "Generate analytical features for the detection model.",
+        "prompt": "Create view LOSS_DETECTION_FEATURES calculating per CT and per customer:\n- CT Balance: loss_ratio_pct, trend, seasonality, deviation vs similar CTs\n- Customer: consumption_vs_expected, variability, nocturnal_pattern, temperature_correlation, peer_consumption\n- Expected technical losses based on line impedance and length\n- Delta: actual losses - expected technical losses = non-technical loss indicator\nNormalize all features for the ML model."
+      },
+      {
+        "title": "Train detection model",
+        "desc": "ML.CLASSIFICATION model to classify supply points with anomalous losses.",
+        "prompt": "Use SNOWFLAKE.ML.CLASSIFICATION to classify supply points as: normal, slightly_suspicious, highly_suspicious, probable_fraud. Variables: all features from LOSS_DETECTION_FEATURES. Split 70/30 train/test. Evaluate with precision, recall, F1 per class. Optimize to maximize recall for probable_fraud while keeping precision >60%."
+      },
+      {
+        "title": "Prioritize inspections",
+        "desc": "Inspection ranking by probability x estimated amount.",
+        "prompt": "Create view INSPECTION_PRIORITIZATION that for each suspicious customer calculates: fraud_probability (from model), estimated_actual_consumption_kwh (based on similar peers), declared_consumption_kwh, estimated_fraud_kwh, estimated_fraud_amount_usd (fraud x average price), inspection_score (probability x amount), inspection_cost_usd (200). Filter ROI > 1.5 and sort by inspection_score descending."
+      },
+      {
+        "title": "Loss management dashboard",
+        "desc": "Streamlit for monitoring and inspection management.",
+        "prompt": "Generate Streamlit code with:\n1. Map of CTs colored by loss ratio\n2. Energy balance: injected vs metered vs losses by zone\n3. Prioritized inspection list with scoring and expected ROI\n4. Suspicious customer profile: consumption, peer comparison, alerts\n5. Inspection campaign metrics: success rate, recovered revenue\n6. Monthly loss trend and effect of actions"
+      },
+      {
+        "title": "Automation and cleanup",
+        "desc": "Continuous loss model update pipeline.",
+        "prompt": "Create Tasks:\n1. UPDATE_BALANCE: daily, recalculates energy balance per CT\n2. CALCULATE_FEATURES: daily, updates detection features\n3. GENERATE_ALERTS: weekly, runs model and generates suspect list\n4. RETRAIN_MODEL: quarterly, retrains with inspection results\n5. Document pipeline. Include metrics of recovered losses."
+      }
+    ]
+  },
+  "UC06": {
+    "title": "Congestion Management in Distribution Grid",
+    "intro": "Predict congestion in distribution networks and recommend flexibility actions to avoid grid reinforcement investments.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for congestion management.",
+        "prompt": "Create database ENERGY_CONGESTION_DB with schema ANALYTICS and warehouse ENERGY_WH. Comments for the distribution grid congestion management project."
+      },
+      {
+        "title": "Create distribution grid model",
+        "desc": "Generate grid topology with capacities and connections.",
+        "prompt": "Create table DISTRIBUTION_GRID with: node_id, node_type (Substation, MV_CT, LV_CT, Junction), nominal_capacity_kva FLOAT, emergency_capacity_kva FLOAT, nominal_voltage_kv FLOAT, zone, connected_customers INT, distributed_generation_kw FLOAT, ev_charging_points INT, has_battery BOOLEAN. Generate 500 nodes with realistic hierarchy. 20% have solar DG, 10% have EV charging points."
+      },
+      {
+        "title": "Load grid telemetry",
+        "desc": "Load, voltage, and temperature data per node.",
+        "prompt": "Create table GRID_TELEMETRY with: timestamp TIMESTAMP, node_id, load_kva FLOAT, voltage_pu FLOAT (per unit, nominal=1.0), transformer_temperature_c FLOAT, active_power_kw FLOAT, reactive_power_kvar FLOAT, local_generation_kw FLOAT, ev_consumption_kw FLOAT. Generate data every 15 min for 1 year. Include overvoltages from DG (voltage >1.05 pu) and overloads from EV in peak hours."
+      },
+      {
+        "title": "Predict congestion",
+        "desc": "ML.FORECAST model for load and voltage per node.",
+        "prompt": "Use ML.FORECAST to predict load_kva and voltage_pu per node at 4h, 12h, and 24h horizons. Exogenous variables: local_generation_kw (forecasted), ev_consumption_kw (forecasted), ambient_temperature, hour, day_of_week. Identify nodes where forecast exceeds 80% of nominal capacity (alert), 90% (alarm), 100% (emergency). Also detect voltages outside +/-5% range."
+      },
+      {
+        "title": "Recommend flexibility actions",
+        "desc": "Decision engine for corrective actions.",
+        "prompt": "Create view FLEXIBILITY_ACTIONS that for each predicted congestion recommends actions prioritized by cost and effectiveness:\n1. DG curtailment: reduce solar injection (cost: producer compensation)\n2. Demand Response: reduction signal to large consumers\n3. EV deferred charging: shift load to off-peak hours (V1G)\n4. Storage: absorb surplus with local battery\n5. Grid reinforcement: last option if actions are insufficient\nCalculate action_cost_usd, expected_effect_kva, implementation_time."
+      },
+      {
+        "title": "Simulate growth scenarios",
+        "desc": "Project future congestion with different DG and EV growth rates.",
+        "prompt": "Create view GROWTH_SIMULATION projecting congestion at 1, 3, and 5 years with DG growth scenarios (+20%/year, +40%/year) and EV growth (+30%/year, +50%/year). For each scenario and node: annual_congestion_hours, flexibility_action_cost_usd, grid_reinforcement_cost_usd, recommendation (flexibility vs reinforcement). Identify the 20 most critical nodes for each scenario."
+      },
+      {
+        "title": "Congestion management dashboard",
+        "desc": "Streamlit for grid monitoring and management.",
+        "prompt": "Generate Streamlit code with:\n1. Grid map with nodes colored by load level (green/yellow/red)\n2. Congestion forecast for next 24h\n3. List of recommended flexibility actions with cost and effect\n4. DG/EV growth scenario simulation\n5. Metrics: avoided congestion hours, flexibility cost, deferred reinforcements\n6. Critical node ranking for investment"
+      },
+      {
+        "title": "Management and cleanup pipeline",
+        "desc": "Automate congestion prediction and management.",
+        "prompt": "Create Tasks:\n1. UPDATE_TELEMETRY: every 15 min ingests SCADA data\n2. PREDICT_CONGESTION: every hour generates forecasts per node\n3. GENERATE_ACTIONS: every hour recommends flexibility actions\n4. WEEKLY_REPORT: summary of managed congestions and costs\n5. Document pipeline. Alert if unmanageable congestions >5% of the time."
+      }
+    ]
+  },
+  "UC07": {
+    "title": "Predictive Maintenance for Wind Turbines",
+    "intro": "Build a predictive failure model for wind turbines analyzing SCADA signals to prioritize maintenance and maximize fleet availability.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for wind predictive maintenance.",
+        "prompt": "Create database ENERGY_WIND_MAINT_DB with schema ANALYTICS and warehouse ENERGY_WH. Comments for the wind turbine predictive maintenance project."
+      },
+      {
+        "title": "Create turbine inventory",
+        "desc": "Catalog of turbines with technical characteristics.",
+        "prompt": "Create table TURBINES with: turbine_id, farm_id, model (Vestas_V136, SG_58_170, Nordex_N163), rated_power_kw INT, hub_height_m INT, rotor_diameter_m INT, installation_date DATE, operating_hours INT, last_major_maintenance DATE, status (Operational, Maintenance, Failed). Generate 200 turbines in 10 farms. Age 2-20 years. 90% operational, 7% maintenance, 3% failed."
+      },
+      {
+        "title": "Load SCADA data",
+        "desc": "Turbine operational signals every 10 minutes.",
+        "prompt": "Create table TURBINE_SCADA with: timestamp TIMESTAMP, turbine_id, power_kw FLOAT, rotor_speed_rpm FLOAT, wind_speed_ms FLOAT, pitch_angle_degrees FLOAT, yaw_angle_degrees FLOAT, generator_temp_c FLOAT, gearbox_temp_c FLOAT, bearing_temp_c FLOAT, oil_temp_c FLOAT, generator_vibration_mms FLOAT, gearbox_vibration_mms FLOAT, turbine_status VARCHAR. Generate 10-min data for 1 year. Include gradual degradation in 10% of turbines: increasing temperature and vibration 2-4 weeks before failure."
+      },
+      {
+        "title": "Create failure history",
+        "desc": "Record of failures, repairs, and costs.",
+        "prompt": "Create table FAILURE_HISTORY with: failure_id, turbine_id, start_timestamp TIMESTAMP, end_timestamp TIMESTAMP, affected_component (Generator, Gearbox, Pitch_System, Yaw_System, Bearings, Electronics), failure_type, severity (Critical, Major, Minor), repair_cost_usd FLOAT, downtime_hours FLOAT, lost_production_mwh FLOAT. Generate 300 failures over 2 years. Costs: Critical 100-300K USD, Major 20-80K USD, Minor 2-15K USD."
+      },
+      {
+        "title": "Calculate predictive features",
+        "desc": "Derive degradation indicators from SCADA signals.",
+        "prompt": "Create view PREDICTIVE_FEATURES calculating per turbine and time window (24h, 7d, 30d):\n- Trends: generator, gearbox, bearing temperature slope\n- Anomalies: vibration deviation vs baseline, power residual vs theoretical curve\n- Patterns: generator_temp/power ratio (efficiency), pitch variability\n- Comparison: deviation vs similar turbines in same farm\n- Accumulated: hours in thermal stress zone (>80C), excessive pitch cycles"
+      },
+      {
+        "title": "Train failure prediction model",
+        "desc": "ML.CLASSIFICATION to detect degradation and predict failures.",
+        "prompt": "Use SNOWFLAKE.ML.CLASSIFICATION to classify turbine status: normal, attention (mild degradation), alert (failure likely <4 weeks), critical (imminent failure <1 week). Variables: all predictive features. Train with labeled data using failure history. Evaluate with precision, recall, F1. Model must detect >80% of major failures with precision >70%."
+      },
+      {
+        "title": "Prioritize interventions",
+        "desc": "Maintenance ranking by economic impact.",
+        "prompt": "Create view MAINTENANCE_PLAN that for each alerted turbine calculates: failure_probability, probable_component, estimated_repair_cost_usd, estimated_lost_production_mwh, optimal_intervention_window (dates), priority_score (probability x economic impact). Sort by priority. Include crew availability and favorable weather window constraints."
+      },
+      {
+        "title": "Fleet health dashboard",
+        "desc": "Streamlit for turbine monitoring and maintenance.",
+        "prompt": "Generate Streamlit code with:\n1. Farm map with turbines colored by status (green/yellow/red)\n2. Real-time SCADA signal panel for selected turbine\n3. Degradation trends: temperature, vibration, efficiency\n4. Prioritized maintenance plan with optimal windows\n5. Fleet metrics: availability, detected failures, false positives\n6. ROI of predictive vs calendar maintenance"
+      },
+      {
+        "title": "Prediction and cleanup pipeline",
+        "desc": "Automate prediction and maintenance alerts.",
+        "prompt": "Create Tasks:\n1. INGEST_SCADA: every 10 min loads turbine data\n2. CALCULATE_FEATURES: every hour updates predictive features\n3. EVALUATE_TURBINES: every 6h runs model and generates alerts\n4. NOTIFY_ALERTS: immediately if status changes to critical\n5. RETRAIN_MODEL: quarterly with new failure data\n6. Document pipeline. Target metric: >97% fleet availability."
+      }
+    ]
+  },
+  "UC08": {
+    "title": "Customer Energy 360 Feature Store",
+    "intro": "Implement a Feature Store in Snowflake that consolidates the 360-degree energy customer view from all systems for personalization, efficiency, and retention.",
+    "steps": [
+      {
+        "title": "Set up Feature Store environment",
+        "desc": "Create database and prepare Snowflake Feature Store.",
+        "prompt": "Create database ENERGY_CUSTOMER360_DB with schema FEATURE_STORE and warehouse ENERGY_WH. Comment that this project implements Snowflake Feature Store for Customer Energy 360 with Entity 'energy_customer'."
+      },
+      {
+        "title": "Create customer source data",
+        "desc": "Generate data from the 5 sources feeding the Feature Store.",
+        "prompt": "Create 5 source tables:\n1. RAW_SMART_METERS: customer_id, timestamp, consumption_kwh, power_kw, voltage_v, signal_quality (generate 1 year for 10,000 customers)\n2. RAW_BILLING: customer_id, bill_date, amount_usd, billed_consumption_kwh, rate, contracted_power, payment_status, days_overdue\n3. RAW_CRM: customer_id, segment, preferred_channel, nps_score, num_contacts, last_interaction, campaigns_responded\n4. RAW_GENERATION: customer_id, installation_type (solar, solar+battery), peak_power_kw, production_kwh, surplus_kwh, self_consumption_pct\n5. RAW_DIGITAL: customer_id, date, app_sessions, web_sessions, chatbot_usage, notifications_read, app_rating"
+      },
+      {
+        "title": "Create Feature Store Entity",
+        "desc": "Define the 'energy_customer' Entity with join keys.",
+        "prompt": "Using Snowflake Feature Store in Python, create the Entity:\n\nfrom snowflake.ml.feature_store import FeatureStore, Entity, FeatureView\nfs = FeatureStore(session=session, database='ENERGY_CUSTOMER360_DB', name='FEATURE_STORE')\n\nenergy_customer = Entity(\n    name='ENERGY_CUSTOMER',\n    join_keys=['CUSTOMER_ID'],\n    desc='Energy sector customer with 360-degree view'\n)\nfs.register_entity(energy_customer)\n\nVerify that the Entity was registered correctly."
+      },
+      {
+        "title": "Create consumption FeatureView",
+        "desc": "Consumption profile FeatureView from smart meters.",
+        "prompt": "Create FeatureView consumption_profile from RAW_SMART_METERS:\n- avg_daily_consumption_kwh, peak_consumption_kwh, off_peak_consumption_kwh\n- peak_to_off_peak_ratio, load_factor, weekly_variability\n- consumption_trend_3m (increasing/stable/decreasing)\n- seasonal_pattern (summer_heavy, winter_heavy, stable)\n- peak_consumption_hour, zone_consumption_percentile\n\nRegister as FeatureView 'CONSUMPTION_PROFILE' with refresh_freq='1 day'."
+      },
+      {
+        "title": "Create billing FeatureView",
+        "desc": "Billing and payment status FeatureView.",
+        "prompt": "Create FeatureView billing_status from RAW_BILLING:\n- avg_monthly_spend_usd, last_month_spend_usd\n- current_rate, contracted_power_kw\n- current_overdue_days, payment_delinquency_12m\n- savings_vs_zone_avg_pct, rate_recommendation\n- potential_savings_rate_change_usd\n\nRegister as FeatureView 'BILLING_STATUS' with refresh_freq='1 day'."
+      },
+      {
+        "title": "Create generation and digital FeatureViews",
+        "desc": "FeatureViews for self-consumption and digital engagement.",
+        "prompt": "Create 2 more FeatureViews:\n\n1. GENERATION_PROFILE from RAW_GENERATION:\n- is_prosumer BOOLEAN, peak_power_kw, self_consumption_pct\n- monthly_surplus_kwh, self_consumption_savings_usd\n- generation_to_consumption_ratio, battery_potential\n\n2. DIGITAL_ENGAGEMENT from RAW_DIGITAL:\n- engagement_score (0-100), preferred_channel\n- weekly_app_frequency, uses_chatbot BOOLEAN\n- notification_response_rate_pct, app_rating\n- digital_propensity (high/medium/low)\n\nDaily refresh for both."
+      },
+      {
+        "title": "Create smart meter analytics FeatureView",
+        "desc": "Advanced smart meter analysis features.",
+        "prompt": "Create FeatureView SMART_METER_ANALYTICS from RAW_SMART_METERS:\n- typical_load_curve (array of 24 normalized values)\n- consumption_anomalies_30d INT, data_quality_pct\n- temperature_correlation FLOAT, price_sensitivity FLOAT\n- weekend_vs_weekday_pattern FLOAT\n- fraud_score FLOAT (based on anomalies from UC15)\n\nRefresh every 6 hours due to near-real-time nature of smart meters."
+      },
+      {
+        "title": "Serve features for use cases",
+        "desc": "Demonstrate feature consumption from other ML pipelines.",
+        "prompt": "Demonstrate how to consume features from the Feature Store:\n\n# For segmentation (UC09)\ndf_segmentation = fs.get_features(\n    entity=energy_customer,\n    feature_views=['CONSUMPTION_PROFILE', 'BILLING_STATUS', 'DIGITAL_ENGAGEMENT'],\n    spine_df=active_customers_df\n)\n\n# For chatbot (UC13)\ndf_chatbot = fs.get_features(\n    entity=energy_customer,\n    feature_views=['CONSUMPTION_PROFILE', 'BILLING_STATUS', 'GENERATION_PROFILE'],\n    spine_df=current_customer_df\n)\n\nShow examples of the resulting DataFrames."
+      },
+      {
+        "title": "Feature Store dashboard",
+        "desc": "Streamlit for Feature Store monitoring.",
+        "prompt": "Generate Streamlit code with:\n1. Feature Store summary: 5 FeatureViews, total features, last refresh\n2. Customer search with complete 360 profile\n3. Customer segment distribution\n4. Feature quality metrics: completeness, freshness, drift\n5. Feature usage by downstream use case\n6. Most queried features and trends"
+      },
+      {
+        "title": "Maintenance pipeline",
+        "desc": "Automate Feature Store updates and monitoring.",
+        "prompt": "Create Tasks:\n1. REFRESH_SMART_METER: every 6h updates smart meter features\n2. REFRESH_BILLING: daily updates billing features\n3. REFRESH_GENERATION: daily updates generation features\n4. MONITOR_QUALITY: daily verifies completeness and drift\n5. FRESHNESS_ALERT: immediately if any FeatureView has >24h without refresh\n6. Document entire Feature Store with comments on each object."
+      }
+    ]
+  },
+  "UC09": {
+    "title": "Customer Segmentation and Energy Efficiency",
+    "intro": "Segment customers by consumption profile and savings potential to personalize energy efficiency programs and maximize adoption.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for segmentation.",
+        "prompt": "Create database ENERGY_SEGMENTATION_DB with schema ANALYTICS and warehouse ENERGY_WH. Comments for the customer segmentation and energy efficiency project."
+      },
+      {
+        "title": "Prepare customer data",
+        "desc": "Consolidate consumption, billing, and profile data.",
+        "prompt": "Create table CUSTOMER_PROFILE with: customer_id, housing_type (apartment, house, townhouse), area_sqm INT, climate_zone (A-E), num_residents INT, has_ac BOOLEAN, has_electric_heating BOOLEAN, has_self_generation BOOLEAN, current_rate, contracted_power_kw, annual_consumption_kwh FLOAT, annual_spend_usd FLOAT, preferred_channel, nps_score. Generate 20,000 customers with realistic distributions."
+      },
+      {
+        "title": "Calculate consumption features",
+        "desc": "Generate consumption metrics from load curves.",
+        "prompt": "Create view CONSUMPTION_FEATURES calculating per customer:\n- avg_daily_consumption_kwh, consumption_cv_variability\n- peak_to_off_peak_ratio, load_factor\n- estimated_ac_consumption_kwh (summer), estimated_heating_consumption_kwh (winter)\n- estimated_standby_consumption_kwh (minimum nocturnal)\n- efficiency_vs_similar (compared to similar housing in zone)\n- savings_potential_kwh and savings_potential_usd\n- self_consumption_propensity_score (based on consumption, housing, zone)"
+      },
+      {
+        "title": "Train segmentation model",
+        "desc": "ML.CLASSIFICATION to identify customer segments.",
+        "prompt": "Use SNOWFLAKE.ML.CLASSIFICATION to classify customers into segments:\n- Efficient: low consumption, low standby, good peak/off-peak ratio\n- High_Potential: high consumption with savings opportunity >30%\n- Potential_Prosumer: ideal profile for self-consumption\n- Digital_Engaged: high engagement, receptive to digital campaigns\n- Vulnerable: possible energy poverty, needs protection\nVariables: all consumption features + demographic profile. Evaluate with classification metrics."
+      },
+      {
+        "title": "Generate recommendations by segment",
+        "desc": "Personalize efficiency actions by segment.",
+        "prompt": "Create view EFFICIENCY_RECOMMENDATIONS that for each customer generates:\n- assigned_segment, confidence_pct\n- top_3_recommendations: [{action, estimated_savings_kwh, estimated_savings_usd, customer_investment_usd, payback_months}]\n- Possible actions: rate_change, power_adjustment, LED, insulation, self_consumption, battery, heat_pump, smart_thermostat\n- contact_priority (1-5), recommended_channel, personalized_message\nUse CORTEX.COMPLETE to generate the personalized message."
+      },
+      {
+        "title": "Calculate program ROI",
+        "desc": "Evaluate return from efficiency campaigns by segment.",
+        "prompt": "Create view PROGRAM_ROI calculating per segment and action:\n- num_eligible_customers, estimated_adoption_rate_pct\n- total_savings_kwh, total_savings_usd (for customers)\n- campaign_cost_usd, subsidy_investment_usd (for utility)\n- utility_roi_pct (savings in energy purchase + retention)\n- co2_reduction_tons\n- ranking by ROI to prioritize efficiency budget"
+      },
+      {
+        "title": "Segmentation dashboard",
+        "desc": "Streamlit for efficiency program management.",
+        "prompt": "Generate Streamlit code with:\n1. Customer distribution by segment (pie chart)\n2. Detailed segment profile: avg consumption, savings potential, demographics\n3. Customer search with personalized recommendations\n4. Efficiency program ROI by segment and action\n5. Heat map of savings potential by geographic zone\n6. Campaign metrics: sent, converted, actual savings achieved"
+      },
+      {
+        "title": "Pipeline and cleanup",
+        "desc": "Automate segmentation and campaigns.",
+        "prompt": "Create Tasks:\n1. UPDATE_PROFILES: monthly, recalculates consumption features\n2. RESEGMENT: quarterly, retrains segmentation model\n3. GENERATE_CAMPAIGNS: monthly, generates campaign lists by segment\n4. MEASURE_IMPACT: monthly, evaluates adoption and actual savings\n5. Document pipeline. Target: adoption rate >15% in target segments."
+      }
+    ]
+  },
+  "UC10": {
+    "title": "Renewable Generation Portfolio Optimization",
+    "intro": "Optimize renewable portfolio bids in the wholesale market combining multi-plant forecasts, prices, and PPA contracts.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for renewable portfolio trading.",
+        "prompt": "Create database ENERGY_PORTFOLIO_DB with schema TRADING and warehouse ENERGY_WH. Comments for the renewable generation portfolio optimization project."
+      },
+      {
+        "title": "Create plant portfolio",
+        "desc": "Catalog of solar and wind plants in the portfolio.",
+        "prompt": "Create table PORTFOLIO_PLANTS with: plant_id, name, technology (Solar_Fixed, Solar_Tracker, Wind), power_mw FLOAT, location, latitude, longitude, market_zone, avg_capacity_factor_pct, connection_date DATE, ppa_contract_id (nullable). Generate portfolio of 800 MW: 400 MW wind (10 farms) + 400 MW solar (15 plants). 60% with PPA, 40% merchant."
+      },
+      {
+        "title": "Load PPA contracts",
+        "desc": "PPA contract data with volumes and prices.",
+        "prompt": "Create table PPA_CONTRACTS with: ppa_id, counterparty, plant_id, contracted_power_mw, fixed_price_usd_mwh FLOAT, ppa_type (baseload, as-produced, shaped), min_annual_volume_mwh, non-delivery_penalty_usd_mwh, start_date DATE, end_date DATE. Generate 12 PPAs with prices 40-70 USD/MWh. Types: 40% baseload, 40% as-produced, 20% shaped."
+      },
+      {
+        "title": "Consolidate generation forecasts",
+        "desc": "Aggregate solar and wind forecasts for portfolio.",
+        "prompt": "Create view PORTFOLIO_FORECAST aggregating forecasts from all plants:\n- Per plant: forecasted_production_mwh, interval_95_low, interval_95_high\n- By technology: total_solar_mwh, total_wind_mwh\n- Portfolio total: forecasted_total_generation_mwh, diversification_benefit_mwh (uncertainty reduction from correlation < 1)\n- Calculate inter-plant correlation and actual diversification benefit\nAggregate by hour for next day and week."
+      },
+      {
+        "title": "Optimize day-ahead market bids",
+        "desc": "Generate optimal bids for day-ahead market.",
+        "prompt": "Create view DAY_AHEAD_BIDS that for each hour of the next day calculates:\n- available_generation_mwh (total - committed PPA)\n- optimal_bid_mwh (considering uncertainty and deviation asymmetry)\n- min_bid_price_usd_mwh (marginal cost + risk)\n- intraday_reserve_mwh (for adjustment with better forecast)\n- estimated_revenue_usd, deviation_risk_usd\nStrategy: bid P25-P50 in day-ahead based on risk aversion."
+      },
+      {
+        "title": "Manage PPAs and deviations",
+        "desc": "Allocate generation to PPAs and calculate exposure.",
+        "prompt": "Create view PPA_MANAGEMENT that for each PPA and hour calculates:\n- allocated_generation_mwh (per type: baseload=fixed, as-produced=actual)\n- compliance_pct (generation vs commitment)\n- market_surplus_mwh, shortfall_to_buy_mwh\n- shortfall_cost_usd (market purchase + penalty)\n- total_portfolio_exposure_usd (net portfolio risk)\nIdentify PPAs with highest non-delivery risk."
+      },
+      {
+        "title": "Simulate trading scenarios",
+        "desc": "Backtesting of bidding strategies.",
+        "prompt": "Create view STRATEGY_BACKTESTING simulating 4 bidding strategies on 1 year of historical data:\n1. Conservative (P10): minimizes penalty, loses revenue\n2. Moderate (P25): risk-revenue balance\n3. Aggressive (P50): maximizes revenue, accepts more deviation\n4. Dynamic: adjusts quantile based on price spread and confidence\nFor each strategy: total_revenue_usd, deviation_penalties_usd, net_revenue_usd, sharpe_ratio."
+      },
+      {
+        "title": "Trading dashboard",
+        "desc": "Streamlit trading desk for renewable portfolio.",
+        "prompt": "Generate Streamlit code with:\n1. Portfolio summary: capacity by technology, plant map\n2. Hourly generation forecast by technology with bands\n3. Day-ahead market bids: volume, price, estimated revenue\n4. PPA status: compliance, exposure, alerts\n5. Strategy backtesting with P&L comparison\n6. Metrics: net revenue, deviations, Sharpe ratio, opportunity cost"
+      },
+      {
+        "title": "Trading and cleanup pipeline",
+        "desc": "Automate bidding process.",
+        "prompt": "Create Tasks:\n1. UPDATE_FORECASTS: every 3h consolidates plant forecasts\n2. GENERATE_DAY_AHEAD_BIDS: daily at 10am generates bids for D+1\n3. ADJUST_INTRADAY: every 3h adjusts bids with better forecast\n4. SETTLE_DEVIATIONS: daily calculates actual deviations and P&L\n5. WEEKLY_REPORT: summary of trading, PPAs, and metrics\n6. Document pipeline. Target: deviation cost <2 USD/MWh."
+      }
+    ]
+  }
+};
+
+Object.assign(PROMPTS, {
+  "UC11": {
+    "title": "Predictive Maintenance for Distribution Network",
+    "intro": "Predict failures in distribution infrastructure (transformers, lines, switchgear) to prioritize maintenance by avoided outage time and affected customers.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for grid predictive maintenance.",
+        "prompt": "Create database ENERGY_GRID_MAINT_DB with schema ANALYTICS and warehouse ENERGY_WH. Comments for the distribution grid predictive maintenance project."
+      },
+      {
+        "title": "Create asset inventory",
+        "desc": "Catalog of transformers, lines, and switchgear.",
+        "prompt": "Create table GRID_ASSETS with: asset_id, type (MV_LV_Transformer, Overhead_MV_Line, Underground_MV_Line, MV_Switchgear, Disconnector), manufacturer, model, capacity_kva FLOAT, voltage_kv FLOAT, installation_date DATE, age_years INT, zone, num_customers_fed INT, has_redundancy BOOLEAN, last_maintenance DATE, visual_condition VARCHAR. Generate 5,000 assets. 40% transformers, 30% lines, 20% switchgear, 10% disconnectors. Age 1-50 years."
+      },
+      {
+        "title": "Load asset telemetry",
+        "desc": "Operational data from transformers and lines.",
+        "prompt": "Create table ASSET_TELEMETRY with: timestamp TIMESTAMP, asset_id, load_pct FLOAT, temperature_c FLOAT, humidity_pct FLOAT, current_a FLOAT, voltage_v FLOAT, power_factor FLOAT, oil_temperature_c FLOAT (for transformers), dissolved_gases_ppm FLOAT. Generate hourly data for 2 years. Include gradual degradation in 8% of assets: rising temperature and dissolved gases before failure."
+      },
+      {
+        "title": "Create failure history",
+        "desc": "Record of failures and outages.",
+        "prompt": "Create table GRID_FAILURES with: failure_id, asset_id, start_timestamp TIMESTAMP, end_timestamp TIMESTAMP, cause (Aging, Overload, Weather, Wildlife, Vandalism, Excavation), outage_duration_min FLOAT, affected_customers INT, outage_time_contribution_min FLOAT, repair_cost_usd FLOAT, was_detected_preventively BOOLEAN. Generate 800 failures over 3 years. Correlate with age and load."
+      },
+      {
+        "title": "Calculate risk features",
+        "desc": "Generate risk indicators per asset.",
+        "prompt": "Create view ASSET_RISK_FEATURES calculating per asset:\n- Aging: normalized_age, load_vs_capacity_ratio, degradation_trend\n- Load: avg_load_pct, peak_load_pct, overload_hours_30d, load_factor\n- Thermal: avg_temperature_c, temperature_gradient, thermal_stress_hours\n- History: num_failures_5y, accumulated_outage_time, accumulated_repair_costs\n- Context: coastal_zone BOOLEAN, high_pollution BOOLEAN, wildlife_exposure BOOLEAN\n- Impact: customers_without_redundancy, estimated_outage_time_if_fails"
+      },
+      {
+        "title": "Train prediction model",
+        "desc": "ML.CLASSIFICATION to predict failure risk.",
+        "prompt": "Use SNOWFLAKE.ML.CLASSIFICATION to classify assets by risk: low, medium, high, critical. Variables: all risk features. Train with 2022-2023 data, validate with 2024. Evaluate: precision, recall, F1 per class. Model must capture >70% of critical failures. Generate failure probability for next 1, 3, and 6 months."
+      },
+      {
+        "title": "Prioritize investments and maintenance",
+        "desc": "Asset ranking for intervention and replacement.",
+        "prompt": "Create view GRID_INVESTMENT_PLAN that for each high/critical risk asset calculates:\n- failure_probability_6m, estimated_outage_time_if_fails_min, affected_customers\n- preventive_maintenance_cost_usd, replacement_cost_usd, unplanned_failure_cost_usd\n- intervention_roi = (failure_cost x probability - intervention_cost) / intervention_cost\n- recommendation: replace, inspect, monitor, accept_risk\nSort by ROI. Generate annual investment plan with budget."
+      },
+      {
+        "title": "Grid health dashboard",
+        "desc": "Streamlit for asset management and maintenance.",
+        "prompt": "Generate Streamlit code with:\n1. Grid map with assets colored by risk\n2. Critical asset table with intervention plan\n3. Outage time projection with and without planned interventions\n4. Investment budget by asset type and zone\n5. Metrics: avoided outage time, detection rate, predictive ROI\n6. Failure history with cause correlation"
+      },
+      {
+        "title": "Pipeline and cleanup",
+        "desc": "Automate prediction and planning.",
+        "prompt": "Create Tasks:\n1. UPDATE_TELEMETRY: daily, loads asset data\n2. CALCULATE_RISK: weekly, updates features and scoring\n3. GENERATE_PLAN: monthly, updates investment plan\n4. RETRAIN: semi-annual, retrains with new failures\n5. Document. Target: reduce outage time 25% in first year."
+      }
+    ]
+  },
+  "UC12": {
+    "title": "NLP on Incidents and Work Orders",
+    "intro": "NLP pipeline that classifies incidents, extracts root cause, and suggests resolution capturing the organization's technical knowledge.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for incident NLP.",
+        "prompt": "Create database ENERGY_NLP_DB with schema ANALYTICS and warehouse ENERGY_WH. Comments for the NLP on incidents and work orders project."
+      },
+      {
+        "title": "Create incident history",
+        "desc": "Generate work order data with descriptive text.",
+        "prompt": "Create table INCIDENTS with: incident_id, creation_timestamp TIMESTAMP, description_text TEXT, resolution_text TEXT, manual_classification VARCHAR, component VARCHAR, zone, assigned_priority (Urgent, High, Normal, Low), assigned_technician, resolution_timestamp TIMESTAMP, cost_usd FLOAT, was_misrouted BOOLEAN. Generate 50,000 incidents with realistic texts in the electrical sector. Include jargon: CT, MV/LV, fuse, recloser, HV, service connection, branch, splice."
+      },
+      {
+        "title": "Classify incidents with LLM",
+        "desc": "Use CORTEX.COMPLETE for automatic classification.",
+        "prompt": "Create view NLP_CLASSIFICATION using CORTEX.COMPLETE to classify each new incident:\n- type: grid_failure, preventive_maintenance, customer_complaint, technical_query, emergency\n- component: transformer, line, service_connection, meter, switchgear, other\n- probable_cause: aging, overload, weather, wildlife, vandalism, excavation, unknown\n- suggested_priority: urgent, high, normal, low\n- classification_confidence: 0-1\nCompare with manual_classification and measure accuracy."
+      },
+      {
+        "title": "Extract technical entities",
+        "desc": "NER on text to identify equipment and locations.",
+        "prompt": "Create view EXTRACTED_ENTITIES using CORTEX.COMPLETE to extract from each incident:\n- mentioned_equipment: list of assets (CT-1234, MV Line-567)\n- locations: streets, municipalities, zones\n- technical_values: voltages, currents, temperatures mentioned\n- people_involved: technicians, customers\n- actions_taken: list of described interventions\nStructured JSON format to feed knowledge base."
+      },
+      {
+        "title": "Create knowledge base",
+        "desc": "Index resolutions in Cortex Search for suggestions.",
+        "prompt": "Create a Cortex Search Service on resolved incidents:\n- Index: description_text + resolution_text + classification + component\n- Configure for semantic search in English\n- Create function SUGGEST_RESOLUTION(incident_text) that searches top 5 most similar resolved incidents and uses CORTEX.COMPLETE to synthesize a resolution suggestion based on similar cases.\nDemonstrate with 3 example incidents."
+      },
+      {
+        "title": "Measure impact and accuracy",
+        "desc": "Evaluate classification quality and suggestions.",
+        "prompt": "Create view NLP_METRICS calculating:\n- Classification accuracy by type, component, and cause vs manual\n- Misrouting rate: before (20%) vs after NLP\n- Avg resolution time: before vs after suggestions\n- Suggestion usefulness: % of technicians following the suggestion\n- Estimated savings in manual classification hours\nGenerate summary table with metrics by category."
+      },
+      {
+        "title": "Incident management dashboard",
+        "desc": "Streamlit for NLP monitoring.",
+        "prompt": "Generate Streamlit code with:\n1. Feed of new incidents with automatic classification and confidence\n2. Resolution suggestion panel for selected incident\n3. NLP metrics: accuracy, misrouting rate, resolution time\n4. Word cloud of most frequent root causes\n5. Incident trend by type and zone\n6. Knowledge base: search for similar resolutions"
+      },
+      {
+        "title": "Pipeline and cleanup",
+        "desc": "Automate classification and suggestions.",
+        "prompt": "Create Tasks:\n1. CLASSIFY_NEW: every hour classifies unclassified incidents\n2. EXTRACT_ENTITIES: every hour extracts entities from new incidents\n3. SUGGEST_RESOLUTIONS: every hour generates suggestions for open incidents\n4. UPDATE_KNOWLEDGE: weekly, reindexes base with new resolutions\n5. Document. Target: accuracy >85%, misrouting <5%."
+      }
+    ]
+  },
+  "UC13": {
+    "title": "RAG Chatbot for Energy Customer Service",
+    "intro": "Build a RAG conversational assistant for energy customers with Cortex Search and CORTEX.COMPLETE, personalized with the Feature Store.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for RAG chatbot.",
+        "prompt": "Create database ENERGY_CHATBOT_DB with schema RAG and warehouse ENERGY_WH. Comments for the energy customer service RAG chatbot project."
+      },
+      {
+        "title": "Create knowledge base",
+        "desc": "Generate corpus of rates, regulation, FAQ, and savings guides.",
+        "prompt": "Create table ENERGY_KNOWLEDGE with: doc_id, category (Rates, Regulation, Savings, FAQ, Outages, Self_Consumption, Social_Bonus), title, content TEXT, last_updated DATE, applies_to_rate VARCHAR, applies_to_segment VARCHAR. Generate 200 documents covering: all rates, self-consumption regulation, social bonus, savings guides by housing type, common FAQ, outage protocols."
+      },
+      {
+        "title": "Index with Cortex Search",
+        "desc": "Create Cortex Search Service on knowledge base.",
+        "prompt": "Create a Cortex Search Service on ENERGY_KNOWLEDGE:\n- Indexed columns: title, content, category\n- Configuration for English with high relevance\n- Available filters: category, applies_to_rate, applies_to_segment\nDemonstrate with 5 example queries: 'How much does electricity cost per kWh?', 'How do I install self-generation?', 'What is the social bonus?', 'Why did my bill go up?', 'I have a power outage'."
+      },
+      {
+        "title": "Create RAG chat function",
+        "desc": "Function combining search + customer context + LLM.",
+        "prompt": "Create function ENERGY_CHAT(customer_id, question) that:\n1. Searches relevant documents with Cortex Search (top 5)\n2. If customer is authenticated, queries Feature Store UC08 for: rate, consumption, self-generation, last contact\n3. Builds prompt with: document context + customer profile + question\n4. Generates response with CORTEX.COMPLETE (model: mistral-large2)\n5. Includes source document references\nDemonstrate with 3 sample conversations."
+      },
+      {
+        "title": "Implement agent escalation",
+        "desc": "Detect when to escalate to human agent.",
+        "prompt": "Create function EVALUATE_ESCALATION(question, response, history) using CORTEX.COMPLETE to determine if escalation is needed:\n- High complexity: formal complaint, billing discrepancy, account holder change\n- Negative sentiment: frustrated or angry customer (CORTEX.SENTIMENT)\n- Out of scope: legal matters, insurance, other services\n- No answer: low confidence in generated response\nReturns: escalate BOOLEAN, reason, priority, summary_for_agent."
+      },
+      {
+        "title": "Create conversation history",
+        "desc": "Store interactions for continuous improvement.",
+        "prompt": "Create table CHAT_HISTORY with: session_id, customer_id, timestamp TIMESTAMP, question TEXT, response TEXT, documents_used ARRAY, was_helpful BOOLEAN, was_escalated BOOLEAN, escalation_reason, customer_feedback INT (1-5). Generate 5,000 sample conversations to measure quality."
+      },
+      {
+        "title": "Measure chatbot quality",
+        "desc": "Resolution, satisfaction, and escalation metrics.",
+        "prompt": "Create view CHATBOT_METRICS calculating:\n- Resolution rate without escalation: % of queries resolved\n- Average satisfaction: avg customer_feedback\n- Escalation rate by reason\n- Average response time\n- Cost per interaction: chat vs human agent\n- Top unresolved queries (to enrich knowledge base)\nGenerate daily, weekly, and monthly summary."
+      },
+      {
+        "title": "Chatbot dashboard",
+        "desc": "Streamlit for chatbot operation.",
+        "prompt": "Generate Streamlit code with:\n1. Demo chat interface with customer profile\n2. Real-time metrics: resolution, satisfaction, escalations\n3. Query analysis: most frequent categories, trends\n4. Unresolved queries to enrich knowledge base\n5. Cost comparison: chatbot vs call center\n6. Customer feedback and improvement opportunities"
+      },
+      {
+        "title": "Pipeline and cleanup",
+        "desc": "Keep chatbot updated.",
+        "prompt": "Create Tasks:\n1. UPDATE_KNOWLEDGE: weekly, reindexes base with new documents\n2. ANALYZE_UNRESOLVED: weekly, identifies knowledge gaps\n3. DAILY_METRICS: daily, calculates performance metrics\n4. MONTHLY_REPORT: monthly, generates operations report\n5. Document. Target: resolution >65%, satisfaction >4.0/5."
+      }
+    ]
+  },
+  "UC14": {
+    "title": "Grid Asset Performance Feature Store",
+    "intro": "Implement a Feature Store in Snowflake consolidating performance metrics for each grid asset for operational and regulatory decisions.",
+    "steps": [
+      {
+        "title": "Set up Feature Store environment",
+        "desc": "Create database for asset Feature Store.",
+        "prompt": "Create database ENERGY_ASSETS_FS_DB with schema FEATURE_STORE and warehouse ENERGY_WH. Comment that this project implements Snowflake Feature Store for Grid Asset Performance."
+      },
+      {
+        "title": "Create asset source data",
+        "desc": "Generate data from the 5 sources feeding the Feature Store.",
+        "prompt": "Create 5 source tables:\n1. RAW_SCADA_ASSETS: asset_id, timestamp, load_kva, voltage_v, current_a, temperature_c, active_power_kw (data every 15 min, 1 year, 2,000 assets)\n2. RAW_GIS_ASSETS: asset_id, type, location, zone, customers_fed, redundancy, line_length_km\n3. RAW_EAM_ASSETS: asset_id, maintenance_date, maintenance_type, cost_usd, post_inspection_status, next_maintenance\n4. RAW_OUTAGES: asset_id, start_date, end_date, cause, affected_customers, outage_time_min\n5. RAW_INVENTORY: asset_id, manufacturer, model, installation_date, nominal_capacity, useful_life_years"
+      },
+      {
+        "title": "Create Feature Store Entity",
+        "desc": "Define Entity per grid asset.",
+        "prompt": "Using Snowflake Feature Store in Python:\n\nfrom snowflake.ml.feature_store import FeatureStore, Entity, FeatureView\nfs = FeatureStore(session=session, database='ENERGY_ASSETS_FS_DB', name='FEATURE_STORE')\n\ngrid_asset = Entity(\n    name='GRID_ASSET',\n    join_keys=['ASSET_ID'],\n    desc='Electrical distribution grid asset'\n)\nfs.register_entity(grid_asset)\n\nVerify Entity registration."
+      },
+      {
+        "title": "Create load FeatureView",
+        "desc": "Load profile FeatureView from SCADA.",
+        "prompt": "Create FeatureView LOAD_PROFILE from RAW_SCADA_ASSETS:\n- avg_load_pct, peak_load_pct, min_load_pct\n- utilization_factor, overload_hours_30d\n- load_trend_3m (increasing/stable/decreasing)\n- daily_load_pattern (array of 24h normalized)\n- overload_risk_score (0-100)\n\nRegister with refresh_freq='1 hour' due to near-real-time nature."
+      },
+      {
+        "title": "Create thermal and availability FeatureViews",
+        "desc": "Temperature and availability features.",
+        "prompt": "Create 2 FeatureViews:\n\n1. THERMAL_STATUS from RAW_SCADA_ASSETS:\n- avg_temperature_c, peak_temperature_c, thermal_gradient\n- thermal_stress_hours_30d, accumulated_thermal_aging\n- load_temperature_correlation, thermal_risk_score\n\n2. AVAILABILITY from RAW_OUTAGES + RAW_SCADA_ASSETS:\n- availability_12m_pct, num_outages_12m\n- outage_time_contribution_12m_min, mtbf_hours (mean time between failures)\n- availability_trend (improving/stable/degrading)\n\nHourly refresh for THERMAL, daily for AVAILABILITY."
+      },
+      {
+        "title": "Create incident and benchmark FeatureViews",
+        "desc": "Incident history and inter-asset comparison.",
+        "prompt": "Create 2 FeatureViews:\n\n1. INCIDENT_HISTORY from RAW_OUTAGES + RAW_EAM_ASSETS:\n- num_failures_3y, total_repair_cost_usd\n- main_cause, most_failed_component\n- avg_repair_time_h, failure_trend\n\n2. BENCHMARK from all RAW_*:\n- load_percentile_vs_similar, availability_percentile_vs_similar\n- temperature_percentile_vs_similar, overall_condition_ranking\n- recommendation (replace/inspect/monitor/ok)\n\nDaily refresh for both."
+      },
+      {
+        "title": "Serve features for predictive maintenance",
+        "desc": "Demonstrate feature consumption from UC11.",
+        "prompt": "Demonstrate how to consume features from the Feature Store for UC11:\n\n# For predictive maintenance\ndf_predictive = fs.get_features(\n    entity=grid_asset,\n    feature_views=['LOAD_PROFILE', 'THERMAL_STATUS', 'AVAILABILITY', 'INCIDENT_HISTORY', 'BENCHMARK'],\n    spine_df=critical_assets_df\n)\n\n# For investment planning\ndf_investment = fs.get_features(\n    entity=grid_asset,\n    feature_views=['LOAD_PROFILE', 'AVAILABILITY', 'BENCHMARK'],\n    spine_df=aging_assets_df\n)\n\nShow resulting DataFrames with consolidated features."
+      },
+      {
+        "title": "Feature Store dashboard",
+        "desc": "Streamlit for asset monitoring.",
+        "prompt": "Generate Streamlit code with:\n1. Summary: 5 FeatureViews, 2,000 assets, last refresh\n2. Asset search with complete profile (all features)\n3. Asset ranking by risk with recommendation\n4. Grid map with assets colored by benchmark\n5. Quality metrics: freshness, completeness, drift\n6. Similar asset comparison"
+      },
+      {
+        "title": "Maintenance pipeline",
+        "desc": "Automate Feature Store updates.",
+        "prompt": "Create Tasks:\n1. REFRESH_SCADA: every hour updates LOAD_PROFILE and THERMAL_STATUS\n2. REFRESH_AVAILABILITY: daily updates availability\n3. REFRESH_INCIDENTS: daily updates incident history\n4. REFRESH_BENCHMARK: weekly recalculates inter-asset benchmark\n5. MONITOR_QUALITY: daily verifies freshness and completeness\n6. Document complete Feature Store with comments on each object."
+      }
+    ]
+  },
+  "UC15": {
+    "title": "Electricity Fraud Detection with Smart Meters",
+    "intro": "Build an ML electricity fraud detection system analyzing smart meter load curves and anomalous patterns to prioritize inspections.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for fraud detection.",
+        "prompt": "Create database ENERGY_FRAUD_DB with schema ANALYTICS and warehouse ENERGY_WH. Comments for the electricity fraud detection with smart meters project."
+      },
+      {
+        "title": "Create smart meter data",
+        "desc": "Generate load curves with normal and fraudulent patterns.",
+        "prompt": "Create table SMART_METERS with: meter_id, customer_id, timestamp TIMESTAMP, consumption_kwh FLOAT, power_kw FLOAT, voltage_v FLOAT, meter_event VARCHAR (normal, cover_opening, communication_error, reset). Generate data every 15 min for 2 years and 30,000 meters. 3% have fraud patterns: artificially low consumption (50-70% of expected), periodic disconnections, voltage manipulation."
+      },
+      {
+        "title": "Calculate fraud features",
+        "desc": "Generate suspicious indicators per meter.",
+        "prompt": "Create view FRAUD_FEATURES calculating per meter:\n- consumption_vs_estimated_ratio (based on power, housing type, climate zone)\n- consumption_cv_variability, nocturnal_pattern_ratio (3-6am consumption / average)\n- consumption_vs_peers_percentile (compared to meters from same CT)\n- cover_openings_30d, communication_errors_30d\n- temperature_correlation (low correlation = suspicious)\n- regularity_index (very regular consumption = suspicious in residential)\n- sudden_consumption_drop BOOLEAN (>40% drop with no explanation)"
+      },
+      {
+        "title": "Train detection model",
+        "desc": "ML.CLASSIFICATION for fraud probability scoring.",
+        "prompt": "Use SNOWFLAKE.ML.CLASSIFICATION to classify meters: normal, low_suspicious, medium_suspicious, high_suspicious. Variables: all fraud features. Train with labeled data from historical inspections. Evaluate: precision, recall, F1 per class. Optimize recall for high_suspicious >80% with precision >60% (for inspections to be cost-effective)."
+      },
+      {
+        "title": "Prioritize inspections",
+        "desc": "Inspection ranking by score x amount.",
+        "prompt": "Create view INSPECTION_RANKING that for each suspect calculates:\n- fraud_probability_pct, probable_fraud_type (tampering, bypass, direct_connection)\n- estimated_actual_consumption_kwh (based on peers), declared_consumption_kwh\n- annual_fraud_kwh, annual_fraud_amount_usd\n- inspection_score = probability x fraud_amount\n- inspection_cost_usd (200), expected_roi\nFilter ROI > 2.0 and sort by inspection_score descending."
+      },
+      {
+        "title": "Fraud pattern analysis",
+        "desc": "Identify types and evolution of patterns.",
+        "prompt": "Create view FRAUD_PATTERNS using CORTEX.COMPLETE to analyze detected suspects:\n- Group by similar pattern (electronic tampering, magnetic, bypass, direct connection)\n- Identify zones with abnormal suspect concentration\n- Detect emerging new patterns not seen in history\n- Correlate with meter events (openings, errors)\nGenerate narrative report by zone with recommendations."
+      },
+      {
+        "title": "Anti-fraud dashboard",
+        "desc": "Streamlit for fraud detection management.",
+        "prompt": "Generate Streamlit code with:\n1. Suspect map by zone with concentration heat map\n2. Prioritized inspection list with expected ROI\n3. Suspect profile: load curve, peer comparison, events\n4. Campaign metrics: inspections done, success rate, recovered revenue\n5. Detected fraud patterns with time evolution\n6. KPIs: estimated non-technical losses, detected fraud, program ROI"
+      },
+      {
+        "title": "Pipeline and cleanup",
+        "desc": "Automate detection and campaigns.",
+        "prompt": "Create Tasks:\n1. UPDATE_FEATURES: daily, recalculates fraud features\n2. FRAUD_SCORING: weekly, runs model and generates ranking\n3. GENERATE_CAMPAIGN: monthly, generates prioritized inspection batch\n4. RETRAIN: quarterly with inspection results\n5. Document. Target: inspection success rate >70%, ROI >3x."
+      }
+    ]
+  },
+  "UC16": {
+    "title": "OT/IT Cybersecurity for Energy Infrastructure",
+    "intro": "ML threat detection pipeline for OT/IT networks of critical energy infrastructure, analyzing industrial traffic and SCADA device behavior.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for OT cybersecurity.",
+        "prompt": "Create database ENERGY_CYBER_DB with schema SECURITY and warehouse ENERGY_WH. Comments for the OT/IT cybersecurity of energy infrastructure project."
+      },
+      {
+        "title": "Create OT asset inventory",
+        "desc": "Catalog of industrial devices.",
+        "prompt": "Create table OT_ASSETS with: device_id, type (RTU, PLC, IED, HMI, Industrial_Switch, Gateway, Protection_Relay), manufacturer, firmware_version, location, network_segment (Corporate, DMZ, Control, Field), ip_address, protocols (Modbus, DNP3, IEC61850, IEC60870), criticality (Critical, High, Medium, Low), known_vulnerabilities INT, last_patched DATE. Generate 500 devices in 20 substations."
+      },
+      {
+        "title": "Generate OT network traffic",
+        "desc": "Normal and anomalous traffic data in industrial protocols.",
+        "prompt": "Create table OT_TRAFFIC with: timestamp TIMESTAMP, source_device_id, destination_device_id, protocol, message_type (Read, Write, Control, Broadcast), bytes INT, duration_ms INT, is_anomalous BOOLEAN, anomaly_type VARCHAR. Generate data every minute for 3 months. 99.5% normal traffic with very regular patterns (RTU->SCADA every 5s). 0.5% anomalous: network scans, unauthorized writes, unusual communication."
+      },
+      {
+        "title": "Create behavior baseline",
+        "desc": "Establish normal pattern per device.",
+        "prompt": "Create view OT_BASELINE calculating per device:\n- normal_communications: usual destinations, frequency, avg_bytes\n- activity_window: normal communication schedule\n- usual_protocols, usual_message_types\n- normal_volume: avg_bytes_per_hour, bytes_per_hour_p95\n- communication_pairs: list of devices it normally communicates with\nGenerate baseline with data from first 4 weeks (clean period)."
+      },
+      {
+        "title": "Detect threats with ML",
+        "desc": "Anomaly detection model in OT traffic.",
+        "prompt": "Use ML.CLASSIFICATION on OT_TRAFFIC vs OT_BASELINE to detect:\n- reconnaissance: network scan, device discovery\n- intrusion: unauthorized device access\n- manipulation: unauthorized write to PLC/RTU\n- exfiltration: abnormal outbound data volume\n- denial: message flood, communication disruption\nEvaluate: precision >95%, recall >90%, false positives <2%. Generate risk score per event."
+      },
+      {
+        "title": "Correlate OT/IT events",
+        "desc": "Merge OT alerts with IT security events.",
+        "prompt": "Create table IT_EVENTS with: timestamp, event_type (login, vpn_access, firewall_change, download), user, source_ip, result. Create view OT_IT_CORRELATION searching for multi-vector patterns:\n- Suspicious VPN login + unusual OT activity = coordinated attack\n- Firewall change + new OT traffic = possible intrusion\n- Off-hours HMI access + PLC write = manipulation\nAssign composite severity: critical, high, medium, low."
+      },
+      {
+        "title": "Industrial SOC dashboard",
+        "desc": "Streamlit for OT security operations center.",
+        "prompt": "Generate Streamlit code with:\n1. Real-time alert panel with severity and type\n2. OT network map with devices colored by risk\n3. OT/IT correlated event timeline\n4. Alert detail: anomalous traffic, baseline, deviation\n5. Metrics: alerts/day, avg detection time, false positives\n6. Patch and vulnerability status per device"
+      },
+      {
+        "title": "Pipeline and cleanup",
+        "desc": "Automate detection and response.",
+        "prompt": "Create Tasks:\n1. INGEST_TRAFFIC: every minute loads OT traffic data\n2. DETECT_ANOMALIES: every 5 min runs detection model\n3. CORRELATE: every 5 min searches multi-vector patterns\n4. ALERT_CRITICAL: immediately if severity critical or high\n5. UPDATE_BASELINE: weekly recalculates normal behavior\n6. Document. NIS2 and critical infrastructure compliance."
+      }
+    ]
+  },
+  "UC17": {
+    "title": "Energy Community and Self-Consumption Management",
+    "intro": "Energy community management engine that optimizes energy distribution, calculates surpluses, and generates detailed billing per member.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for energy communities.",
+        "prompt": "Create database ENERGY_COMMUNITIES_DB with schema ANALYTICS and warehouse ENERGY_WH. Comments for the energy community and collective self-consumption management project."
+      },
+      {
+        "title": "Create communities and members",
+        "desc": "Generate energy community structure.",
+        "prompt": "Create tables:\n1. COMMUNITIES: community_id, name, municipality, type (Residential, Mixed, Industrial, Municipal), installed_power_kw FLOAT, has_battery BOOLEAN, battery_capacity_kwh FLOAT, num_members INT, incorporation_date DATE\n2. MEMBERS: member_id, community_id, name, consumer_type (Residential, Commercial), contracted_power_kw, fixed_sharing_coefficient FLOAT, priority INT\nGenerate 20 communities with 10-100 members each. Installed capacities 50-500 kW."
+      },
+      {
+        "title": "Load generation and consumption",
+        "desc": "Shared installation production and member consumption data.",
+        "prompt": "Create tables:\n1. COMMUNITY_GENERATION: community_id, timestamp TIMESTAMP, production_kwh FLOAT, irradiance_wm2 FLOAT\n2. MEMBER_CONSUMPTION: member_id, timestamp TIMESTAMP, consumption_kwh FLOAT\nGenerate data every 15 min for 1 year. Production correlated with solar irradiance. Consumption with patterns by consumer type. Simulate collective self-consumption covering 40-60% of total consumption."
+      },
+      {
+        "title": "Optimize energy distribution",
+        "desc": "Generation allocation engine per member.",
+        "prompt": "Create view OPTIMAL_DISTRIBUTION that for each 15-min interval calculates:\n- total_generation_kwh, total_consumption_kwh, surplus_kwh\n- Per member: consumption_kwh, allocated_self_consumption_kwh (per coefficient or dynamic), grid_energy_kwh, individual_surplus_kwh\n- Dynamic coefficients: prioritize members consuming simultaneously with generation\n- Battery: absorb surplus if SoC < 90%, inject if no generation\nCompare fixed vs dynamic distribution in terms of total self-consumption."
+      },
+      {
+        "title": "Forecast generation and consumption",
+        "desc": "Per-member forecast for planning.",
+        "prompt": "Use ML.FORECAST to predict:\n1. Community generation: ML.FORECAST with forecasted irradiance, at 24h and 48h\n2. Per-member consumption: ML.FORECAST per member_id with temperature and day of week\n3. Create view COMMUNITY_FORECAST showing per hour: forecasted_generation, forecasted_total_consumption, forecasted_balance, recommendation (increase self-consumption, charge battery, prepare grid purchase)."
+      },
+      {
+        "title": "Generate detailed billing",
+        "desc": "Per-member bill calculation with source breakdown.",
+        "prompt": "Create view COMMUNITY_BILLING calculating monthly per member:\n- total_consumption_kwh, individual_self_consumption_kwh, shared_self_consumption_kwh\n- grid_energy_kwh, exported_surplus_kwh\n- grid_cost_usd (access tariff + energy), self_consumption_savings_usd\n- surplus_compensation_usd, community_fee_usd\n- net_bill_usd, savings_vs_no_community_pct\nGenerate detailed bill comparing with and without community."
+      },
+      {
+        "title": "Community dashboard",
+        "desc": "Streamlit for energy community management.",
+        "prompt": "Generate Streamlit code with:\n1. Community and period selector\n2. Energy balance: generation, consumption, self-consumption, surpluses\n3. Member distribution: who consumes what and when\n4. Monthly billing per member with breakdown\n5. Generation and consumption forecast for next 48h\n6. Simulator: what if we add more panels/battery/members"
+      },
+      {
+        "title": "Pipeline and cleanup",
+        "desc": "Automate community management.",
+        "prompt": "Create Tasks:\n1. CALCULATE_DISTRIBUTION: every 15 min assigns generation to members\n2. FORECAST_COMMUNITY: every 6h generates forecasts\n3. MONTHLY_BILLING: first day of month generates bills\n4. COMMUNITY_REPORT: monthly, generates report for administrator\n5. Document. Target: collective self-consumption >50%."
+      }
+    ]
+  },
+  "UC18": {
+    "title": "Regulatory Compliance and ESG Reporting",
+    "intro": "Automate data consolidation and regulatory and ESG report generation for utilities, verifying consistency and compliance.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for compliance and ESG.",
+        "prompt": "Create database ENERGY_COMPLIANCE_DB with schema REPORTING and warehouse ENERGY_WH. Comments for the regulatory compliance and ESG reporting project."
+      },
+      {
+        "title": "Create regulatory data sources",
+        "desc": "Generate supply quality, emissions, and renewables data.",
+        "prompt": "Create 4 source tables:\n1. SUPPLY_QUALITY: zone, date, num_outages, total_duration_min, affected_customers, cause, zone_outage_time_min, zone_frequency_index (monthly data, 2 years, 50 zones)\n2. EMISSIONS: plant, date, co2_tons, nox_kg, particulates_kg, fuel_type, production_mwh\n3. RENEWABLE_GENERATION: plant, date, production_mwh, go_certificates INT, renewable_type\n4. GRID_INVESTMENT: zone, quarter, capex_usd, opex_usd, investment_type (modernization, expansion, maintenance), direct_jobs INT"
+      },
+      {
+        "title": "Calculate regulatory KPIs",
+        "desc": "Generate indicators for regulators and EU Taxonomy.",
+        "prompt": "Create view REGULATORY_KPIS calculating:\n- Outage time by zone and cumulative (regulatory target <35 min/year)\n- Outage frequency by zone and cumulative\n- Renewable generation as % of total\n- CO2 emissions per MWh generated\n- Modernization investment as % of regulated asset base\n- EU Taxonomy indicators: % eligible activities, % aligned activities\n- Compliance: green (compliant), yellow (at risk), red (non-compliant)\nPer KPI: current_value, regulatory_threshold, trend, year_end_forecast."
+      },
+      {
+        "title": "Generate ESG metrics",
+        "desc": "Environmental, social, and governance indicators.",
+        "prompt": "Create view ESG_METRICS calculating per GRI/SASB:\n- Environmental: scope 1/2/3 emissions, carbon intensity, water consumed, waste\n- Social: employees, training hours/person, workplace accidents, gender pay gap, communities benefited\n- Governance: board diversity, independence, anti-corruption policies\nGenerate coherent synthetic data. Calculate year-over-year variation and sector benchmark."
+      },
+      {
+        "title": "Verify data consistency",
+        "desc": "Detect inconsistencies between sources.",
+        "prompt": "Create view CONSISTENCY_VERIFICATION detecting:\n- Discrepancies: calculated vs reported outage time (difference >5%)\n- Emissions: total production vs sum by plant (difference >2%)\n- Renewable generation: certificates vs measured production\n- Investment: sum by zone vs total reported\nUse ML to detect anomalies in KPI time series. Generate inconsistency list with severity and correction recommendation."
+      },
+      {
+        "title": "Generate report narratives",
+        "desc": "Use LLM to draft report sections.",
+        "prompt": "Create function GENERATE_NARRATIVE(section, period) using CORTEX.COMPLETE to draft:\n- Executive summary for the period\n- Supply quality analysis with main causes\n- Progress on energy transition and emissions\n- Social and governance achievements\n- Action plan for at-risk indicators\nFormat: professional paragraphs in English with specific data. Demonstrate with the quarterly report."
+      },
+      {
+        "title": "Compliance dashboard",
+        "desc": "Streamlit for regulatory monitoring.",
+        "prompt": "Generate Streamlit code with:\n1. Regulatory KPI traffic light: compliant/at-risk/non-compliant\n2. Outage time trend with regulatory target\n3. ESG dashboard: environmental, social, governance metrics\n4. Consistency verification: discrepancy alerts\n5. Report generator: select sections, period, generate PDF\n6. Regulatory calendar: upcoming reports and deadlines"
+      },
+      {
+        "title": "Pipeline and cleanup",
+        "desc": "Automate regulatory reporting.",
+        "prompt": "Create Tasks:\n1. CONSOLIDATE_DATA: daily, updates data sources\n2. CALCULATE_KPIS: weekly, recalculates regulatory indicators\n3. VERIFY_CONSISTENCY: weekly, detects discrepancies\n4. GENERATE_REPORT: per regulatory calendar (monthly, quarterly, annual)\n5. Document. Target: reduce reporting preparation by 70%."
+      }
+    ]
+  },
+  "UC19": {
+    "title": "Electric Vehicle Charging Load Management",
+    "intro": "Smart EV charging management engine that forecasts demand, coordinates deferred (V1G) and bidirectional (V2G) charging, and optimizes the existing grid.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for EV charging management.",
+        "prompt": "Create database ENERGY_EV_DB with schema ANALYTICS and warehouse ENERGY_WH. Comments for the electric vehicle charging load management project."
+      },
+      {
+        "title": "Create EV fleet and chargers",
+        "desc": "Generate electric vehicle and charging point data.",
+        "prompt": "Create tables:\n1. EV_FLEET: ev_id, model, battery_capacity_kwh, max_charge_power_kw, charge_type (AC_single, AC_three, DC), zone, owner_type (individual, fleet, shared)\n2. CHARGING_POINTS: charger_id, location, type (home_3.7kw, semi_fast_11kw, semi_fast_22kw, fast_50kw, ultra_fast_150kw), associated_ct_id, power_kw FLOAT\nGenerate 10,000 EVs and 2,000 charging points. 60% home, 25% semi-fast, 15% fast/ultra-fast."
+      },
+      {
+        "title": "Create charging sessions",
+        "desc": "Generate session history with temporal patterns.",
+        "prompt": "Create table CHARGING_SESSIONS with: session_id, ev_id, charger_id, start_timestamp TIMESTAMP, end_timestamp TIMESTAMP, energy_kwh FLOAT, avg_power_kw FLOAT, start_soc_pct FLOAT, end_soc_pct FLOAT, rate_usd_kwh FLOAT, management_type (free, v1g_deferred, v2g). Generate 500,000 sessions over 1 year. Patterns: home peak 7-10pm, office 9am-5pm, opportunistic random. 85% free, 10% V1G, 5% V2G."
+      },
+      {
+        "title": "Evaluate grid impact",
+        "desc": "Calculate transformer overload from EV charging.",
+        "prompt": "Create view EV_GRID_IMPACT that for each CT and hour calculates:\n- base_load_kva (consumption without EV), ev_load_kva (charger demand)\n- total_load_kva, ct_capacity_kva, utilization_pct\n- overload_kva (if utilization >100%), overload_duration_h\n- num_evs_charging, total_ev_power_kw\n- risk_classification: critical (>120%), high (100-120%), medium (80-100%), low (<80%)\nIdentify the 50 most affected CTs."
+      },
+      {
+        "title": "Forecast EV charging demand",
+        "desc": "Demand forecast per zone.",
+        "prompt": "Use ML.FORECAST to predict EV charging demand per zone at 4h, 12h, and 24h horizons:\n- Variables: day of week, hour, temperature, special events, local solar generation\n- Aggregate per CT and per zone\n- Generate view EV_CHARGE_FORECAST with: zone, hour, forecasted_demand_kw, interval_95, overload_risk_pct\n- Identify optimal charging windows (off-peak hours with solar surplus)."
+      },
+      {
+        "title": "Optimize V1G/V2G charging",
+        "desc": "Smart charging management engine.",
+        "prompt": "Create view V1G_V2G_OPTIMIZATION that for each manageable charger calculates:\n- For V1G: optimal_start_time (min cost, min grid impact), deadline (user need), savings_usd\n- For V2G: optimal_injection_hours (max price, max impact), available_energy_kwh, revenue_usd\n- Constraints: min SoC at departure (>80%), user comfort\n- grid_benefit: avoided_overload_kva, deferred_investment_usd\nCompare scenarios: no management, V1G only, V1G+V2G."
+      },
+      {
+        "title": "EV management dashboard",
+        "desc": "Streamlit for EV charging monitoring.",
+        "prompt": "Generate Streamlit code with:\n1. CT map with EV impact (green/yellow/red)\n2. Charging demand forecast by zone next 24h\n3. V1G/V2G management status: deferred sessions, injections\n4. Grid savings: avoided overload, deferred investment\n5. Simulator: impact of +1000, +5000, +10000 EVs in zone\n6. Metrics: avg charge cost, V1G savings, V2G revenue"
+      },
+      {
+        "title": "Pipeline and cleanup",
+        "desc": "Automate charging management.",
+        "prompt": "Create Tasks:\n1. INGEST_SESSIONS: every 15 min loads charger data\n2. FORECAST_EV_DEMAND: every hour generates forecasts\n3. OPTIMIZE_CHARGING: every 15 min updates V1G/V2G signals\n4. EVALUATE_IMPACT: daily recalculates grid impact\n5. Document. Target: reduce peak load 30% with V1G."
+      }
+    ]
+  },
+  "UC20": {
+    "title": "Energy Market Anomaly Detection",
+    "intro": "ML energy market surveillance system that detects anomalies in bids, prices, and positions to identify anticompetitive behavior.",
+    "steps": [
+      {
+        "title": "Set up environment",
+        "desc": "Create database for market surveillance.",
+        "prompt": "Create database ENERGY_MARKETS_DB with schema SURVEILLANCE and warehouse ENERGY_WH. Comments for the energy market anomaly detection project."
+      },
+      {
+        "title": "Create wholesale market data",
+        "desc": "Generate bids, prices, and market clearing data.",
+        "prompt": "Create tables:\n1. MARKET_BIDS: timestamp, agent_id, generation_unit, bid_type (sell, buy), price_usd_mwh FLOAT, quantity_mwh FLOAT, market (day_ahead, intraday)\n2. CLEARING_PRICES: timestamp, marginal_price_usd_mwh, cleared_energy_mwh, marginal_technology\n3. MARKET_AGENTS: agent_id, name, corporate_group, market_share_pct, installed_capacity_mw\nGenerate hourly data for 1 year, 30 agents, 200 units. Include 2% of bids with manipulative patterns."
+      },
+      {
+        "title": "Calculate market features",
+        "desc": "Generate behavioral indicators per agent.",
+        "prompt": "Create view MARKET_FEATURES calculating per agent and hour:\n- Bid: avg_bid_price, spread_vs_marginal, offered_vs_capacity_ratio\n- Behavior: withholding_ratio (unutilized capacity / total), price_variability_vs_history\n- Position: hourly_share, pivotality_index (adjusted HHI), residual_supply_index\n- Patterns: bid_correlation_with_other_agents, strategy_change_vs_previous_week\n- Context: system_scarcity BOOLEAN, gas_price, demand_vs_capacity"
+      },
+      {
+        "title": "Train detection model",
+        "desc": "ML.CLASSIFICATION to detect anomalous behavior.",
+        "prompt": "Use ML.CLASSIFICATION to classify bids as: normal, mildly_suspicious, seriously_suspicious, probable_manipulation. Variables: all market features. Anomaly types to detect:\n- Withholding: withhold capacity to raise price\n- Coordination: similar bids from apparently independent agents\n- Artificial price spike: extreme bids during scarcity hours\n- Pivot player abuse: exploit dominant position at critical hours\nEvaluate precision and recall per anomaly type."
+      },
+      {
+        "title": "Correlate with system events",
+        "desc": "Cross anomalies with technical constraints and scarcity.",
+        "prompt": "Create view EVENT_CORRELATION crossing market anomalies with:\n- Technical constraints: congestions limiting capacity\n- Unavailabilities: plant outages (scheduled vs unscheduled)\n- Gas and CO2 prices: legitimate opportunity costs\n- Exceptional demand: heat/cold waves, special events\nFor each anomaly determine: has_technical_justification BOOLEAN, alternative_explanation, adjusted_anomaly_confidence."
+      },
+      {
+        "title": "Generate surveillance alerts",
+        "desc": "Prioritized alert system for investigation.",
+        "prompt": "Create view MARKET_ALERTS that for each unjustified anomaly generates:\n- alert_id, timestamp, agent_id, anomaly_type\n- severity (critical, high, medium, low)\n- estimated_impact_usd (price difference x affected energy)\n- evidence_summary (generated with CORTEX.COMPLETE)\n- investigation_recommendation\nGroup recurring alerts from same agent into patterns."
+      },
+      {
+        "title": "Surveillance dashboard",
+        "desc": "Streamlit for market surveillance.",
+        "prompt": "Generate Streamlit code with:\n1. Market price panel with anomalies marked\n2. Active alerts prioritized by severity and impact\n3. Agent profile: bids, share, anomaly history\n4. Anomaly correlation with system events\n5. Metrics: detected anomalies, estimated impact, patterns\n6. Generated report for regulator with structured evidence"
+      },
+      {
+        "title": "Pipeline and cleanup",
+        "desc": "Automate market surveillance.",
+        "prompt": "Create Tasks:\n1. INGEST_MARKET: every hour loads market data\n2. CALCULATE_FEATURES: every hour updates indicators\n3. DETECT_ANOMALIES: every hour runs model\n4. CORRELATE: every hour crosses with system events\n5. GENERATE_ALERTS: daily consolidates and prioritizes alerts\n6. Document. Target: detect anomalies with <24h delay."
+      }
+    ]
+  }
+});
+
+function verGuia(ucId) {
+  const g = GUIAS[ucId];
+  if (!g) return;
+  const html = '<span class="guide-badge">' + ucId + '</span>' +
+    '<h2>' + g.title + '</h2>' +
+    '<p>' + g.context + '</p>' +
+    '<h3>Focus</h3><p>' + g.focus + '</p>' +
+    '<h3>Challenge</h3><p>' + g.challenge + '</p>' +
+    '<h3>Objectives</h3><ul>' + g.objectives.map(function(o){return '<li>' + o + '</li>';}).join('') + '</ul>' +
+    '<h3>Features</h3><ul>' + g.features.map(function(f){return '<li>' + f + '</li>';}).join('') + '</ul>' +
+    '<h3>Data</h3><ul>' + g.data.map(function(d){return '<li>' + d + '</li>';}).join('') + '</ul>' +
+    '<h3>Stratification</h3><ul>' + g.stratification.map(function(e){return '<li>' + e + '</li>';}).join('') + '</ul>' +
+    '<h3>How to Use</h3><ul>' + g.how_to_use.map(function(c){return '<li>' + c + '</li>';}).join('') + '</ul>' +
+    '<div class="guide-footer">Guide generated for Snowflake Cortex Code</div>';
+  document.getElementById('modalContent').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function verPrompts(ucId) {
+  const data = PROMPTS[ucId];
+  if (!data) return;
+  const esc = function(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
+  let html = '<span class="guide-badge">' + ucId + '</span><h2>' + data.title + '</h2>';
+  html += '<p class="prompt-intro">' + data.intro + '</p>';
+  data.steps.forEach(function(s, i) {
+    html += '<div class="prompt-step">' +
+      '<div class="prompt-step-header"><span class="prompt-step-num">' + (i+1) + '</span><span class="prompt-step-title">' + s.title + '</span></div>' +
+      '<p class="prompt-step-desc">' + s.desc + '</p>' +
+      '<div class="prompt-code"><button class="copy-btn" onclick="copiarPrompt(this)">Copiar</button>' + esc(s.prompt) + '</div>' +
+      '</div>';
+  });
+  document.getElementById('modalContent').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function copiarPrompt(btn) {
+  const code = btn.parentElement.textContent.replace('Copy','').trim();
+  navigator.clipboard.writeText(code).then(function(){btn.textContent='\u2713 Copied';setTimeout(function(){btn.textContent='Copy';},1500);});
+}
+
+function cerrarModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+</script>
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)cerrarModal();">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarModal()">&times;</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+</body>
+</html>
