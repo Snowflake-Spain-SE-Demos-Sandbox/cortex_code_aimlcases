@@ -1306,487 +1306,487 @@ const GUIAS = {
 
 const PROMPTS = {
   "UC01": {
-    "title": "Detección de Fraude en Subvenciones con Model Registry",
-    "intro": "Construye un modelo ML de detección de fraude en subvenciones públicas y regístralo en Snowflake Model Registry para operación continua con versionado y reentrenamiento.",
+    "title": "Grant Fraud Detection with Model Registry",
+    "intro": "Build an ML fraud detection model for public grant applications and register it in Snowflake Model Registry for continuous operation with versioning and retraining.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos y esquema para detección de fraude en subvenciones.",
-        "prompt": "Crea la base de datos SECTOR_PUBLICO_FRAUDE_DB con esquema ANALYTICS y warehouse SP_WH (size S). Incluye comentarios del proyecto de detección de fraude en subvenciones con Model Registry."
+        "title": "Configure environment",
+        "desc": "Create database and schema for grant fraud detection.",
+        "prompt": "Create database SECTOR_PUBLICO_FRAUDE_DB with schema ANALYTICS and warehouse SP_WH (size S). Include project comments for grant fraud detection with Model Registry."
       },
       {
-        "title": "Crear registro de subvenciones",
-        "desc": "Generar datos sintéticos de convocatorias y solicitudes de subvenciones.",
-        "prompt": "Crea la tabla SUBVENCIONES con: solicitud_id, convocatoria_id, beneficiario_nif, beneficiario_nombre, tipo_beneficiario (Empresa, Autónomo, Asociación, Ayuntamiento), importe_solicitado_eur FLOAT, importe_concedido_eur FLOAT, finalidad (Inversión, Empleo, I+D, Formación, Agrario), fecha_solicitud DATE, fecha_resolución DATE, estado (Concedida, Denegada, Revocada, En_Trámite). Genera 100,000 solicitudes de 5 años. El 4% tiene indicios de fraude."
+        "title": "Create grant records",
+        "desc": "Generate synthetic data for grant calls and applications.",
+        "prompt": "Create table GRANTS with: application_id, call_id, beneficiary_id, beneficiary_name, beneficiary_type (Company, Self_Employed, Association, Municipality), requested_amount_eur FLOAT, awarded_amount_eur FLOAT, purpose (Investment, Employment, R_D, Training, Agricultural), application_date DATE, resolution_date DATE, status (Awarded, Denied, Revoked, In_Process). Generate 100,000 applications over 5 years. 4% show signs of fraud."
       },
       {
-        "title": "Crear datos de ejecución presupuestaria",
-        "desc": "Registros de justificación y pagos de subvenciones concedidas.",
-        "prompt": "Crea la tabla EJECUCION_SUBVENCIONES con: solicitud_id, fecha_justificacion DATE, importe_justificado_eur FLOAT, facturas_presentadas INT, proveedores_distintos INT, pct_ejecutado FLOAT, observaciones TEXT, tiene_incidencia BOOLEAN, tipo_incidencia VARCHAR. Genera datos para las 60,000 subvenciones concedidas. El 8% tiene incidencias: justificaciones infladas, facturas duplicadas, proveedores vinculados."
+        "title": "Create budget execution data",
+        "desc": "Justification and payment records for awarded grants.",
+        "prompt": "Create table GRANT_EXECUTION with: application_id, justification_date DATE, justified_amount_eur FLOAT, invoices_submitted INT, distinct_suppliers INT, execution_pct FLOAT, observations TEXT, has_incident BOOLEAN, incident_type VARCHAR. Generate data for 60,000 awarded grants. 8% have incidents: inflated justifications, duplicate invoices, linked suppliers."
       },
       {
-        "title": "Crear red de beneficiarios",
-        "desc": "Generar relaciones societarias y vinculaciones entre beneficiarios.",
-        "prompt": "Crea la tabla RED_BENEFICIARIOS con: entidad_a_nif, entidad_b_nif, tipo_relacion (Administrador_Comun, Socio, Familiar, Misma_Direccion, Proveedor_Habitual), fecha_deteccion DATE, confianza FLOAT. Genera 15,000 relaciones entre beneficiarios. El 20% de los fraudes involucran redes de beneficiarios vinculados que solicitan subvenciones coordinadamente o se facturan entre sí."
+        "title": "Create beneficiary network",
+        "desc": "Generate corporate relationships and links between beneficiaries.",
+        "prompt": "Create table BENEFICIARY_NETWORK with: entity_a_id, entity_b_id, relationship_type (Common_Director, Partner, Family_Member, Same_Address, Regular_Supplier), detection_date DATE, confidence FLOAT. Generate 15,000 relationships between beneficiaries. 20% of fraud involves networks of linked beneficiaries who apply coordinately or invoice each other."
       },
       {
-        "title": "Calcular features de detección",
-        "desc": "Generar indicadores de riesgo por solicitud y beneficiario.",
-        "prompt": "Crea la vista FEATURES_FRAUDE_SUBVENCIONES que calcule por solicitud y beneficiario:\n- Historial: num_solicitudes_3a, importe_total_solicitado, tasa_concesion, revocaciones_previas\n- Ejecución: pct_ejecutado_vs_concedido, facturas_por_eur, proveedores_vs_importe\n- Red: num_vinculaciones, solicitudes_red_misma_convocatoria, facturacion_intra_red\n- Documentación: similitud_textos_con_otras_solicitudes, coherencia_presupuesto\n- Temporal: dias_entre_solicitud_y_justificacion, solicitudes_simultaneas"
+        "title": "Calculate detection features",
+        "desc": "Generate risk indicators per application and beneficiary.",
+        "prompt": "Create view GRANT_FRAUD_FEATURES that calculates per application and beneficiary:\n- History: num_applications_3y, total_requested_amount, award_rate, previous_revocations\n- Execution: execution_pct_vs_awarded, invoices_per_eur, suppliers_vs_amount\n- Network: num_links, applications_network_same_call, intra_network_invoicing\n- Documentation: text_similarity_with_other_applications, budget_coherence\n- Temporal: days_between_application_and_justification, simultaneous_applications"
       },
       {
-        "title": "Entrenar modelo de detección de fraude",
-        "desc": "ML.CLASSIFICATION para scoring de riesgo.",
-        "prompt": "Usa SNOWFLAKE.ML.CLASSIFICATION para clasificar solicitudes como: limpia, sospecha_baja, sospecha_media, sospecha_alta. Variables: todas las features de FEATURES_FRAUDE_SUBVENCIONES. Entrena con datos etiquetados de los últimos 5 años (fraudes confirmados). Evalúa con precision, recall, F1. Objetivo: recall >70% para sospecha_alta con precision >60%."
+        "title": "Train fraud detection model",
+        "desc": "ML.CLASSIFICATION for risk scoring.",
+        "prompt": "Use SNOWFLAKE.ML.CLASSIFICATION to classify applications as: clean, low_suspicion, medium_suspicion, high_suspicion. Variables: all features from GRANT_FRAUD_FEATURES. Train with labeled data from the last 5 years (confirmed fraud). Evaluate with precision, recall, F1. Target: recall >70% for high_suspicion with precision >60%."
       },
       {
-        "title": "Registrar modelo en Model Registry",
-        "desc": "Guardar modelo en Snowflake Model Registry con métricas.",
-        "prompt": "Registra el modelo de fraude en Snowflake Model Registry:\n\nfrom snowflake.ml.registry import Registry\nreg = Registry(session=session, database_name='SECTOR_PUBLICO_FRAUDE_DB', schema_name='ANALYTICS')\nreg.log_model(\n    model=fraud_model,\n    model_name='subsidy_fraud_detector',\n    version_name='v1',\n    metrics={'recall_alta': recall_alta, 'precision_alta': prec_alta, 'f1_alta': f1_alta},\n    comment='Modelo de detección de fraude en subvenciones públicas'\n)\nVerifica el registro y lista versiones."
+        "title": "Register model in Model Registry",
+        "desc": "Save model in Snowflake Model Registry with metrics.",
+        "prompt": "Register the fraud model in Snowflake Model Registry:\n\nfrom snowflake.ml.registry import Registry\nreg = Registry(session=session, database_name='SECTOR_PUBLICO_FRAUDE_DB', schema_name='ANALYTICS')\nreg.log_model(\n    model=fraud_model,\n    model_name='subsidy_fraud_detector',\n    version_name='v1',\n    metrics={'recall_high': recall_high, 'precision_high': prec_high, 'f1_high': f1_high},\n    comment='Public grant fraud detection model'\n)\nVerify registration and list versions."
       },
       {
-        "title": "Priorizar investigaciones",
-        "desc": "Ranking de casos por probabilidad × importe.",
-        "prompt": "Crea la vista PRIORIZAR_INVESTIGACIONES que para cada solicitud sospechosa calcule: probabilidad_fraude_pct, importe_en_riesgo_eur, tipo_fraude_probable, vinculaciones_detectadas, score_investigacion (probabilidad × importe), coste_investigacion_estimado_eur, roi_esperado. Ordena por score descendente. Genera top 100 para campaña de control."
+        "title": "Prioritize investigations",
+        "desc": "Rank cases by probability x amount.",
+        "prompt": "Create view PRIORITIZE_INVESTIGATIONS that for each suspicious application calculates: fraud_probability_pct, amount_at_risk_eur, probable_fraud_type, detected_links, investigation_score (probability x amount), estimated_investigation_cost_eur, expected_roi. Order by score descending. Generate top 100 for control campaign."
       },
       {
-        "title": "Dashboard de control de subvenciones",
-        "desc": "Streamlit de monitorización de fraude.",
-        "prompt": "Genera código Streamlit con:\n1. Mapa de sospecha por CCAA y tipo de subvención\n2. Lista de investigaciones priorizadas con scoring y ROI\n3. Grafo de red de beneficiarios vinculados para caso seleccionado\n4. Métricas del modelo: precision, recall, F1 por versión de Registry\n5. Tendencia de fraude detectado por año y tipo\n6. Resumen financiero: importe en riesgo, recuperado, coste de control"
+        "title": "Grant control dashboard",
+        "desc": "Streamlit fraud monitoring dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. Suspicion map by region and grant type\n2. Prioritized investigation list with scoring and ROI\n3. Linked beneficiary network graph for selected case\n4. Model metrics: precision, recall, F1 by Registry version\n5. Detected fraud trend by year and type\n6. Financial summary: amount at risk, recovered, control cost"
       },
       {
-        "title": "Pipeline de reentrenamiento",
-        "desc": "Automatizar actualización del modelo.",
-        "prompt": "Crea Tasks:\n1. SCORING_NUEVAS: semanal, ejecuta modelo Registry sobre nuevas solicitudes\n2. DETECTAR_REDES: mensual, actualiza grafos de vinculaciones\n3. REENTRENAR_MODELO: trimestral, reentrena con nuevos casos y registra nueva versión\n4. COMPARAR_VERSIONES: tras reentrenamiento, compara accuracy y activa la mejor\n5. Documenta pipeline. Objetivo: detectar 60% del fraude con <10% falsos positivos."
+        "title": "Retraining pipeline",
+        "desc": "Automate model update.",
+        "prompt": "Create Tasks:\n1. SCORE_NEW: weekly, run Registry model on new applications\n2. DETECT_NETWORKS: monthly, update link graphs\n3. RETRAIN_MODEL: quarterly, retrain with new cases and register new version\n4. COMPARE_VERSIONS: after retraining, compare accuracy and activate the best\n5. Document pipeline. Target: detect 60% of fraud with <10% false positives."
       }
     ]
   },
   "UC02": {
-    "title": "Chatbot RAG de Atención Ciudadana Multicanal",
-    "intro": "Construye un asistente conversacional RAG multilingüe para atención ciudadana con Cortex Search y CORTEX.COMPLETE.",
+    "title": "Multichannel Citizen Services RAG Chatbot",
+    "intro": "Build a multilingual RAG conversational assistant for citizen services with Cortex Search and CORTEX.COMPLETE.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para chatbot RAG.",
-        "prompt": "Crea la base de datos SP_CHATBOT_DB con esquema RAG y warehouse SP_WH. Comentarios del proyecto de chatbot RAG de atención ciudadana multicanal."
+        "title": "Configure environment",
+        "desc": "Create database for RAG chatbot.",
+        "prompt": "Create database SP_CHATBOT_DB with schema RAG and warehouse SP_WH. Include project comments for multichannel citizen services RAG chatbot."
       },
       {
-        "title": "Crear base de conocimiento",
-        "desc": "Generar corpus de normativa, procedimientos y FAQ.",
-        "prompt": "Crea la tabla CONOCIMIENTO_PUBLICO con: doc_id, categoria (Tramites, Normativa, FAQ, Requisitos, Plazos, Ayudas), titulo, contenido TEXT, idioma (es, ca, eu, gl, va), administracion (Estatal, Autonomica, Municipal), fecha_actualizacion DATE, vigente BOOLEAN. Genera 500 documentos cubriendo: trámites más frecuentes (empadronamiento, DNI, licencias), normativa clave, FAQ por administración, requisitos de ayudas y subvenciones."
+        "title": "Create knowledge base",
+        "desc": "Generate corpus of regulations, procedures, and FAQs.",
+        "prompt": "Create table PUBLIC_KNOWLEDGE with: doc_id, category (Procedures, Regulations, FAQ, Requirements, Deadlines, Grants), title, content TEXT, language (en, es, fr, de, it), administration (Federal, State, Municipal), update_date DATE, active BOOLEAN. Generate 500 documents covering: most frequent procedures (registration, ID, licenses), key regulations, FAQ by administration, grant requirements."
       },
       {
-        "title": "Indexar con Cortex Search",
-        "desc": "Crear servicio de búsqueda sobre base de conocimiento.",
-        "prompt": "Crea un Cortex Search Service sobre CONOCIMIENTO_PUBLICO:\n- Columnas indexadas: titulo, contenido, categoria\n- Filtros: categoria, idioma, administracion\nDemuestra con 5 consultas: '¿Cómo me empadrono?', '¿Qué necesito para el DNI?', '¿Plazo para recurrir una multa?', 'Ajudes per a lloguer' (catalán), '¿Requisitos del bono social?'."
+        "title": "Index with Cortex Search",
+        "desc": "Create search service over knowledge base.",
+        "prompt": "Create a Cortex Search Service over PUBLIC_KNOWLEDGE:\n- Indexed columns: title, content, category\n- Filters: category, language, administration\nDemonstrate with 5 queries: 'How do I register my address?', 'What do I need for a national ID?', 'Deadline to appeal a fine?', 'Requirements for social housing?', 'How to apply for a business license?'."
       },
       {
-        "title": "Crear función de chat",
-        "desc": "Función RAG con perfil de ciudadano.",
-        "prompt": "Crea la función CHAT_CIUDADANO(citizen_id, pregunta, idioma) que:\n1. Detecta idioma si no se especifica\n2. Busca documentos relevantes con Cortex Search (top 5, filtrado por idioma)\n3. Si citizen_id disponible, consulta perfil del Feature Store UC08\n4. Construye prompt con contexto + perfil + pregunta\n5. Genera respuesta con CORTEX.COMPLETE en el idioma del ciudadano\n6. Incluye referencias a normativa fuente\nDemuestra con 3 conversaciones."
+        "title": "Create chat function",
+        "desc": "RAG function with citizen profile.",
+        "prompt": "Create function CITIZEN_CHAT(citizen_id, question, language) that:\n1. Detects language if not specified\n2. Searches relevant documents with Cortex Search (top 5, filtered by language)\n3. If citizen_id available, queries Feature Store profile from UC08\n4. Builds prompt with context + profile + question\n5. Generates response with CORTEX.COMPLETE in the citizen's language\n6. Includes references to source regulations\nDemonstrate with 3 conversations."
       },
       {
-        "title": "Implementar escalado",
-        "desc": "Detectar cuándo escalar a funcionario.",
-        "prompt": "Crea la función EVALUAR_ESCALADO(pregunta, respuesta) que use CORTEX.COMPLETE para determinar si escalar: reclamación formal, solicitud de cita, tramitación compleja, sentimiento negativo (CORTEX.SENTIMENT), fuera de ámbito. Retorna: escalar BOOLEAN, motivo, prioridad, resumen_para_funcionario."
+        "title": "Implement escalation",
+        "desc": "Detect when to escalate to a human agent.",
+        "prompt": "Create function EVALUATE_ESCALATION(question, response) that uses CORTEX.COMPLETE to determine if escalation is needed: formal complaint, appointment request, complex procedure, negative sentiment (CORTEX.SENTIMENT), out of scope. Returns: escalate BOOLEAN, reason, priority, summary_for_agent."
       },
       {
-        "title": "Historial y métricas",
-        "desc": "Almacenar conversaciones y medir calidad.",
-        "prompt": "Crea tabla HISTORIAL_CHAT con: sesion_id, citizen_id, fecha_hora, pregunta, respuesta, idioma, documentos_usados, fue_util BOOLEAN, fue_escalada BOOLEAN, feedback INT (1-5). Crea vista METRICAS_CHATBOT: tasa_resolucion_pct, satisfaccion_media, tasa_escalado, coste_por_interaccion, top_consultas_no_resueltas. Genera 5,000 conversaciones sintéticas."
+        "title": "History and metrics",
+        "desc": "Store conversations and measure quality.",
+        "prompt": "Create table CHAT_HISTORY with: session_id, citizen_id, timestamp, question, response, language, documents_used, was_helpful BOOLEAN, was_escalated BOOLEAN, feedback INT (1-5). Create view CHATBOT_METRICS: resolution_rate_pct, avg_satisfaction, escalation_rate, cost_per_interaction, top_unresolved_queries. Generate 5,000 synthetic conversations."
       },
       {
-        "title": "Dashboard del chatbot",
-        "desc": "Streamlit de operación.",
-        "prompt": "Genera código Streamlit con:\n1. Demo de chat multilingüe con perfil de ciudadano\n2. Métricas: resolución, satisfacción, escalados por idioma\n3. Consultas más frecuentes y no resueltas\n4. Comparativa coste: chatbot vs presencial\n5. Base de conocimiento: búsqueda y gestión\n6. Tendencias por canal y tipo de consulta"
+        "title": "Chatbot dashboard",
+        "desc": "Streamlit operations dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. Multilingual chat demo with citizen profile\n2. Metrics: resolution, satisfaction, escalations by language\n3. Most frequent and unresolved queries\n4. Cost comparison: chatbot vs in-person\n5. Knowledge base: search and management\n6. Trends by channel and query type"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Mantener chatbot actualizado.",
-        "prompt": "Crea Tasks:\n1. ACTUALIZAR_CONOCIMIENTO: semanal, reindeza nuevos documentos\n2. ANALIZAR_GAPS: semanal, identifica consultas no resueltas\n3. METRICAS_DIARIAS: diario, calcula métricas de rendimiento\n4. Documenta. Objetivo: resolución >60%, satisfacción >4.0."
+        "title": "Pipeline and cleanup",
+        "desc": "Keep chatbot updated.",
+        "prompt": "Create Tasks:\n1. UPDATE_KNOWLEDGE: weekly, reindex new documents\n2. ANALYZE_GAPS: weekly, identify unresolved queries\n3. DAILY_METRICS: daily, calculate performance metrics\n4. Document. Target: resolution >60%, satisfaction >4.0."
       }
     ]
   },
   "UC03": {
-    "title": "Predicción de Demanda de Servicios Sociales con Model Registry",
-    "intro": "Construye un modelo de predicción de demanda de servicios sociales con ML.FORECAST y Model Registry para planificación proactiva de recursos.",
+    "title": "Social Services Demand Prediction with Model Registry",
+    "intro": "Build a social services demand prediction model with ML.FORECAST and Model Registry for proactive resource planning.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para predicción de demanda social.",
-        "prompt": "Crea la base de datos SP_SERVICIOS_SOCIALES_DB con esquema ANALYTICS y warehouse SP_WH. Comentarios del proyecto de predicción de demanda de servicios sociales con Model Registry."
+        "title": "Configure environment",
+        "desc": "Create database for social demand prediction.",
+        "prompt": "Create database SP_SOCIAL_SERVICES_DB with schema ANALYTICS and warehouse SP_WH. Include project comments for social services demand prediction with Model Registry."
       },
       {
-        "title": "Crear datos de solicitudes",
-        "desc": "Generar historial de solicitudes de servicios sociales.",
-        "prompt": "Crea la tabla SOLICITUDES_SOCIALES con: solicitud_id, municipio_id, fecha DATE, tipo_servicio (Dependencia, Renta_Minima, Emergencia_Social, Infancia, Vivienda, Mayores), perfil_solicitante_edad INT, perfil_genero, perfil_situacion_familiar, perfil_empleo, estado (Aprobada, Denegada, En_Tramite, Desistida), tiempo_resolucion_dias INT. Genera 200,000 solicitudes de 5 años para 500 municipios."
+        "title": "Create application data",
+        "desc": "Generate social services application history.",
+        "prompt": "Create table SOCIAL_APPLICATIONS with: application_id, municipality_id, date DATE, service_type (Dependency, Minimum_Income, Social_Emergency, Child_Services, Housing, Elder_Care), applicant_age INT, applicant_gender, family_situation, employment_status, status (Approved, Denied, In_Process, Withdrawn), resolution_time_days INT. Generate 200,000 applications over 5 years for 500 municipalities."
       },
       {
-        "title": "Cargar indicadores socioeconómicos",
-        "desc": "Variables exógenas que influyen en la demanda.",
-        "prompt": "Crea la tabla INDICADORES_SOCIOECONOMICOS con: municipio_id, fecha_mes DATE, tasa_desempleo_pct FLOAT, renta_media_hogar_eur FLOAT, tasa_pobreza_pct FLOAT, indice_envejecimiento FLOAT, saldo_migratorio INT, precio_alquiler_m2 FLOAT, tasa_natalidad FLOAT. Genera datos mensuales para 500 municipios × 5 años. Incluir correlaciones realistas: desempleo↑ → solicitudes↑."
+        "title": "Load socioeconomic indicators",
+        "desc": "Exogenous variables influencing demand.",
+        "prompt": "Create table SOCIOECONOMIC_INDICATORS with: municipality_id, month_date DATE, unemployment_rate_pct FLOAT, avg_household_income_eur FLOAT, poverty_rate_pct FLOAT, aging_index FLOAT, migration_balance INT, rent_price_per_sqm FLOAT, birth_rate FLOAT. Generate monthly data for 500 municipalities x 5 years. Include realistic correlations: unemployment up -> applications up."
       },
       {
-        "title": "Calcular features de demanda",
-        "desc": "Generar indicadores predictivos.",
-        "prompt": "Crea la vista FEATURES_DEMANDA_SOCIAL que calcule por municipio y mes:\n- Demanda: solicitudes_mes, tendencia_3m, estacionalidad, variacion_interanual\n- Contexto: tasa_desempleo, variacion_desempleo, renta_vs_media, envejecimiento\n- Capacidad: recursos_disponibles, tiempo_medio_resolucion, tasa_aprobacion\n- Externo: solicitudes_municipios_vecinos, indicadores_crisis (desempleo >15%)"
+        "title": "Calculate demand features",
+        "desc": "Generate predictive indicators.",
+        "prompt": "Create view SOCIAL_DEMAND_FEATURES that calculates per municipality and month:\n- Demand: monthly_applications, 3m_trend, seasonality, year_over_year_change\n- Context: unemployment_rate, unemployment_change, income_vs_average, aging_index\n- Capacity: available_resources, avg_resolution_time, approval_rate\n- External: neighboring_municipality_applications, crisis_indicators (unemployment >15%)"
       },
       {
-        "title": "Entrenar modelo de forecast",
-        "desc": "ML.FORECAST de demanda por tipo de servicio.",
-        "prompt": "Usa SNOWFLAKE.ML.FORECAST para predecir solicitudes por municipio y tipo_servicio. Serie temporal: solicitudes_mes con timestamp fecha_mes. Variables exógenas: tasa_desempleo, renta_media, envejecimiento. Entrena con 4 años y valida con el 5º. Genera predicciones a 1, 3 y 6 meses."
+        "title": "Train forecast model",
+        "desc": "ML.FORECAST of demand by service type.",
+        "prompt": "Use SNOWFLAKE.ML.FORECAST to predict applications per municipality and service_type. Time series: monthly_applications with timestamp month_date. Exogenous variables: unemployment_rate, avg_income, aging_index. Train with 4 years and validate with the 5th. Generate predictions at 1, 3, and 6 months."
       },
       {
-        "title": "Registrar en Model Registry",
-        "desc": "Guardar modelo con métricas de accuracy.",
-        "prompt": "Registra el modelo en Snowflake Model Registry:\n\nfrom snowflake.ml.registry import Registry\nreg = Registry(session=session, database_name='SP_SERVICIOS_SOCIALES_DB', schema_name='ANALYTICS')\nreg.log_model(\n    model=demand_model,\n    model_name='social_services_demand',\n    version_name='v1',\n    metrics={'mape_1m': mape_1, 'mape_3m': mape_3, 'mape_6m': mape_6},\n    comment='Modelo de predicción de demanda de servicios sociales por municipio'\n)\nVerifica registro."
+        "title": "Register in Model Registry",
+        "desc": "Save model with accuracy metrics.",
+        "prompt": "Register the model in Snowflake Model Registry:\n\nfrom snowflake.ml.registry import Registry\nreg = Registry(session=session, database_name='SP_SOCIAL_SERVICES_DB', schema_name='ANALYTICS')\nreg.log_model(\n    model=demand_model,\n    model_name='social_services_demand',\n    version_name='v1',\n    metrics={'mape_1m': mape_1, 'mape_3m': mape_3, 'mape_6m': mape_6},\n    comment='Social services demand prediction model by municipality'\n)\nVerify registration."
       },
       {
-        "title": "Planificación de recursos",
-        "desc": "Usar predicciones para asignar recursos.",
-        "prompt": "Crea la vista PLAN_RECURSOS_SOCIALES que use predicciones para calcular por municipio: demanda_prevista_1m, demanda_prevista_3m, profesionales_necesarios, presupuesto_estimado_eur, gap_recursos (demanda - capacidad), prioridad_refuerzo, recomendacion (contratar, redistribuir, externalizar). Genera plan trimestral de recursos."
+        "title": "Resource planning",
+        "desc": "Use predictions to allocate resources.",
+        "prompt": "Create view SOCIAL_RESOURCE_PLAN that uses predictions to calculate per municipality: predicted_demand_1m, predicted_demand_3m, professionals_needed, estimated_budget_eur, resource_gap (demand - capacity), reinforcement_priority, recommendation (hire, redistribute, outsource). Generate quarterly resource plan."
       },
       {
-        "title": "Dashboard de planificación",
-        "desc": "Streamlit de gestión de servicios sociales.",
-        "prompt": "Genera código Streamlit con:\n1. Mapa de municipios con demanda prevista vs capacidad\n2. Predicción por tipo de servicio con bandas de confianza\n3. Plan de recursos: necesidades vs disponibles\n4. Accuracy del modelo: MAPE por municipio y servicio\n5. Alertas de incremento de demanda >20% previsto\n6. Comparativa de versiones en Model Registry"
+        "title": "Planning dashboard",
+        "desc": "Streamlit for social services management.",
+        "prompt": "Generate Streamlit code with:\n1. Municipality map with predicted demand vs capacity\n2. Prediction by service type with confidence bands\n3. Resource plan: needs vs available\n4. Model accuracy: MAPE by municipality and service\n5. Alerts for predicted demand increase >20%\n6. Model Registry version comparison"
       },
       {
-        "title": "Pipeline de actualización",
-        "desc": "Automatizar predicción y reentrenamiento.",
-        "prompt": "Crea Tasks:\n1. ACTUALIZAR_INDICADORES: mensual, carga datos socioeconómicos\n2. GENERAR_PREDICCION: mensual, ejecuta modelo Registry\n3. PLAN_RECURSOS: trimestral, genera plan de asignación\n4. REENTRENAR: semestral, reentrena y registra nueva versión\n5. Documenta. Objetivo: MAPE <12% a 3 meses."
+        "title": "Update pipeline",
+        "desc": "Automate prediction and retraining.",
+        "prompt": "Create Tasks:\n1. UPDATE_INDICATORS: monthly, load socioeconomic data\n2. GENERATE_PREDICTION: monthly, run Registry model\n3. RESOURCE_PLAN: quarterly, generate allocation plan\n4. RETRAIN: semi-annual, retrain and register new version\n5. Document. Target: MAPE <12% at 3 months."
       }
     ]
   },
   "UC04": {
-    "title": "Automatización de Clasificación de Expedientes",
-    "intro": "Pipeline NLP que clasifica expedientes automáticamente, extrae entidades y sugiere resolución basada en precedentes.",
+    "title": "Automated Case File Classification",
+    "intro": "NLP pipeline that automatically classifies case files, extracts entities, and suggests resolutions based on precedents.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para clasificación de expedientes.",
-        "prompt": "Crea la base de datos SP_EXPEDIENTES_DB con esquema ANALYTICS y warehouse SP_WH. Comentarios del proyecto de automatización de clasificación de expedientes."
+        "title": "Configure environment",
+        "desc": "Create database for case file classification.",
+        "prompt": "Create database SP_CASEFILES_DB with schema ANALYTICS and warehouse SP_WH. Include project comments for automated case file classification."
       },
       {
-        "title": "Crear historial de expedientes",
-        "desc": "Generar datos de expedientes con texto descriptivo.",
-        "prompt": "Crea la tabla EXPEDIENTES con: expediente_id, fecha_entrada DATE, texto_solicitud TEXT, tipo_procedimiento VARCHAR, materia VARCHAR, unidad_tramitadora VARCHAR, prioridad (Urgente, Ordinario, Diferido), estado (En_Tramite, Resuelto, Archivado), fecha_resolucion DATE, texto_resolucion TEXT, fue_reasignado BOOLEAN. Genera 100,000 expedientes con textos realistas en español administrativo. Incluir jerga: recurso de alzada, silencio administrativo, plazos perentorios."
+        "title": "Create case file history",
+        "desc": "Generate case files with descriptive text.",
+        "prompt": "Create table CASE_FILES with: case_id, entry_date DATE, request_text TEXT, procedure_type VARCHAR, subject VARCHAR, processing_unit VARCHAR, priority (Urgent, Standard, Deferred), status (In_Process, Resolved, Archived), resolution_date DATE, resolution_text TEXT, was_reassigned BOOLEAN. Generate 100,000 case files with realistic administrative text. Include legal jargon: administrative appeal, administrative silence, peremptory deadlines."
       },
       {
-        "title": "Clasificar con LLM",
-        "desc": "CORTEX.COMPLETE para clasificación automática.",
-        "prompt": "Crea la vista CLASIFICACION_EXPEDIENTES que use CORTEX.COMPLETE para clasificar cada expediente:\n- tipo: autorizacion, sancion, subvencion, recurso, consulta, queja\n- materia: urbanismo, medio_ambiente, hacienda, empleo, educacion, sanidad\n- prioridad_sugerida: urgente, ordinario, diferido\n- unidad_sugerida: basada en tipo y materia\n- confianza: 0-1\nCompara con clasificación manual y mide accuracy."
+        "title": "Classify with LLM",
+        "desc": "CORTEX.COMPLETE for automatic classification.",
+        "prompt": "Create view CASE_CLASSIFICATION that uses CORTEX.COMPLETE to classify each case file:\n- type: authorization, sanction, grant, appeal, inquiry, complaint\n- subject: urban_planning, environment, finance, employment, education, health\n- suggested_priority: urgent, standard, deferred\n- suggested_unit: based on type and subject\n- confidence: 0-1\nCompare with manual classification and measure accuracy."
       },
       {
-        "title": "Extraer entidades clave",
-        "desc": "NER sobre texto administrativo.",
-        "prompt": "Crea la vista ENTIDADES_EXPEDIENTES que use CORTEX.COMPLETE para extraer:\n- personas_juridicas: empresas, asociaciones mencionadas\n- referencias_normativas: leyes, artículos, reales decretos\n- importes: cantidades económicas mencionadas\n- fechas_clave: plazos, vencimientos, hechos\n- ubicaciones: municipios, direcciones, parcelas\nFormato JSON estructurado para cada expediente."
+        "title": "Extract key entities",
+        "desc": "NER on administrative text.",
+        "prompt": "Create view CASE_ENTITIES that uses CORTEX.COMPLETE to extract:\n- legal_entities: companies, associations mentioned\n- regulatory_references: laws, articles, decrees\n- amounts: monetary quantities mentioned\n- key_dates: deadlines, due dates, events\n- locations: municipalities, addresses, parcels\nStructured JSON format for each case file."
       },
       {
-        "title": "Base de precedentes",
-        "desc": "Indexar resoluciones para sugerencias.",
-        "prompt": "Crea Cortex Search Service sobre expedientes resueltos indexando: texto_solicitud + texto_resolucion + tipo + materia. Crea función SUGERIR_RESOLUCION(texto_expediente) que busque 5 expedientes similares resueltos y use CORTEX.COMPLETE para sintetizar una sugerencia de resolución. Demuestra con 3 ejemplos."
+        "title": "Precedent database",
+        "desc": "Index resolutions for suggestions.",
+        "prompt": "Create Cortex Search Service over resolved case files indexing: request_text + resolution_text + type + subject. Create function SUGGEST_RESOLUTION(case_text) that searches 5 similar resolved cases and uses CORTEX.COMPLETE to synthesize a resolution suggestion. Demonstrate with 3 examples."
       },
       {
-        "title": "Medir impacto",
-        "desc": "Evaluar calidad de clasificación.",
-        "prompt": "Crea vista METRICAS_CLASIFICACION: accuracy por tipo, materia y unidad vs manual. Tasa de reasignación antes vs después. Tiempo medio de tramitación. Utilidad de sugerencias de resolución."
+        "title": "Measure impact",
+        "desc": "Evaluate classification quality.",
+        "prompt": "Create view CLASSIFICATION_METRICS: accuracy by type, subject, and unit vs manual. Reassignment rate before vs after. Average processing time. Usefulness of resolution suggestions."
       },
       {
-        "title": "Dashboard de expedientes",
-        "desc": "Streamlit de gestión.",
-        "prompt": "Genera código Streamlit con:\n1. Feed de expedientes nuevos con clasificación automática\n2. Sugerencia de resolución para expediente seleccionado\n3. Métricas: accuracy, reasignaciones, tiempo resolución\n4. Búsqueda de precedentes similares\n5. Tendencia de expedientes por tipo y materia\n6. Backlog por unidad tramitadora y prioridad"
+        "title": "Case files dashboard",
+        "desc": "Streamlit management dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. New case files feed with automatic classification\n2. Resolution suggestion for selected case\n3. Metrics: accuracy, reassignments, resolution time\n4. Similar precedent search\n5. Case file trends by type and subject\n6. Backlog by processing unit and priority"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar clasificación.",
-        "prompt": "Crea Tasks:\n1. CLASIFICAR_NUEVOS: cada hora, clasifica expedientes sin clasificar\n2. EXTRAER_ENTIDADES: cada hora sobre expedientes nuevos\n3. SUGERIR_RESOLUCIONES: para expedientes asignados sin sugerencia\n4. ACTUALIZAR_PRECEDENTES: semanal, reindeza nuevas resoluciones\n5. Documenta. Objetivo: accuracy >85%, reasignación <5%."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate classification.",
+        "prompt": "Create Tasks:\n1. CLASSIFY_NEW: hourly, classify unclassified case files\n2. EXTRACT_ENTITIES: hourly on new case files\n3. SUGGEST_RESOLUTIONS: for assigned cases without suggestions\n4. UPDATE_PRECEDENTS: weekly, reindex new resolutions\n5. Document. Target: accuracy >85%, reassignment <5%."
       }
     ]
   },
   "UC05": {
-    "title": "Control de Ejecución de Fondos Next Generation EU",
-    "intro": "Sistema de monitorización end-to-end de fondos europeos Next Gen EU con trazabilidad, detección de anomalías y alertas de incumplimiento.",
+    "title": "EU Recovery Fund Execution Control",
+    "intro": "End-to-end monitoring system for EU Recovery Fund with traceability, anomaly detection, and non-compliance alerts.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para control de fondos.",
-        "prompt": "Crea la base de datos SP_FONDOS_EU_DB con esquema CONTROL y warehouse SP_WH. Comentarios del proyecto de control de ejecución de fondos Next Generation EU."
+        "title": "Configure environment",
+        "desc": "Create database for fund control.",
+        "prompt": "Create database SP_EU_FUNDS_DB with schema CONTROL and warehouse SP_WH. Include project comments for EU Recovery Fund execution control."
       },
       {
-        "title": "Crear estructura de fondos",
-        "desc": "Generar componentes, líneas y asignaciones.",
-        "prompt": "Crea las tablas:\n1. COMPONENTES_PRTR con: componente_id (C01-C30), nombre, eje (Transformación_Digital, Transición_Verde, Cohesión_Social, Resiliencia), presupuesto_total_meur FLOAT\n2. ASIGNACIONES con: asignacion_id, componente_id, entidad_ejecutora, tipo_gasto (Inversión, Reforma, Transferencia), importe_meur FLOAT, hitos_vinculados INT\nGenera estructura realista del Plan de Recuperación español con 30 componentes y 200 líneas."
+        "title": "Create fund structure",
+        "desc": "Generate components, lines, and allocations.",
+        "prompt": "Create tables:\n1. RECOVERY_COMPONENTS with: component_id (C01-C30), name, pillar (Digital_Transformation, Green_Transition, Social_Cohesion, Resilience), total_budget_meur FLOAT\n2. ALLOCATIONS with: allocation_id, component_id, executing_entity, expenditure_type (Investment, Reform, Transfer), amount_meur FLOAT, linked_milestones INT\nGenerate realistic Recovery Plan structure with 30 components and 200 lines."
       },
       {
-        "title": "Crear datos de ejecución",
-        "desc": "Licitaciones, contratos y pagos.",
-        "prompt": "Crea la tabla EJECUCION_FONDOS con: asignacion_id, fecha DATE, fase (Licitacion, Adjudicacion, Contrato, Pago, Justificacion), importe_eur FLOAT, beneficiario, estado (En_Plazo, Riesgo, Retraso, Critico), dias_retraso INT, observaciones TEXT. Genera 50,000 registros de ejecución para 3 años. El 25% tiene retrasos de diversa severidad."
+        "title": "Create execution data",
+        "desc": "Tenders, contracts, and payments.",
+        "prompt": "Create table FUND_EXECUTION with: allocation_id, date DATE, phase (Tender, Award, Contract, Payment, Justification), amount_eur FLOAT, beneficiary, status (On_Track, At_Risk, Delayed, Critical), delay_days INT, observations TEXT. Generate 50,000 execution records over 3 years. 25% have delays of varying severity."
       },
       {
-        "title": "Crear hitos y seguimiento",
-        "desc": "Milestones de la UE con indicadores de cumplimiento.",
-        "prompt": "Crea la tabla HITOS_UE con: hito_id, componente_id, descripcion TEXT, tipo (Hito, Objetivo), indicador, valor_objetivo FLOAT, fecha_limite DATE, estado (Cumplido, En_Progreso, Retrasado, No_Iniciado), valor_actual FLOAT, evidencia_disponible BOOLEAN. Genera 400 hitos vinculados a los 30 componentes."
+        "title": "Create milestones and tracking",
+        "desc": "EU milestones with compliance indicators.",
+        "prompt": "Create table EU_MILESTONES with: milestone_id, component_id, description TEXT, type (Milestone, Target), indicator, target_value FLOAT, deadline DATE, status (Met, In_Progress, Delayed, Not_Started), current_value FLOAT, evidence_available BOOLEAN. Generate 400 milestones linked to 30 components."
       },
       {
-        "title": "Detectar anomalías de ejecución",
-        "desc": "ML para identificar retrasos y riesgos.",
-        "prompt": "Crea vista ALERTAS_EJECUCION que use ML.FORECAST para predecir ritmo de ejecución y ML.CLASSIFICATION para detectar anomalías:\n- Retrasos: ejecución <60% a 80% del plazo\n- Concentración: >50% de pagos en último trimestre\n- Inconsistencias: importes de contrato vs asignación >10%\n- Hitos: cumplimiento <80% a 6 meses de deadline\nAsigna severidad: crítico, alto, medio, bajo."
+        "title": "Detect execution anomalies",
+        "desc": "ML to identify delays and risks.",
+        "prompt": "Create view EXECUTION_ALERTS that uses ML.FORECAST to predict execution pace and ML.CLASSIFICATION to detect anomalies:\n- Delays: execution <60% at 80% of deadline\n- Concentration: >50% of payments in last quarter\n- Inconsistencies: contract amounts vs allocation >10%\n- Milestones: compliance <80% at 6 months from deadline\nAssign severity: critical, high, medium, low."
       },
       {
-        "title": "Generar informes de cumplimiento",
-        "desc": "Reporting automático para la UE.",
-        "prompt": "Crea función INFORME_CUMPLIMIENTO(componente_id, periodo) que use CORTEX.COMPLETE para generar:\n- Resumen ejecutivo de ejecución\n- Estado de hitos con evidencias\n- Análisis de riesgos y medidas correctoras\n- Indicadores financieros: ejecución vs asignación\n- Formato compatible con reporting a Comisión Europea"
+        "title": "Generate compliance reports",
+        "desc": "Automated reporting for the EU.",
+        "prompt": "Create function COMPLIANCE_REPORT(component_id, period) that uses CORTEX.COMPLETE to generate:\n- Executive summary of execution\n- Milestone status with evidence\n- Risk analysis and corrective measures\n- Financial indicators: execution vs allocation\n- Format compatible with European Commission reporting"
       },
       {
-        "title": "Dashboard de fondos",
-        "desc": "Streamlit de control de fondos europeos.",
-        "prompt": "Genera código Streamlit con:\n1. Resumen por componente: asignación, ejecución, hitos\n2. Semáforo de hitos: cumplido/en progreso/retrasado/no iniciado\n3. Alertas de anomalías priorizadas por severidad\n4. Trazabilidad: drill-down de asignación a pago final\n5. Predicción de ritmo de ejecución vs objetivo\n6. Generador de informes para la Comisión Europea"
+        "title": "Funds dashboard",
+        "desc": "Streamlit EU funds control dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. Summary by component: allocation, execution, milestones\n2. Milestone traffic light: met/in progress/delayed/not started\n3. Anomaly alerts prioritized by severity\n4. Traceability: drill-down from allocation to final payment\n5. Execution pace prediction vs target\n6. Report generator for the European Commission"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar monitorización.",
-        "prompt": "Crea Tasks:\n1. ACTUALIZAR_EJECUCION: diario, carga datos contables\n2. DETECTAR_ANOMALIAS: semanal, ejecuta modelos de detección\n3. EVALUAR_HITOS: mensual, verifica cumplimiento\n4. GENERAR_INFORME: trimestral, genera informe de seguimiento\n5. Documenta. Objetivo: 0 fondos devueltos por falta de trazabilidad."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate monitoring.",
+        "prompt": "Create Tasks:\n1. UPDATE_EXECUTION: daily, load accounting data\n2. DETECT_ANOMALIES: weekly, run detection models\n3. EVALUATE_MILESTONES: monthly, verify compliance\n4. GENERATE_REPORT: quarterly, generate progress report\n5. Document. Target: zero funds returned due to lack of traceability."
       }
     ]
   },
   "UC06": {
-    "title": "Gestión Inteligente de Movilidad Urbana",
-    "intro": "Motor de optimización de movilidad urbana que predice tráfico, optimiza semáforos y coordina transporte público con datos en tiempo real.",
+    "title": "Intelligent Urban Mobility Management",
+    "intro": "Urban mobility optimization engine that predicts traffic, optimizes signals, and coordinates public transit with real-time data.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para movilidad.",
-        "prompt": "Crea la base de datos SP_MOVILIDAD_DB con esquema ANALYTICS y warehouse SP_WH. Comentarios del proyecto de gestión inteligente de movilidad urbana."
+        "title": "Configure environment",
+        "desc": "Create database for mobility.",
+        "prompt": "Create database SP_MOBILITY_DB with schema ANALYTICS and warehouse SP_WH. Include project comments for intelligent urban mobility management."
       },
       {
-        "title": "Crear red viaria y sensores",
-        "desc": "Generar topología de calles y puntos de medición.",
-        "prompt": "Crea las tablas:\n1. RED_VIARIA con: tramo_id, nombre_calle, zona (Centro, Corona, Periferia, Acceso), tipo_via (Principal, Secundaria, Residencial), carriles INT, velocidad_max INT, tiene_semaforo BOOLEAN, tiene_sensor BOOLEAN\n2. SENSORES_TRAFICO con: sensor_id, tramo_id, tipo (Espira, Camara, Bluetooth, GPS)\nGenera red de 2,000 tramos con 500 sensores."
+        "title": "Create road network and sensors",
+        "desc": "Generate street topology and measurement points.",
+        "prompt": "Create tables:\n1. ROAD_NETWORK with: segment_id, street_name, zone (Center, Ring, Periphery, Access), road_type (Main, Secondary, Residential), lanes INT, speed_limit INT, has_traffic_light BOOLEAN, has_sensor BOOLEAN\n2. TRAFFIC_SENSORS with: sensor_id, segment_id, type (Loop, Camera, Bluetooth, GPS)\nGenerate network of 2,000 segments with 500 sensors."
       },
       {
-        "title": "Cargar datos de tráfico",
-        "desc": "Datos de flujo vehicular y transporte público.",
-        "prompt": "Crea las tablas:\n1. FLUJO_TRAFICO con: sensor_id, fecha_hora TIMESTAMP, vehiculos_hora INT, velocidad_media_kmh FLOAT, ocupacion_pct FLOAT, nivel_servicio (A-F)\n2. TRANSPORTE_PUBLICO con: linea_id, parada_id, fecha_hora, ocupacion_pct, retraso_min FLOAT\nGenera datos cada 15 min para 1 año. Patrones: punta 8-9h y 18-19h, sábado -40%, domingo -60%."
+        "title": "Load traffic data",
+        "desc": "Vehicle flow and public transit data.",
+        "prompt": "Create tables:\n1. TRAFFIC_FLOW with: sensor_id, timestamp TIMESTAMP, vehicles_per_hour INT, avg_speed_kmh FLOAT, occupancy_pct FLOAT, level_of_service (A-F)\n2. PUBLIC_TRANSIT with: line_id, stop_id, timestamp, occupancy_pct, delay_min FLOAT\nGenerate data every 15 min for 1 year. Patterns: peak 8-9am and 6-7pm, Saturday -40%, Sunday -60%."
       },
       {
-        "title": "Predecir congestión",
-        "desc": "ML.FORECAST de tráfico por zona y hora.",
-        "prompt": "Usa ML.FORECAST para predecir vehiculos_hora por tramo a 30min, 1h y 4h vista. Variables exógenas: hora, dia_semana, lluvia BOOLEAN, evento_cercano BOOLEAN, obras BOOLEAN. Crea vista PREDICCION_TRAFICO con: tramo_id, hora, vehiculos_previstos, nivel_servicio_previsto, confianza. Identifica tramos que pasarán a nivel E o F."
+        "title": "Predict congestion",
+        "desc": "ML.FORECAST of traffic by zone and hour.",
+        "prompt": "Use ML.FORECAST to predict vehicles_per_hour by segment at 30min, 1h, and 4h horizons. Exogenous variables: hour, day_of_week, rain BOOLEAN, nearby_event BOOLEAN, construction BOOLEAN. Create view TRAFFIC_PREDICTION with: segment_id, hour, predicted_vehicles, predicted_level_of_service, confidence. Identify segments that will reach level E or F."
       },
       {
-        "title": "Optimizar semáforos",
-        "desc": "Motor de ajuste de ciclos semafóricos.",
-        "prompt": "Crea vista OPTIMIZACION_SEMAFOROS que para cada intersección semaforizada calcule: ciclo_actual_seg, verde_actual_seg por dirección, demanda_prevista por dirección, ciclo_optimo_seg, verde_optimo_seg, mejora_estimada_vehiculos_hora. Prioriza corredores principales. Calcula tiempo total ahorrado por corredor en hora punta."
+        "title": "Optimize traffic signals",
+        "desc": "Signal cycle adjustment engine.",
+        "prompt": "Create view SIGNAL_OPTIMIZATION that for each signalized intersection calculates: current_cycle_sec, current_green_sec per direction, predicted_demand per direction, optimal_cycle_sec, optimal_green_sec, estimated_improvement_vehicles_hour. Prioritize main corridors. Calculate total time saved per corridor during peak hours."
       },
       {
-        "title": "Integrar transporte público",
-        "desc": "Recomendaciones multimodales.",
-        "prompt": "Crea vista ALTERNATIVAS_MOVILIDAD que para cada corredor congestionado genere: alternativa_bus (línea, frecuencia, ocupación), alternativa_metro, alternativa_bici, tiempo_estimado por modo, ahorro_co2, recomendación. Usa CORTEX.COMPLETE para generar mensaje de recomendación personalizado."
+        "title": "Integrate public transit",
+        "desc": "Multimodal recommendations.",
+        "prompt": "Create view MOBILITY_ALTERNATIVES that for each congested corridor generates: bus_alternative (line, frequency, occupancy), metro_alternative, bike_alternative, estimated_time per mode, co2_savings, recommendation. Use CORTEX.COMPLETE to generate personalized recommendation messages."
       },
       {
-        "title": "Dashboard de movilidad",
-        "desc": "Streamlit de centro de control.",
-        "prompt": "Genera código Streamlit con:\n1. Mapa de tráfico en tiempo real con nivel de servicio por tramo\n2. Predicción de congestión próximas 4h\n3. Panel de optimización semafórica por corredor\n4. Alternativas de transporte para corredores congestionados\n5. Métricas: tiempo medio desplazamiento, uso TP, emisiones\n6. Histórico de impacto de optimizaciones aplicadas"
+        "title": "Mobility dashboard",
+        "desc": "Streamlit control center.",
+        "prompt": "Generate Streamlit code with:\n1. Real-time traffic map with level of service by segment\n2. Congestion prediction for next 4 hours\n3. Signal optimization panel by corridor\n4. Transit alternatives for congested corridors\n5. Metrics: avg travel time, public transit usage, emissions\n6. Historical impact of applied optimizations"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar gestión de movilidad.",
-        "prompt": "Crea Tasks:\n1. INGESTAR_TRAFICO: cada 15 min desde sensores\n2. PREDECIR_CONGESTION: cada 30 min genera predicciones\n3. OPTIMIZAR_SEMAFOROS: cada hora recalcula ciclos óptimos\n4. REPORTE_DIARIO: resumen de movilidad y mejoras\n5. Documenta. Objetivo: reducir tiempo desplazamiento 15%."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate mobility management.",
+        "prompt": "Create Tasks:\n1. INGEST_TRAFFIC: every 15 min from sensors\n2. PREDICT_CONGESTION: every 30 min generate predictions\n3. OPTIMIZE_SIGNALS: hourly recalculate optimal cycles\n4. DAILY_REPORT: daily mobility summary and improvements\n5. Document. Target: reduce travel time by 15%."
       }
     ]
   },
   "UC07": {
-    "title": "Evaluación de Impacto de Políticas Públicas",
-    "intro": "Motor de evaluación que analiza el efecto diferencial de políticas públicas sobre indicadores socioeconómicos con inferencia causal y ML.",
+    "title": "Public Policy Impact Evaluation",
+    "intro": "Evaluation engine that analyzes the differential effect of public policies on socioeconomic indicators with causal inference and ML.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para evaluación de impacto.",
-        "prompt": "Crea la base de datos SP_EVALUACION_DB con esquema ANALYTICS y warehouse SP_WH. Comentarios del proyecto de evaluación de impacto de políticas públicas."
+        "title": "Configure environment",
+        "desc": "Create database for impact evaluation.",
+        "prompt": "Create database SP_EVALUATION_DB with schema ANALYTICS and warehouse SP_WH. Include project comments for public policy impact evaluation."
       },
       {
-        "title": "Crear registro de políticas",
-        "desc": "Catálogo de intervenciones públicas.",
-        "prompt": "Crea la tabla POLITICAS_PUBLICAS con: politica_id, nombre, tipo (Subvencion, Regulacion, Inversion, Programa, Reforma), ambito (Empleo, Educacion, Vivienda, Salud, Innovacion), presupuesto_meur FLOAT, fecha_inicio DATE, fecha_fin DATE, territorio_objetivo (Nacional, CCAA, Municipal), beneficiarios_previstos INT, indicador_principal. Genera 100 políticas de 5 años."
+        "title": "Create policy registry",
+        "desc": "Catalog of public interventions.",
+        "prompt": "Create table PUBLIC_POLICIES with: policy_id, name, type (Subsidy, Regulation, Investment, Program, Reform), domain (Employment, Education, Housing, Health, Innovation), budget_meur FLOAT, start_date DATE, end_date DATE, target_territory (National, State, Municipal), expected_beneficiaries INT, primary_indicator. Generate 100 policies over 5 years."
       },
       {
-        "title": "Cargar indicadores socioeconómicos",
-        "desc": "Datos municipales pre/post intervención.",
-        "prompt": "Crea la tabla INDICADORES_MUNICIPALES con: municipio_id, fecha_trimestre DATE, tasa_empleo_pct, renta_media_eur, tasa_abandono_escolar_pct, esperanza_vida_anos FLOAT, tasa_pobreza_pct, empresas_creadas INT, inversion_extranjera_meur FLOAT, indice_innovacion FLOAT. Genera datos trimestrales para 500 municipios × 5 años."
+        "title": "Load socioeconomic indicators",
+        "desc": "Municipal data pre/post intervention.",
+        "prompt": "Create table MUNICIPAL_INDICATORS with: municipality_id, quarter_date DATE, employment_rate_pct, avg_income_eur, school_dropout_rate_pct, life_expectancy_years FLOAT, poverty_rate_pct, businesses_created INT, foreign_investment_meur FLOAT, innovation_index FLOAT. Generate quarterly data for 500 municipalities x 5 years."
       },
       {
-        "title": "Definir grupos de control",
-        "desc": "Matching de municipios tratados y control.",
-        "prompt": "Crea la vista MATCHING_MUNICIPIOS que para cada política identifique:\n- Municipios tratados: que recibieron la intervención\n- Municipios control: similares en indicadores pre-intervención pero no tratados\n- Variables de matching: población, renta, empleo, sector productivo, zona\nUsa ML.CLASSIFICATION para calcular propensity score y seleccionar controles óptimos."
+        "title": "Define control groups",
+        "desc": "Matching of treated and control municipalities.",
+        "prompt": "Create view MUNICIPALITY_MATCHING that for each policy identifies:\n- Treated municipalities: that received the intervention\n- Control municipalities: similar in pre-intervention indicators but untreated\n- Matching variables: population, income, employment, productive sector, zone\nUse ML.CLASSIFICATION to calculate propensity score and select optimal controls."
       },
       {
-        "title": "Calcular impacto diferencial",
-        "desc": "Difference-in-differences sobre indicadores.",
-        "prompt": "Crea la vista EVALUACION_IMPACTO que para cada política calcule:\n- Diferencia pre/post en grupo tratado vs control (DiD)\n- Impacto estimado por indicador (empleo, renta, etc.)\n- Significancia estadística y intervalos de confianza\n- Impacto diferencial por perfil de territorio\n- Coste-efectividad: euros invertidos por punto de mejora\nGenera ranking de políticas por impacto y eficiencia."
+        "title": "Calculate differential impact",
+        "desc": "Difference-in-differences on indicators.",
+        "prompt": "Create view IMPACT_EVALUATION that for each policy calculates:\n- Pre/post difference in treated vs control group (DiD)\n- Estimated impact per indicator (employment, income, etc.)\n- Statistical significance and confidence intervals\n- Differential impact by territory profile\n- Cost-effectiveness: euros invested per improvement point\nGenerate ranking of policies by impact and efficiency."
       },
       {
-        "title": "Generar narrativa de evaluación",
-        "desc": "LLM para redactar informes.",
-        "prompt": "Crea función INFORME_EVALUACION(politica_id) que use CORTEX.COMPLETE para generar:\n- Resumen ejecutivo del impacto\n- Metodología empleada (DiD, matching)\n- Resultados principales por indicador\n- Impacto diferencial por territorio\n- Recomendaciones para futuras intervenciones\nFormato profesional de informe de evaluación."
+        "title": "Generate evaluation narrative",
+        "desc": "LLM to draft reports.",
+        "prompt": "Create function EVALUATION_REPORT(policy_id) that uses CORTEX.COMPLETE to generate:\n- Executive summary of impact\n- Methodology used (DiD, matching)\n- Main results by indicator\n- Differential impact by territory\n- Recommendations for future interventions\nProfessional evaluation report format."
       },
       {
-        "title": "Dashboard de evaluación",
-        "desc": "Streamlit de evidencia para decisores.",
-        "prompt": "Genera código Streamlit con:\n1. Catálogo de políticas evaluadas con impacto resumido\n2. Comparativa pre/post tratamiento vs control por indicador\n3. Mapa de impacto diferencial por territorio\n4. Ranking de políticas por coste-efectividad\n5. Generador de informes de evaluación\n6. Recomendaciones para planificación presupuestaria"
+        "title": "Evaluation dashboard",
+        "desc": "Streamlit evidence dashboard for decision makers.",
+        "prompt": "Generate Streamlit code with:\n1. Catalog of evaluated policies with summarized impact\n2. Pre/post comparison treatment vs control by indicator\n3. Differential impact map by territory\n4. Policy ranking by cost-effectiveness\n5. Evaluation report generator\n6. Recommendations for budget planning"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar evaluación.",
-        "prompt": "Crea Tasks:\n1. ACTUALIZAR_INDICADORES: trimestral, carga nuevos datos\n2. RECALCULAR_MATCHING: semestral, ajusta grupos de control\n3. EVALUAR_POLITICAS: anual, ejecuta evaluación completa\n4. GENERAR_INFORMES: según calendario presupuestario\n5. Documenta. Objetivo: evaluar 80% de políticas con evidencia causal."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate evaluation.",
+        "prompt": "Create Tasks:\n1. UPDATE_INDICATORS: quarterly, load new data\n2. RECALCULATE_MATCHING: semi-annual, adjust control groups\n3. EVALUATE_POLICIES: annual, run full evaluation\n4. GENERATE_REPORTS: per budget calendar\n5. Document. Target: evaluate 80% of policies with causal evidence."
       }
     ]
   },
   "UC08": {
-    "title": "Feature Store de Perfil Ciudadano 360",
-    "intro": "Implementa un Feature Store en Snowflake que consolide la visión 360 del ciudadano cumpliendo RGPD para personalización de servicios y coordinación inter-administrativa.",
+    "title": "Citizen 360 Profile Feature Store",
+    "intro": "Implement a Feature Store in Snowflake that consolidates the citizen 360 view while complying with data protection regulations for service personalization and inter-agency coordination.",
     "steps": [
       {
-        "title": "Configurar Feature Store",
-        "desc": "Crear base de datos y preparar Feature Store.",
-        "prompt": "Crea la base de datos SP_CITIZEN360_DB con esquema FEATURE_STORE y warehouse SP_WH. Comenta que este proyecto implementa Snowflake Feature Store para Perfil Ciudadano 360 con cumplimiento RGPD."
+        "title": "Configure Feature Store",
+        "desc": "Create database and prepare Feature Store.",
+        "prompt": "Create database SP_CITIZEN360_DB with schema FEATURE_STORE and warehouse SP_WH. Comment that this project implements Snowflake Feature Store for Citizen 360 Profile with data protection compliance."
       },
       {
-        "title": "Crear datos fuente",
-        "desc": "Generar datos de las 5 fuentes principales.",
-        "prompt": "Crea 5 tablas fuente:\n1. RAW_PADRON: citizen_id, municipio, fecha_nacimiento, genero, nacionalidad, domicilio, composicion_familiar INT\n2. RAW_TRIBUTARIO: citizen_id, renta_anual_eur FLOAT, tipo_declaracion, deuda_tributaria BOOLEAN, actividad_economica\n3. RAW_SERVICIOS_SOCIALES: citizen_id, prestaciones_activas INT, tipo_prestacion, grado_dependencia, riesgo_vulnerabilidad\n4. RAW_EMPLEO: citizen_id, situacion_laboral, antiguedad_empleo_meses INT, formacion_reciente BOOLEAN, prestacion_desempleo BOOLEAN\n5. RAW_DIGITAL: citizen_id, tramites_online_12m INT, canal_preferido, tiene_certificado_digital BOOLEAN, accesibilidad_necesaria BOOLEAN\nGenera datos para 100,000 ciudadanos."
+        "title": "Create source data",
+        "desc": "Generate data from 5 main sources.",
+        "prompt": "Create 5 source tables:\n1. RAW_REGISTRY: citizen_id, municipality, birth_date, gender, nationality, address, family_size INT\n2. RAW_TAX: citizen_id, annual_income_eur FLOAT, declaration_type, has_tax_debt BOOLEAN, economic_activity\n3. RAW_SOCIAL_SERVICES: citizen_id, active_benefits INT, benefit_type, dependency_level, vulnerability_risk\n4. RAW_EMPLOYMENT: citizen_id, employment_status, employment_tenure_months INT, recent_training BOOLEAN, receiving_unemployment BOOLEAN\n5. RAW_DIGITAL: citizen_id, online_procedures_12m INT, preferred_channel, has_digital_certificate BOOLEAN, accessibility_needed BOOLEAN\nGenerate data for 100,000 citizens."
       },
       {
-        "title": "Crear Entity del Feature Store",
-        "desc": "Definir Entity 'citizen' con cumplimiento RGPD.",
-        "prompt": "Usando Snowflake Feature Store:\n\nfrom snowflake.ml.feature_store import FeatureStore, Entity, FeatureView\nfs = FeatureStore(session=session, database='SP_CITIZEN360_DB', name='FEATURE_STORE')\n\ncitizen = Entity(\n    name='CITIZEN',\n    join_keys=['CITIZEN_ID'],\n    desc='Ciudadano con perfil 360 - Cumplimiento RGPD'\n)\nfs.register_entity(citizen)\nVerifica registro."
+        "title": "Create Feature Store Entity",
+        "desc": "Define Entity 'citizen' with data protection compliance.",
+        "prompt": "Using Snowflake Feature Store:\n\nfrom snowflake.ml.feature_store import FeatureStore, Entity, FeatureView\nfs = FeatureStore(session=session, database='SP_CITIZEN360_DB', name='FEATURE_STORE')\n\ncitizen = Entity(\n    name='CITIZEN',\n    join_keys=['CITIZEN_ID'],\n    desc='Citizen with 360 profile - Data Protection Compliant'\n)\nfs.register_entity(citizen)\nVerify registration."
       },
       {
-        "title": "Crear FeatureView demográfico",
-        "desc": "Features del padrón y perfil básico.",
-        "prompt": "Crea FeatureView DEMOGRAPHIC_PROFILE desde RAW_PADRON:\n- edad_grupo (0-17, 18-30, 31-45, 46-65, 65+), genero\n- municipio, zona (urbano/rural)\n- composicion_familiar, tiene_menores BOOLEAN\n- nacionalidad_grupo (Nacional, UE, Extra_UE)\nRegistra con refresh_freq='1 month'. Implementar enmascaramiento: fecha_nacimiento exacta no disponible, solo grupo de edad."
+        "title": "Create demographic FeatureView",
+        "desc": "Features from registry and basic profile.",
+        "prompt": "Create FeatureView DEMOGRAPHIC_PROFILE from RAW_REGISTRY:\n- age_group (0-17, 18-30, 31-45, 46-65, 65+), gender\n- municipality, zone (urban/rural)\n- family_size, has_minors BOOLEAN\n- nationality_group (National, EU, Non_EU)\nRegister with refresh_freq='1 month'. Implement masking: exact birth_date not available, only age group."
       },
       {
-        "title": "Crear FeatureViews fiscal y social",
-        "desc": "Features tributarios y de servicios sociales.",
-        "prompt": "Crea 2 FeatureViews:\n1. FISCAL_STATUS desde RAW_TRIBUTARIO:\n- tramo_renta (bajo, medio, alto), tiene_deuda BOOLEAN\n- tipo_actividad, es_autonomo BOOLEAN\n\n2. SOCIAL_SERVICES desde RAW_SERVICIOS_SOCIALES:\n- tiene_prestaciones BOOLEAN, tipo_prestacion_principal\n- grado_dependencia, riesgo_vulnerabilidad_score\n- necesita_atencion_prioritaria BOOLEAN\n\nRefresh mensual. Enmascaramiento: importes exactos no disponibles."
+        "title": "Create fiscal and social FeatureViews",
+        "desc": "Tax and social services features.",
+        "prompt": "Create 2 FeatureViews:\n1. FISCAL_STATUS from RAW_TAX:\n- income_bracket (low, medium, high), has_debt BOOLEAN\n- activity_type, is_self_employed BOOLEAN\n\n2. SOCIAL_SERVICES from RAW_SOCIAL_SERVICES:\n- has_benefits BOOLEAN, primary_benefit_type\n- dependency_level, vulnerability_risk_score\n- needs_priority_attention BOOLEAN\n\nMonthly refresh. Masking: exact amounts not available."
       },
       {
-        "title": "Crear FeatureViews empleo y digital",
-        "desc": "Features de situación laboral y digitalización.",
-        "prompt": "Crea 2 FeatureViews:\n1. EMPLOYMENT_PROFILE desde RAW_EMPLEO:\n- situacion_laboral, estabilidad_empleo\n- en_desempleo BOOLEAN, formacion_reciente\n- necesita_orientacion_laboral BOOLEAN\n\n2. DIGITAL_ENGAGEMENT desde RAW_DIGITAL:\n- nivel_digital (alto, medio, bajo, sin_acceso)\n- canal_preferido, tiene_certificado_digital\n- necesita_accesibilidad BOOLEAN\n- frecuencia_uso_sede_electronica\n\nRefresh mensual."
+        "title": "Create employment and digital FeatureViews",
+        "desc": "Employment status and digitalization features.",
+        "prompt": "Create 2 FeatureViews:\n1. EMPLOYMENT_PROFILE from RAW_EMPLOYMENT:\n- employment_status, employment_stability\n- is_unemployed BOOLEAN, recent_training\n- needs_career_guidance BOOLEAN\n\n2. DIGITAL_ENGAGEMENT from RAW_DIGITAL:\n- digital_level (high, medium, low, no_access)\n- preferred_channel, has_digital_certificate\n- needs_accessibility BOOLEAN\n- e_government_usage_frequency\n\nMonthly refresh."
       },
       {
-        "title": "Servir features para servicios",
-        "desc": "Demostrar consumo desde otros pipelines.",
-        "prompt": "Demuestra consumo de features:\n\n# Para chatbot (UC02)\ndf_chat = fs.get_features(entity=citizen, feature_views=['DEMOGRAPHIC_PROFILE', 'DIGITAL_ENGAGEMENT'], spine_df=ciudadano_df)\n\n# Para personalización (UC12)\ndf_personalizacion = fs.get_features(entity=citizen, feature_views=['DEMOGRAPHIC_PROFILE', 'FISCAL_STATUS', 'SOCIAL_SERVICES', 'EMPLOYMENT_PROFILE'], spine_df=ciudadanos_activos_df)\n\n# Para vulnerabilidad (UC18)\ndf_vulnerabilidad = fs.get_features(entity=citizen, feature_views=['FISCAL_STATUS', 'SOCIAL_SERVICES', 'EMPLOYMENT_PROFILE'], spine_df=zona_riesgo_df)\n\nMuestra DataFrames resultantes."
+        "title": "Serve features for services",
+        "desc": "Demonstrate consumption from other pipelines.",
+        "prompt": "Demonstrate feature consumption:\n\n# For chatbot (UC02)\ndf_chat = fs.get_features(entity=citizen, feature_views=['DEMOGRAPHIC_PROFILE', 'DIGITAL_ENGAGEMENT'], spine_df=citizen_df)\n\n# For personalization (UC12)\ndf_personalization = fs.get_features(entity=citizen, feature_views=['DEMOGRAPHIC_PROFILE', 'FISCAL_STATUS', 'SOCIAL_SERVICES', 'EMPLOYMENT_PROFILE'], spine_df=active_citizens_df)\n\n# For vulnerability (UC18)\ndf_vulnerability = fs.get_features(entity=citizen, feature_views=['FISCAL_STATUS', 'SOCIAL_SERVICES', 'EMPLOYMENT_PROFILE'], spine_df=risk_zone_df)\n\nShow resulting DataFrames."
       },
       {
-        "title": "Dashboard del Feature Store",
-        "desc": "Streamlit de monitorización.",
-        "prompt": "Genera código Streamlit con:\n1. Resumen: 5 FeatureViews, features totales, último refresh\n2. Buscador de ciudadano con perfil (con enmascaramiento RGPD)\n3. Distribución de perfiles por zona y segmento\n4. Métricas de calidad: completitud, freshness, drift\n5. Audit log de accesos al Feature Store\n6. Cumplimiento RGPD: finalidad, minimización, consentimiento"
+        "title": "Feature Store dashboard",
+        "desc": "Streamlit monitoring dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. Summary: 5 FeatureViews, total features, last refresh\n2. Citizen search with profile (with data protection masking)\n3. Profile distribution by zone and segment\n4. Quality metrics: completeness, freshness, drift\n5. Access audit log for the Feature Store\n6. Data protection compliance: purpose, minimization, consent"
       },
       {
-        "title": "Pipeline de mantenimiento",
-        "desc": "Automatizar actualización y auditoría.",
-        "prompt": "Crea Tasks:\n1. REFRESH_PADRON: mensual, actualiza demográfico\n2. REFRESH_TRIBUTARIO: mensual, actualiza fiscal\n3. REFRESH_SOCIAL: mensual, actualiza servicios sociales\n4. MONITOR_QUALITY: semanal, verifica completitud y drift\n5. AUDIT_ACCESOS: diario, registra quién accede y con qué finalidad\n6. Documenta. Cumplimiento estricto RGPD en cada operación."
+        "title": "Maintenance pipeline",
+        "desc": "Automate updates and audits.",
+        "prompt": "Create Tasks:\n1. REFRESH_REGISTRY: monthly, update demographics\n2. REFRESH_TAX: monthly, update fiscal data\n3. REFRESH_SOCIAL: monthly, update social services\n4. MONITOR_QUALITY: weekly, verify completeness and drift\n5. AUDIT_ACCESS: daily, log who accesses and for what purpose\n6. Document. Strict data protection compliance in every operation."
       }
     ]
   },
   "UC09": {
-    "title": "Optimización de Contratación Pública",
-    "intro": "Motor de inteligencia de contratación que predice licitaciones desiertas, estima precios de mercado y recomienda división en lotes.",
+    "title": "Public Procurement Optimization",
+    "intro": "Procurement intelligence engine that predicts failed tenders, estimates market prices, and recommends lot division.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para contratación.",
-        "prompt": "Crea la base de datos SP_CONTRATACION_DB con esquema ANALYTICS y warehouse SP_WH. Comentarios del proyecto de optimización de contratación pública."
+        "title": "Configure environment",
+        "desc": "Create database for procurement.",
+        "prompt": "Create database SP_PROCUREMENT_DB with schema ANALYTICS and warehouse SP_WH. Include project comments for public procurement optimization."
       },
       {
-        "title": "Crear datos de licitaciones",
-        "desc": "Historial de licitaciones con resultados.",
-        "prompt": "Crea la tabla LICITACIONES con: licitacion_id, organo_contratacion, cpv_codigo, cpv_descripcion, tipo_contrato (Obras, Servicios, Suministros), procedimiento (Abierto, Restringido, Negociado, Menor), importe_estimado_eur FLOAT, num_lotes INT, fecha_publicacion DATE, fecha_apertura DATE, resultado (Adjudicada, Desierta, Anulada), num_ofertas INT, precio_adjudicacion_eur FLOAT, adjudicatario. Genera 50,000 licitaciones de 5 años. 25% desiertas."
+        "title": "Create tender data",
+        "desc": "Tender history with outcomes.",
+        "prompt": "Create table TENDERS with: tender_id, contracting_authority, cpv_code, cpv_description, contract_type (Works, Services, Supplies), procedure (Open, Restricted, Negotiated, Minor), estimated_amount_eur FLOAT, num_lots INT, publication_date DATE, opening_date DATE, outcome (Awarded, Failed, Cancelled), num_bids INT, award_price_eur FLOAT, awardee. Generate 50,000 tenders over 5 years. 25% failed."
       },
       {
-        "title": "Crear datos de empresas licitadoras",
-        "desc": "Registro de empresas que participan en contratación.",
-        "prompt": "Crea la tabla EMPRESAS_LICITADORAS con: empresa_nif, nombre, tamaño (Gran_Empresa, PYME, Microempresa), sector_principal_cpv, num_licitaciones_participadas_3a INT, num_adjudicaciones_3a INT, tasa_exito_pct FLOAT, importe_adjudicado_3a_eur FLOAT, clasificacion_empresarial BOOLEAN, solvencia_economica BOOLEAN. Genera 10,000 empresas."
+        "title": "Create bidder company data",
+        "desc": "Registry of companies participating in procurement.",
+        "prompt": "Create table BIDDER_COMPANIES with: company_id, name, size (Large, SME, Micro), main_cpv_sector, tenders_participated_3y INT, awards_3y INT, success_rate_pct FLOAT, awarded_amount_3y_eur FLOAT, has_classification BOOLEAN, has_financial_solvency BOOLEAN. Generate 10,000 companies."
       },
       {
-        "title": "Calcular features predictivas",
-        "desc": "Indicadores de riesgo de desierto.",
-        "prompt": "Crea la vista FEATURES_CONTRATACION que por licitación calcule:\n- Mercado: num_empresas_habilitadas_cpv, concentracion_hhi, tasa_desierto_historica_cpv\n- Pliego: importe_vs_mercado_ratio, plazo_ejecucion_vs_medio, requisitos_solvencia_nivel\n- Competencia: empresas_potenciales, ofertas_historicas_similares\n- Temporal: dias_publicacion_a_apertura, trimestre, fin_ejercicio\n- Territorial: provincia, num_empresas_locales_sector"
+        "title": "Calculate predictive features",
+        "desc": "Risk indicators for failed tenders.",
+        "prompt": "Create view PROCUREMENT_FEATURES that per tender calculates:\n- Market: num_qualified_companies_cpv, hhi_concentration, historical_failure_rate_cpv\n- Specifications: amount_vs_market_ratio, execution_period_vs_average, solvency_requirement_level\n- Competition: potential_bidders, historical_bids_similar\n- Temporal: days_publication_to_opening, quarter, fiscal_year_end\n- Territorial: province, num_local_companies_sector"
       },
       {
-        "title": "Predecir licitaciones desiertas",
-        "desc": "ML.CLASSIFICATION para riesgo de desierto.",
-        "prompt": "Usa ML.CLASSIFICATION para predecir resultado: adjudicada vs desierta. Variables: todas las features. Evalúa precision, recall, F1. Para licitaciones con riesgo_desierto >60% genera recomendaciones: ampliar plazo, reducir requisitos solvencia, dividir en lotes, ajustar precio."
+        "title": "Predict failed tenders",
+        "desc": "ML.CLASSIFICATION for failure risk.",
+        "prompt": "Use ML.CLASSIFICATION to predict outcome: awarded vs failed. Variables: all features. Evaluate precision, recall, F1. For tenders with failure_risk >60% generate recommendations: extend deadline, reduce solvency requirements, divide into lots, adjust price."
       },
       {
-        "title": "Estimar precios de referencia",
-        "desc": "Benchmarking de precios por CPV.",
-        "prompt": "Crea vista PRECIOS_REFERENCIA que por CPV y territorio calcule: precio_medio_eur, precio_mediana, precio_p25, precio_p75, num_contratos_base, tendencia_precio_12m. Crea función ESTIMAR_PRECIO(cpv, importe, territorio) que compare con benchmark y alerte si desvío >15%."
+        "title": "Estimate reference prices",
+        "desc": "Price benchmarking by CPV.",
+        "prompt": "Create view REFERENCE_PRICES that per CPV and territory calculates: avg_price_eur, median_price, price_p25, price_p75, base_contracts_count, price_trend_12m. Create function ESTIMATE_PRICE(cpv, amount, territory) that compares with benchmark and alerts if deviation >15%."
       },
       {
-        "title": "Recomendar lotes",
-        "desc": "División óptima para aumentar competencia.",
-        "prompt": "Crea función RECOMENDAR_LOTES(licitacion_id) que use CORTEX.COMPLETE para analizar el pliego y recomendar: num_lotes_optimo, descripcion_por_lote, importe_por_lote, beneficio_esperado (más ofertas, menor precio, acceso PYME). Basado en análisis de competencia por segmento del CPV."
+        "title": "Recommend lots",
+        "desc": "Optimal division to increase competition.",
+        "prompt": "Create function RECOMMEND_LOTS(tender_id) that uses CORTEX.COMPLETE to analyze specifications and recommend: optimal_num_lots, description_per_lot, amount_per_lot, expected_benefit (more bids, lower price, SME access). Based on competition analysis by CPV segment."
       },
       {
-        "title": "Dashboard de contratación",
-        "desc": "Streamlit de inteligencia.",
-        "prompt": "Genera código Streamlit con:\n1. Predicción de riesgo de desierto para licitaciones activas\n2. Recomendaciones de mejora: lotes, precios, plazos\n3. Benchmarking de precios por CPV y territorio\n4. Métricas: tasa de desierto, competencia media, ahorro estimado\n5. Análisis de concentración por sector\n6. Comparativa PYME vs gran empresa por tipo de contrato"
+        "title": "Procurement dashboard",
+        "desc": "Streamlit intelligence dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. Failure risk prediction for active tenders\n2. Improvement recommendations: lots, prices, deadlines\n3. Price benchmarking by CPV and territory\n4. Metrics: failure rate, average competition, estimated savings\n5. Concentration analysis by sector\n6. SME vs large company comparison by contract type"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar análisis de contratación.",
-        "prompt": "Crea Tasks:\n1. INGESTAR_LICITACIONES: diario, carga nuevas licitaciones de PLACE\n2. SCORING_DESIERTO: semanal, ejecuta modelo sobre licitaciones activas\n3. ACTUALIZAR_PRECIOS: mensual, recalcula benchmarks\n4. REENTRENAR: semestral con resultados de nuevas licitaciones\n5. Documenta. Objetivo: reducir desiertas del 25% al 15%."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate procurement analysis.",
+        "prompt": "Create Tasks:\n1. INGEST_TENDERS: daily, load new tenders from platform\n2. FAILURE_SCORING: weekly, run model on active tenders\n3. UPDATE_PRICES: monthly, recalculate benchmarks\n4. RETRAIN: semi-annual with new tender outcomes\n5. Document. Target: reduce failed tenders from 25% to 15%."
       }
     ]
   },
   "UC10": {
-    "title": "Detección de Anomalías en Consumo Energético de Edificios Públicos",
-    "intro": "Sistema ML de detección de anomalías y optimización de consumo energético en edificios públicos con monitorización en tiempo real.",
+    "title": "Energy Anomaly Detection in Public Buildings",
+    "intro": "ML anomaly detection and energy consumption optimization system for public buildings with real-time monitoring.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para eficiencia energética.",
-        "prompt": "Crea la base de datos SP_ENERGIA_EDIFICIOS_DB con esquema ANALYTICS y warehouse SP_WH. Comentarios del proyecto de eficiencia energética de edificios públicos."
+        "title": "Configure environment",
+        "desc": "Create database for energy efficiency.",
+        "prompt": "Create database SP_BUILDING_ENERGY_DB with schema ANALYTICS and warehouse SP_WH. Include project comments for public building energy efficiency."
       },
       {
-        "title": "Crear inventario de edificios",
-        "desc": "Catálogo de edificios públicos.",
-        "prompt": "Crea la tabla EDIFICIOS_PUBLICOS con: edificio_id, nombre, tipo (Oficina, Colegio, Hospital, Polideportivo, Museo, Biblioteca), administracion, municipio, zona_climatica (A-E), superficie_m2 INT, antiguedad_anos INT, certificacion_energetica (A-G), potencia_contratada_kw FLOAT, tiene_climatizacion BOOLEAN, tiene_iot BOOLEAN. Genera 500 edificios."
+        "title": "Create building inventory",
+        "desc": "Catalog of public buildings.",
+        "prompt": "Create table PUBLIC_BUILDINGS with: building_id, name, type (Office, School, Hospital, Sports_Center, Museum, Library), administration, municipality, climate_zone (A-E), area_sqm INT, age_years INT, energy_rating (A-G), contracted_power_kw FLOAT, has_hvac BOOLEAN, has_iot BOOLEAN. Generate 500 buildings."
       },
       {
-        "title": "Cargar datos de consumo",
-        "desc": "Consumo eléctrico y climatización.",
-        "prompt": "Crea la tabla CONSUMO_EDIFICIOS con: edificio_id, fecha_hora TIMESTAMP, consumo_kwh FLOAT, potencia_kw FLOAT, temperatura_interior_c FLOAT, temperatura_exterior_c FLOAT, ocupacion_pct FLOAT, climatizacion_activa BOOLEAN, iluminacion_activa BOOLEAN. Genera datos horarios para 2 años. Patrones: oficinas L-V 8-18h, colegios L-V 8-15h, hospitales 24/7."
+        "title": "Load consumption data",
+        "desc": "Electricity and HVAC consumption.",
+        "prompt": "Create table BUILDING_CONSUMPTION with: building_id, timestamp TIMESTAMP, consumption_kwh FLOAT, power_kw FLOAT, indoor_temp_c FLOAT, outdoor_temp_c FLOAT, occupancy_pct FLOAT, hvac_active BOOLEAN, lighting_active BOOLEAN. Generate hourly data for 2 years. Patterns: offices Mon-Fri 8am-6pm, schools Mon-Fri 8am-3pm, hospitals 24/7."
       },
       {
-        "title": "Calcular baseline y features",
-        "desc": "Consumo esperado y desviaciones.",
-        "prompt": "Crea vista BASELINE_EDIFICIOS que por edificio calcule consumo esperado según: tipo, superficie, zona_climatica, temperatura_exterior, hora, dia_semana, ocupacion. Luego FEATURES_ANOMALIAS: consumo_vs_baseline_ratio, consumo_fuera_horario_pct, climatizacion_sin_ocupacion_horas, consumo_vs_similares_percentil, tendencia_consumo_3m."
+        "title": "Calculate baseline and features",
+        "desc": "Expected consumption and deviations.",
+        "prompt": "Create view BUILDING_BASELINE that per building calculates expected consumption based on: type, area, climate_zone, outdoor_temp, hour, day_of_week, occupancy. Then ANOMALY_FEATURES: consumption_vs_baseline_ratio, off_hours_consumption_pct, hvac_without_occupancy_hours, consumption_vs_peers_percentile, consumption_trend_3m."
       },
       {
-        "title": "Detectar anomalías",
-        "desc": "ML.CLASSIFICATION para consumos anómalos.",
-        "prompt": "Usa ML.CLASSIFICATION para clasificar periodos como: normal, anomalia_leve, anomalia_grave. Variables: todas las features. Tipos de anomalía: consumo excesivo, consumo fuera de horario, climatización sin ocupación, incremento gradual sin explicación. Evalúa precision y recall."
+        "title": "Detect anomalies",
+        "desc": "ML.CLASSIFICATION for anomalous consumption.",
+        "prompt": "Use ML.CLASSIFICATION to classify periods as: normal, mild_anomaly, severe_anomaly. Variables: all features. Anomaly types: excessive consumption, off-hours consumption, HVAC without occupancy, gradual increase without explanation. Evaluate precision and recall."
       },
       {
-        "title": "Generar recomendaciones",
-        "desc": "Acciones de eficiencia por edificio.",
-        "prompt": "Crea vista RECOMENDACIONES_EFICIENCIA que por edificio genere:\n- anomalias_detectadas, ahorro_estimado_kwh, ahorro_estimado_eur\n- top_3_acciones: [{accion, ahorro_kwh, ahorro_eur, inversion_eur, payback_meses}]\n- Acciones: ajustar horarios climatización, instalar sensores presencia, sustituir iluminación, mejorar aislamiento\n- Benchmark vs edificios similares con ranking"
+        "title": "Generate recommendations",
+        "desc": "Efficiency actions per building.",
+        "prompt": "Create view EFFICIENCY_RECOMMENDATIONS that per building generates:\n- anomalies_detected, estimated_savings_kwh, estimated_savings_eur\n- top_3_actions: [{action, savings_kwh, savings_eur, investment_eur, payback_months}]\n- Actions: adjust HVAC schedules, install occupancy sensors, replace lighting, improve insulation\n- Benchmark vs similar buildings with ranking"
       },
       {
-        "title": "Dashboard de eficiencia",
-        "desc": "Streamlit de gestión energética.",
-        "prompt": "Genera código Streamlit con:\n1. Mapa de edificios coloreados por eficiencia vs benchmark\n2. Consumo real vs baseline con anomalías marcadas\n3. Ranking de edificios por potencial de ahorro\n4. Recomendaciones priorizadas por ROI\n5. Métricas: anomalías detectadas, ahorro conseguido, emisiones evitadas\n6. Comparativa entre edificios del mismo tipo"
+        "title": "Efficiency dashboard",
+        "desc": "Streamlit energy management dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. Building map colored by efficiency vs benchmark\n2. Actual vs baseline consumption with anomalies highlighted\n3. Building ranking by savings potential\n4. Recommendations prioritized by ROI\n5. Metrics: anomalies detected, savings achieved, emissions avoided\n6. Comparison between buildings of the same type"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar monitorización.",
-        "prompt": "Crea Tasks:\n1. INGESTAR_CONSUMO: cada hora desde contadores inteligentes\n2. DETECTAR_ANOMALIAS: diario, ejecuta modelo de detección\n3. GENERAR_ALERTAS: diario, notifica anomalías graves\n4. REPORTE_MENSUAL: resumen de ahorro y recomendaciones\n5. Documenta. Objetivo: reducir consumo 20% en edificios monitorizados."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate monitoring.",
+        "prompt": "Create Tasks:\n1. INGEST_CONSUMPTION: hourly from smart meters\n2. DETECT_ANOMALIES: daily, run detection model\n3. GENERATE_ALERTS: daily, notify severe anomalies\n4. MONTHLY_REPORT: savings summary and recommendations\n5. Document. Target: reduce consumption 20% in monitored buildings."
       }
     ]
   }
@@ -1794,462 +1794,462 @@ const PROMPTS = {
 
 Object.assign(PROMPTS, {
   "UC11": {
-    "title": "Detección de Fraude Fiscal con Análisis de Redes",
-    "intro": "Sistema ML de detección de fraude fiscal que analiza declaraciones, redes societarias y patrones de facturación para identificar esquemas de evasión.",
+    "title": "Tax Fraud Detection with Network Analysis",
+    "intro": "ML tax fraud detection system that analyzes declarations, corporate networks, and invoicing patterns to identify evasion schemes.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para fraude fiscal.",
-        "prompt": "Crea la base de datos SP_FRAUDE_FISCAL_DB con esquema ANALYTICS y warehouse SP_WH. Comentarios del proyecto de detección de fraude fiscal con análisis de redes."
+        "title": "Configure environment",
+        "desc": "Create database for tax fraud.",
+        "prompt": "Create database SP_TAX_FRAUD_DB with schema ANALYTICS and warehouse SP_WH. Include project comments for tax fraud detection with network analysis."
       },
       {
-        "title": "Crear datos de declaraciones",
-        "desc": "Declaraciones fiscales sintéticas.",
-        "prompt": "Crea la tabla DECLARACIONES_FISCALES con: contribuyente_nif, tipo_declaracion (IS, IRPF, IVA), ejercicio INT, periodo, base_imponible_eur FLOAT, cuota_integra_eur FLOAT, deducciones_eur FLOAT, cuota_liquida_eur FLOAT, resultado (A_Ingresar, A_Devolver, Compensar), sector_actividad. Genera 200,000 declaraciones de 5 años para 50,000 contribuyentes. El 5% tiene patrones anómalos."
+        "title": "Create declaration data",
+        "desc": "Synthetic tax declarations.",
+        "prompt": "Create table TAX_DECLARATIONS with: taxpayer_id, declaration_type (Corporate, Income, VAT), fiscal_year INT, period, taxable_base_eur FLOAT, gross_tax_eur FLOAT, deductions_eur FLOAT, net_tax_eur FLOAT, result (Payable, Refundable, Offset), business_sector. Generate 200,000 declarations over 5 years for 50,000 taxpayers. 5% show anomalous patterns."
       },
       {
-        "title": "Crear red societaria",
-        "desc": "Vinculaciones entre contribuyentes.",
-        "prompt": "Crea la tabla RED_SOCIETARIA con: entidad_a, entidad_b, tipo_vinculacion (Administrador, Socio_Mayoritario, Socio_Minoritario, Familiar_1er_Grado, Proveedor_Principal, Misma_Direccion_Fiscal), participacion_pct FLOAT, fecha_inicio DATE. Genera 30,000 vinculaciones. Incluir clústeres de empresas que simulan redes de fraude: cadenas de facturación circular, sociedades interpuestas, testaferros."
+        "title": "Create corporate network",
+        "desc": "Links between taxpayers.",
+        "prompt": "Create table CORPORATE_NETWORK with: entity_a, entity_b, link_type (Director, Majority_Shareholder, Minority_Shareholder, First_Degree_Family, Main_Supplier, Same_Fiscal_Address), ownership_pct FLOAT, start_date DATE. Generate 30,000 links. Include clusters simulating fraud networks: circular invoicing chains, shell companies, front persons."
       },
       {
-        "title": "Calcular features de riesgo",
-        "desc": "Indicadores de anomalía fiscal.",
-        "prompt": "Crea vista FEATURES_FRAUDE_FISCAL que por contribuyente calcule:\n- Declaraciones: base_imponible_vs_sector, variabilidad_interanual, deducciones_vs_media\n- IVA: ratio_IVA_soportado_vs_repercutido, operaciones_intracomunitarias_pct\n- Red: num_vinculaciones, profundidad_red, concentracion_facturacion_en_red\n- Comportamiento: cambios_forma_juridica, alta_baja_frecuentes\n- Sector: riesgo_sectorial, desviacion_vs_peers"
+        "title": "Calculate risk features",
+        "desc": "Tax anomaly indicators.",
+        "prompt": "Create view TAX_FRAUD_FEATURES that per taxpayer calculates:\n- Declarations: taxable_base_vs_sector, year_over_year_variability, deductions_vs_average\n- VAT: input_vs_output_vat_ratio, intra_EU_operations_pct\n- Network: num_links, network_depth, invoicing_concentration_in_network\n- Behavior: legal_form_changes, frequent_registration_deregistration\n- Sector: sector_risk, deviation_vs_peers"
       },
       {
-        "title": "Entrenar modelo de detección",
-        "desc": "ML.CLASSIFICATION sobre features de riesgo.",
-        "prompt": "Usa ML.CLASSIFICATION para scoring de riesgo fiscal: bajo, medio, alto, muy_alto. Variables: todas las features. Evalúa precision y recall por categoría. Para cada contribuyente de riesgo alto/muy_alto, genera perfil_riesgo: tipo_fraude_probable, importe_estimado_defraudado, red_vinculada."
+        "title": "Train detection model",
+        "desc": "ML.CLASSIFICATION on risk features.",
+        "prompt": "Use ML.CLASSIFICATION for tax risk scoring: low, medium, high, very_high. Variables: all features. Evaluate precision and recall per category. For each high/very_high risk taxpayer, generate risk_profile: probable_fraud_type, estimated_evaded_amount, linked_network."
       },
       {
-        "title": "Detectar redes de fraude",
-        "desc": "Análisis de clústeres de riesgo.",
-        "prompt": "Crea vista REDES_FRAUDE que identifique clústeres de contribuyentes vinculados con riesgo alto: red_id, contribuyentes_involucrados INT, importe_total_en_riesgo_eur, tipo_esquema (Facturacion_Ficticia, Carrusel_IVA, Precios_Transferencia, Sociedades_Pantalla), prioridad_investigacion. Genera top 20 redes con mayor importe."
+        "title": "Detect fraud networks",
+        "desc": "Risk cluster analysis.",
+        "prompt": "Create view FRAUD_NETWORKS that identifies clusters of linked high-risk taxpayers: network_id, involved_taxpayers INT, total_amount_at_risk_eur, scheme_type (Fictitious_Invoicing, VAT_Carousel, Transfer_Pricing, Shell_Companies), investigation_priority. Generate top 20 networks by amount."
       },
       {
-        "title": "Dashboard de inteligencia fiscal",
-        "desc": "Streamlit de SOC fiscal.",
-        "prompt": "Genera código Streamlit con:\n1. Mapa de riesgo fiscal por provincia y sector\n2. Top contribuyentes por riesgo con perfil detallado\n3. Visualización de redes societarias con nodos de riesgo\n4. Métricas del modelo: precision, recall, comparativa anual\n5. Estimación de importe defraudado detectado\n6. Búsqueda de contribuyente con análisis de vinculaciones"
+        "title": "Tax intelligence dashboard",
+        "desc": "Streamlit fiscal SOC.",
+        "prompt": "Generate Streamlit code with:\n1. Tax risk map by province and sector\n2. Top taxpayers by risk with detailed profile\n3. Corporate network visualization with risk nodes\n4. Model metrics: precision, recall, annual comparison\n5. Estimated detected fraud amount\n6. Taxpayer search with link analysis"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar detección.",
-        "prompt": "Crea Tasks:\n1. ACTUALIZAR_DECLARACIONES: mensual con nuevas presentaciones\n2. ACTUALIZAR_RED: trimestral con cambios mercantiles\n3. SCORING_RIESGO: trimestral sobre todos los contribuyentes\n4. DETECTAR_REDES: semestral, recalcula clústeres\n5. Documenta. Objetivo: aumentar detección 50%."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate detection.",
+        "prompt": "Create Tasks:\n1. UPDATE_DECLARATIONS: monthly with new filings\n2. UPDATE_NETWORK: quarterly with corporate registry changes\n3. RISK_SCORING: quarterly on all taxpayers\n4. DETECT_NETWORKS: semi-annual, recalculate clusters\n5. Document. Target: increase detection by 50%."
       }
     ]
   },
   "UC12": {
-    "title": "Personalización de Servicios Digitales al Ciudadano",
-    "intro": "Motor de personalización de experiencia digital que recomienda trámites, simplifica formularios y anticipa necesidades basándose en eventos vitales.",
+    "title": "Digital Citizen Services Personalization",
+    "intro": "Digital experience personalization engine that recommends procedures, simplifies forms, and anticipates needs based on life events.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para personalización.",
-        "prompt": "Crea la base de datos SP_PERSONALIZACION_DB con esquema ANALYTICS y warehouse SP_WH. Comentarios del proyecto de personalización de servicios digitales al ciudadano."
+        "title": "Configure environment",
+        "desc": "Create database for personalization.",
+        "prompt": "Create database SP_PERSONALIZATION_DB with schema ANALYTICS and warehouse SP_WH. Include project comments for digital citizen services personalization."
       },
       {
-        "title": "Crear catálogo de trámites",
-        "desc": "Inventario de trámites digitales.",
-        "prompt": "Crea la tabla CATALOGO_TRAMITES con: tramite_id, nombre, administracion, materia, requisitos TEXT, documentacion_necesaria TEXT, plazo_resolucion_dias INT, es_obligatorio BOOLEAN, evento_vital_asociado VARCHAR, frecuencia (Unico, Anual, Recurrente), nivel_dificultad (Facil, Medio, Complejo), tasa_eur FLOAT. Genera 500 trámites cubriendo: empadronamiento, DNI, licencias, ayudas, impuestos, certificados."
+        "title": "Create procedure catalog",
+        "desc": "Digital procedure inventory.",
+        "prompt": "Create table PROCEDURE_CATALOG with: procedure_id, name, administration, subject, requirements TEXT, required_documents TEXT, resolution_time_days INT, is_mandatory BOOLEAN, associated_life_event VARCHAR, frequency (One_Time, Annual, Recurring), difficulty_level (Easy, Medium, Complex), fee_eur FLOAT. Generate 500 procedures covering: registration, ID, licenses, grants, taxes, certificates."
       },
       {
-        "title": "Crear historial de interacciones",
-        "desc": "Registrar navegación y trámites.",
-        "prompt": "Crea la tabla INTERACCIONES_CIUDADANO con: citizen_id, fecha_hora TIMESTAMP, tipo_interaccion (Busqueda, Visualizacion, Inicio_Tramite, Completado, Abandono), tramite_id, consulta_busqueda TEXT, tiempo_en_pagina_seg INT, fue_exitosa BOOLEAN. Genera 500,000 interacciones para 50,000 ciudadanos."
+        "title": "Create interaction history",
+        "desc": "Log navigation and procedures.",
+        "prompt": "Create table CITIZEN_INTERACTIONS with: citizen_id, timestamp TIMESTAMP, interaction_type (Search, View, Start_Procedure, Completed, Abandoned), procedure_id, search_query TEXT, time_on_page_sec INT, was_successful BOOLEAN. Generate 500,000 interactions for 50,000 citizens."
       },
       {
-        "title": "Detectar eventos vitales",
-        "desc": "Identificar cambios que desencadenan trámites.",
-        "prompt": "Crea vista EVENTOS_VITALES que use Feature Store UC08 para detectar cambios recientes: nacimiento (nuevo menor en familia), cambio_domicilio, jubilacion, defuncion_familiar, matrimonio, cambio_empleo. Para cada evento, listar trámites asociados pendientes. Usa CORTEX.COMPLETE para priorizar: urgencia, plazos, dependencias entre trámites."
+        "title": "Detect life events",
+        "desc": "Identify changes that trigger procedures.",
+        "prompt": "Create view LIFE_EVENTS that uses Feature Store UC08 to detect recent changes: birth (new minor in family), address_change, retirement, family_death, marriage, job_change. For each event, list associated pending procedures. Use CORTEX.COMPLETE to prioritize: urgency, deadlines, dependencies between procedures."
       },
       {
-        "title": "Recomendar trámites",
-        "desc": "ML.CLASSIFICATION para personalización.",
-        "prompt": "Usa ML.CLASSIFICATION para predecir próximo trámite del ciudadano basado en: perfil_feature_store, historial_interacciones, evento_vital_detectado, trámites_completados, época_del_año. Crea vista RECOMENDACIONES con: citizen_id, tramite_recomendado, probabilidad, motivo, urgencia. Top 5 trámites por ciudadano."
+        "title": "Recommend procedures",
+        "desc": "ML.CLASSIFICATION for personalization.",
+        "prompt": "Use ML.CLASSIFICATION to predict citizen's next procedure based on: feature_store_profile, interaction_history, detected_life_event, completed_procedures, time_of_year. Create view RECOMMENDATIONS with: citizen_id, recommended_procedure, probability, reason, urgency. Top 5 procedures per citizen."
       },
       {
-        "title": "Simplificar formularios",
-        "desc": "Pre-cumplimentación y lenguaje claro.",
-        "prompt": "Crea función FORMULARIO_SIMPLIFICADO(citizen_id, tramite_id) que:\n1. Consulte Feature Store para datos pre-rellenables\n2. Identifique campos ya disponibles (no pedir de nuevo)\n3. Use CORTEX.COMPLETE para simplificar lenguaje administrativo\n4. Retorne: campos_pre_rellenados, campos_pendientes, texto_simplificado, documentos_necesarios\nDemuestra con 3 trámites comunes."
+        "title": "Simplify forms",
+        "desc": "Pre-fill and plain language.",
+        "prompt": "Create function SIMPLIFIED_FORM(citizen_id, procedure_id) that:\n1. Queries Feature Store for pre-fillable data\n2. Identifies fields already available (do not ask again)\n3. Uses CORTEX.COMPLETE to simplify administrative language\n4. Returns: pre_filled_fields, pending_fields, simplified_text, required_documents\nDemonstrate with 3 common procedures."
       },
       {
-        "title": "Dashboard ciudadano",
-        "desc": "Streamlit de experiencia digital.",
-        "prompt": "Genera código Streamlit con:\n1. Portal personalizado: trámites recomendados para ciudadano\n2. Eventos vitales detectados con trámites asociados\n3. Formulario simplificado con pre-cumplimentación\n4. Métricas: tasa éxito, tiempo trámite, satisfacción\n5. Comparativa antes/después de personalización\n6. Top búsquedas fallidas y trámites abandonados"
+        "title": "Citizen dashboard",
+        "desc": "Streamlit digital experience.",
+        "prompt": "Generate Streamlit code with:\n1. Personalized portal: recommended procedures for citizen\n2. Detected life events with associated procedures\n3. Simplified form with pre-fill\n4. Metrics: success rate, procedure time, satisfaction\n5. Before/after personalization comparison\n6. Top failed searches and abandoned procedures"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar personalización.",
-        "prompt": "Crea Tasks:\n1. DETECTAR_EVENTOS: diario, identifica cambios de perfil\n2. ACTUALIZAR_RECOMENDACIONES: diario, recalcula para ciudadanos activos\n3. ANALIZAR_ABANDONOS: semanal, identifica trámites problemáticos\n4. REENTRENAR: mensual con nuevas interacciones\n5. Documenta. Objetivo: tasa éxito 75%, satisfacción >4.0."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate personalization.",
+        "prompt": "Create Tasks:\n1. DETECT_EVENTS: daily, identify profile changes\n2. UPDATE_RECOMMENDATIONS: daily, recalculate for active citizens\n3. ANALYZE_ABANDONMENTS: weekly, identify problematic procedures\n4. RETRAIN: monthly with new interactions\n5. Document. Target: success rate 75%, satisfaction >4.0."
       }
     ]
   },
   "UC13": {
-    "title": "Optimización de Asignación de Recursos Sanitarios",
-    "intro": "Motor de optimización que predice demanda asistencial por área sanitaria y especialidad para asignar recursos equitativa y eficientemente.",
+    "title": "Healthcare Resource Allocation Optimization",
+    "intro": "Optimization engine that predicts healthcare demand by area and specialty to allocate resources equitably and efficiently.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para recursos sanitarios.",
-        "prompt": "Crea la base de datos SP_SALUD_RECURSOS_DB con esquema ANALYTICS y warehouse SP_WH. Comentarios del proyecto de optimización de asignación de recursos sanitarios."
+        "title": "Configure environment",
+        "desc": "Create database for healthcare resources.",
+        "prompt": "Create database SP_HEALTH_RESOURCES_DB with schema ANALYTICS and warehouse SP_WH. Include project comments for healthcare resource allocation optimization."
       },
       {
-        "title": "Crear datos de actividad asistencial",
-        "desc": "Historial de consultas, urgencias e ingresos.",
-        "prompt": "Crea la tabla ACTIVIDAD_SANITARIA con: centro_id, area_sanitaria, especialidad, fecha DATE, consultas_programadas INT, consultas_urgentes INT, ingresos INT, cirugias INT, estancia_media_dias FLOAT, lista_espera_dias INT. Genera datos diarios para 200 centros × 3 años. Patrones estacionales: gripe dic-feb, alérgica mar-may."
+        "title": "Create healthcare activity data",
+        "desc": "History of consultations, emergencies, and admissions.",
+        "prompt": "Create table HEALTHCARE_ACTIVITY with: center_id, health_area, specialty, date DATE, scheduled_visits INT, emergency_visits INT, admissions INT, surgeries INT, avg_stay_days FLOAT, waitlist_days INT. Generate daily data for 200 centers x 3 years. Seasonal patterns: flu Dec-Feb, allergy Mar-May."
       },
       {
-        "title": "Cargar datos de recursos",
-        "desc": "Inventario de recursos por centro.",
-        "prompt": "Crea la tabla RECURSOS_SANITARIOS con: centro_id, tipo_centro (Hospital, Centro_Salud, Consultorio), area_sanitaria, especialidad, camas INT, consultorios INT, quirofanos INT, medicos INT, enfermeros INT, presupuesto_anual_eur FLOAT. Crea tabla POBLACION_ZONA: area_sanitaria, poblacion_total INT, pob_mayor_65_pct FLOAT, indice_morbilidad FLOAT."
+        "title": "Load resource data",
+        "desc": "Resource inventory per center.",
+        "prompt": "Create table HEALTHCARE_RESOURCES with: center_id, center_type (Hospital, Health_Center, Clinic), health_area, specialty, beds INT, consultation_rooms INT, operating_rooms INT, doctors INT, nurses INT, annual_budget_eur FLOAT. Create table ZONE_POPULATION: health_area, total_population INT, over_65_pct FLOAT, morbidity_index FLOAT."
       },
       {
-        "title": "Predecir demanda",
-        "desc": "ML.FORECAST por centro y especialidad.",
-        "prompt": "Usa ML.FORECAST para predecir: consultas_totales, ingresos, cirugias por centro y especialidad a 1, 4, 12 semanas vista. Variables exógenas: estacionalidad, pob_mayor_65, indice_morbilidad, alertas_epidemicas BOOLEAN, festivos. Evalúa MAPE por centro y especialidad."
+        "title": "Predict demand",
+        "desc": "ML.FORECAST by center and specialty.",
+        "prompt": "Use ML.FORECAST to predict: total_visits, admissions, surgeries per center and specialty at 1, 4, 12 week horizons. Exogenous variables: seasonality, over_65_pct, morbidity_index, epidemic_alerts BOOLEAN, holidays. Evaluate MAPE by center and specialty."
       },
       {
-        "title": "Optimizar asignación",
-        "desc": "Distribuir recursos según demanda prevista.",
-        "prompt": "Crea vista OPTIMIZACION_RECURSOS que calcule por centro: demanda_prevista, capacidad_actual, gap (demanda - capacidad), propuesta_redistribucion: profesionales a mover, de qué centro a cuál, impacto en lista de espera. Restricciones: presupuesto total fijo, mínimos por centro. Usa CORTEX.COMPLETE para explicar propuestas."
+        "title": "Optimize allocation",
+        "desc": "Distribute resources based on predicted demand.",
+        "prompt": "Create view RESOURCE_OPTIMIZATION that calculates per center: predicted_demand, current_capacity, gap (demand - capacity), redistribution_proposal: professionals to move, from which center to which, impact on waitlist. Constraints: fixed total budget, minimums per center. Use CORTEX.COMPLETE to explain proposals."
       },
       {
-        "title": "Simular escenarios",
-        "desc": "What-if de planificación.",
-        "prompt": "Crea función SIMULAR_ESCENARIO(escenario) donde escenario puede ser: pandemia (demanda ×3 en urgencias), envejecimiento_10a (proyección +15% mayores), nuevo_centro (capacidad adicional), recorte_presupuestario (-10%). Retorna: impacto en listas de espera, redistribución necesaria, coste. Demuestra 3 escenarios."
+        "title": "Simulate scenarios",
+        "desc": "What-if planning.",
+        "prompt": "Create function SIMULATE_SCENARIO(scenario) where scenario can be: pandemic (demand x3 in emergencies), aging_10y (projection +15% elderly), new_center (additional capacity), budget_cut (-10%). Returns: impact on waitlists, required redistribution, cost. Demonstrate 3 scenarios."
       },
       {
-        "title": "Dashboard sanitario",
-        "desc": "Streamlit de planificación.",
-        "prompt": "Genera código Streamlit con:\n1. Mapa de centros con demanda vs capacidad\n2. Predicción de demanda por centro y especialidad\n3. Propuestas de redistribución con impacto estimado\n4. Simulador de escenarios interactivo\n5. Lista de espera por centro y tendencia\n6. Métricas: MAPE del modelo, ahorro en redistribución"
+        "title": "Healthcare dashboard",
+        "desc": "Streamlit planning dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. Center map with demand vs capacity\n2. Demand prediction by center and specialty\n3. Redistribution proposals with estimated impact\n4. Interactive scenario simulator\n5. Waitlist by center and trend\n6. Metrics: model MAPE, redistribution savings"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar planificación.",
-        "prompt": "Crea Tasks:\n1. ACTUALIZAR_ACTIVIDAD: diario, carga datos de actividad\n2. PREDECIR_DEMANDA: semanal, genera predicciones a 4 semanas\n3. OPTIMIZAR_ASIGNACION: mensual, genera propuestas de redistribución\n4. ALERTA_EPIDEMIA: diario, detecta incrementos anómalos\n5. Documenta. Objetivo: MAPE <10%, reducción espera 20%."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate planning.",
+        "prompt": "Create Tasks:\n1. UPDATE_ACTIVITY: daily, load activity data\n2. PREDICT_DEMAND: weekly, generate 4-week predictions\n3. OPTIMIZE_ALLOCATION: monthly, generate redistribution proposals\n4. EPIDEMIC_ALERT: daily, detect anomalous increases\n5. Document. Target: MAPE <10%, waitlist reduction 20%."
       }
     ]
   },
   "UC14": {
-    "title": "Feature Store de Performance de Organismos Públicos",
-    "intro": "Implementa un Feature Store en Snowflake que consolide métricas de rendimiento de organismos públicos para benchmarking y alertas de deterioro.",
+    "title": "Public Agency Performance Feature Store",
+    "intro": "Implement a Feature Store in Snowflake that consolidates performance metrics of public agencies for benchmarking and deterioration alerts.",
     "steps": [
       {
-        "title": "Configurar Feature Store",
-        "desc": "Crear base de datos y preparar Feature Store.",
-        "prompt": "Crea la base de datos SP_PERFORMANCE_DB con esquema FEATURE_STORE y warehouse SP_WH. Comenta que este proyecto implementa Snowflake Feature Store para Performance de Organismos Públicos."
+        "title": "Configure Feature Store",
+        "desc": "Create database and prepare Feature Store.",
+        "prompt": "Create database SP_PERFORMANCE_DB with schema FEATURE_STORE and warehouse SP_WH. Comment that this project implements Snowflake Feature Store for Public Agency Performance."
       },
       {
-        "title": "Crear datos fuente",
-        "desc": "Generar métricas de organismos desde múltiples fuentes.",
-        "prompt": "Crea 5 tablas fuente:\n1. RAW_EXPEDIENTES_ORG: organismo_id, mes DATE, expedientes_entrada INT, expedientes_resueltos INT, pendientes INT, tiempo_medio_resolucion_dias FLOAT, cumplimiento_plazo_pct FLOAT\n2. RAW_SATISFACCION: organismo_id, mes, encuestas_respondidas INT, satisfaccion_media FLOAT, reclamaciones INT, nps_score FLOAT\n3. RAW_PRODUCTIVIDAD: organismo_id, mes, funcionarios_fte FLOAT, expedientes_por_fte FLOAT, coste_por_tramite_eur FLOAT, absentismo_pct FLOAT\n4. RAW_PRESUPUESTO: organismo_id, mes, credito_total_eur FLOAT, obligaciones_eur FLOAT, pagos_eur FLOAT, ejecucion_pct FLOAT\n5. RAW_DIGITAL: organismo_id, mes, tramites_online_pct FLOAT, disponibilidad_sede_pct FLOAT, incidencias_ti INT\nGenera datos para 200 organismos × 3 años."
+        "title": "Create source data",
+        "desc": "Generate agency metrics from multiple sources.",
+        "prompt": "Create 5 source tables:\n1. RAW_AGENCY_CASES: agency_id, month DATE, cases_received INT, cases_resolved INT, pending INT, avg_resolution_time_days FLOAT, deadline_compliance_pct FLOAT\n2. RAW_SATISFACTION: agency_id, month, surveys_responded INT, avg_satisfaction FLOAT, complaints INT, nps_score FLOAT\n3. RAW_PRODUCTIVITY: agency_id, month, staff_fte FLOAT, cases_per_fte FLOAT, cost_per_case_eur FLOAT, absenteeism_pct FLOAT\n4. RAW_BUDGET: agency_id, month, total_budget_eur FLOAT, obligations_eur FLOAT, payments_eur FLOAT, execution_pct FLOAT\n5. RAW_DIGITAL: agency_id, month, online_procedures_pct FLOAT, portal_uptime_pct FLOAT, it_incidents INT\nGenerate data for 200 agencies x 3 years."
       },
       {
-        "title": "Crear Entity",
-        "desc": "Definir Entity 'organismo' en Feature Store.",
-        "prompt": "Usando Snowflake Feature Store:\n\nfrom snowflake.ml.feature_store import FeatureStore, Entity, FeatureView\nfs = FeatureStore(session=session, database='SP_PERFORMANCE_DB', name='FEATURE_STORE')\n\norganismo = Entity(\n    name='ORGANISMO',\n    join_keys=['ORGANISMO_ID'],\n    desc='Organismo público con métricas de rendimiento'\n)\nfs.register_entity(organismo)\nVerifica registro."
+        "title": "Create Entity",
+        "desc": "Define Entity 'agency' in Feature Store.",
+        "prompt": "Using Snowflake Feature Store:\n\nfrom snowflake.ml.feature_store import FeatureStore, Entity, FeatureView\nfs = FeatureStore(session=session, database='SP_PERFORMANCE_DB', name='FEATURE_STORE')\n\nagency = Entity(\n    name='AGENCY',\n    join_keys=['AGENCY_ID'],\n    desc='Public agency with performance metrics'\n)\nfs.register_entity(agency)\nVerify registration."
       },
       {
-        "title": "Crear FeatureViews de rendimiento",
-        "desc": "Features de resolución y satisfacción.",
-        "prompt": "Crea 2 FeatureViews:\n1. RESOLUTION_METRICS desde RAW_EXPEDIENTES_ORG:\n- tiempo_medio_resolucion, tendencia_resolucion_3m\n- cumplimiento_plazo_pct, backlog_vs_media\n- tasa_resolucion_mensual, variabilidad\n\n2. CITIZEN_SATISFACTION desde RAW_SATISFACCION:\n- satisfaccion_media, tendencia_satisfaccion_3m\n- nps_score, reclamaciones_por_1000_tramites\n- satisfaccion_vs_media_similar\n\nRefresh mensual."
+        "title": "Create performance FeatureViews",
+        "desc": "Resolution and satisfaction features.",
+        "prompt": "Create 2 FeatureViews:\n1. RESOLUTION_METRICS from RAW_AGENCY_CASES:\n- avg_resolution_time, resolution_trend_3m\n- deadline_compliance_pct, backlog_vs_average\n- monthly_resolution_rate, variability\n\n2. CITIZEN_SATISFACTION from RAW_SATISFACTION:\n- avg_satisfaction, satisfaction_trend_3m\n- nps_score, complaints_per_1000_cases\n- satisfaction_vs_peer_average\n\nMonthly refresh."
       },
       {
-        "title": "Crear FeatureViews de productividad y presupuesto",
-        "desc": "Features operativas y financieras.",
-        "prompt": "Crea 2 FeatureViews:\n1. PRODUCTIVITY desde RAW_PRODUCTIVIDAD:\n- expedientes_por_fte, coste_por_tramite\n- productividad_vs_similar, tendencia_productividad_3m\n- absentismo_vs_media\n\n2. BUDGET_EXECUTION desde RAW_PRESUPUESTO:\n- ejecucion_presupuestaria_pct, ritmo_ejecucion_vs_objetivo\n- desviacion_pagos_vs_obligaciones\n- ejecucion_vs_similar\n\nRefresh mensual."
+        "title": "Create productivity and budget FeatureViews",
+        "desc": "Operational and financial features.",
+        "prompt": "Create 2 FeatureViews:\n1. PRODUCTIVITY from RAW_PRODUCTIVITY:\n- cases_per_fte, cost_per_case\n- productivity_vs_peers, productivity_trend_3m\n- absenteeism_vs_average\n\n2. BUDGET_EXECUTION from RAW_BUDGET:\n- budget_execution_pct, execution_pace_vs_target\n- payments_vs_obligations_deviation\n- execution_vs_peers\n\nMonthly refresh."
       },
       {
-        "title": "Crear FeatureView de madurez digital",
-        "desc": "Features de digitalización.",
-        "prompt": "Crea FeatureView DIGITAL_MATURITY desde RAW_DIGITAL:\n- tramites_online_pct, tendencia_digitalizacion_6m\n- disponibilidad_sede_pct, incidencias_por_1000_tramites\n- nivel_madurez_digital (avanzado, intermedio, basico)\n- gap_vs_objetivo_digital\n\nRefresh mensual. Demuestra consumo de todas las features para un organismo con fs.get_features()."
+        "title": "Create digital maturity FeatureView",
+        "desc": "Digitalization features.",
+        "prompt": "Create FeatureView DIGITAL_MATURITY from RAW_DIGITAL:\n- online_procedures_pct, digitalization_trend_6m\n- portal_uptime_pct, incidents_per_1000_cases\n- digital_maturity_level (advanced, intermediate, basic)\n- gap_vs_digital_target\n\nMonthly refresh. Demonstrate consumption of all features for an agency with fs.get_features()."
       },
       {
-        "title": "Dashboard de performance",
-        "desc": "Streamlit de benchmarking.",
-        "prompt": "Genera código Streamlit con:\n1. Ranking de organismos por performance global\n2. Scorecard por organismo: 5 dimensiones con semáforo\n3. Benchmarking: comparativa con organismos similares\n4. Alertas de deterioro: tendencias negativas >10%\n5. Drill-down por dimensión con series temporales\n6. Informe automático para director de organismo"
+        "title": "Performance dashboard",
+        "desc": "Streamlit benchmarking dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. Agency ranking by overall performance\n2. Agency scorecard: 5 dimensions with traffic light\n3. Benchmarking: comparison with similar agencies\n4. Deterioration alerts: negative trends >10%\n5. Drill-down by dimension with time series\n6. Automated report for agency director"
       },
       {
-        "title": "Pipeline de mantenimiento",
-        "desc": "Automatizar actualización.",
-        "prompt": "Crea Tasks:\n1. REFRESH_EXPEDIENTES: mensual desde sistemas de gestión\n2. REFRESH_SATISFACCION: mensual desde encuestas\n3. REFRESH_PRODUCTIVIDAD: mensual desde RRHH\n4. REFRESH_PRESUPUESTO: mensual desde contabilidad\n5. ALERTAR_DETERIORO: semanal, detecta tendencias negativas\n6. Documenta. Feature Store permite desacoplar fuentes de consumidores."
+        "title": "Maintenance pipeline",
+        "desc": "Automate updates.",
+        "prompt": "Create Tasks:\n1. REFRESH_CASES: monthly from case management systems\n2. REFRESH_SATISFACTION: monthly from surveys\n3. REFRESH_PRODUCTIVITY: monthly from HR\n4. REFRESH_BUDGET: monthly from accounting\n5. ALERT_DETERIORATION: weekly, detect negative trends\n6. Document. Feature Store decouples data sources from consumers."
       }
     ]
   },
   "UC15": {
-    "title": "Ciberseguridad de Infraestructura Pública Digital",
-    "intro": "Pipeline ML de detección de amenazas en infraestructura digital pública con correlación multi-sistema y automatización de respuesta.",
+    "title": "Cybersecurity for Public Digital Infrastructure",
+    "intro": "ML threat detection pipeline for public digital infrastructure with multi-system correlation and automated response.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para ciberseguridad.",
-        "prompt": "Crea la base de datos SP_CIBERSEGURIDAD_DB con esquema SOC y warehouse SP_WH. Comentarios del proyecto de ciberseguridad de infraestructura pública digital. Requisitos: ENS, NIS2."
+        "title": "Configure environment",
+        "desc": "Create database for cybersecurity.",
+        "prompt": "Create database SP_CYBERSECURITY_DB with schema SOC and warehouse SP_WH. Include project comments for public digital infrastructure cybersecurity. Requirements: compliance with national cybersecurity framework and NIS2."
       },
       {
-        "title": "Crear datos de logs",
-        "desc": "Generar eventos de seguridad.",
-        "prompt": "Crea la tabla LOGS_SEGURIDAD con: evento_id, fecha_hora TIMESTAMP, sistema_origen, tipo_evento (Login, Acceso_Datos, Ejecucion, Red, Firewall, Email), usuario, ip_origen, ip_destino, accion, resultado (Exito, Fallo, Bloqueado), severidad_base (Info, Low, Medium, High, Critical), payload_size_bytes INT. Genera 5,000,000 eventos de 6 meses. El 0.1% son amenazas reales."
+        "title": "Create log data",
+        "desc": "Generate security events.",
+        "prompt": "Create table SECURITY_LOGS with: event_id, timestamp TIMESTAMP, source_system, event_type (Login, Data_Access, Execution, Network, Firewall, Email), user_id, source_ip, destination_ip, action, result (Success, Failure, Blocked), base_severity (Info, Low, Medium, High, Critical), payload_size_bytes INT. Generate 5,000,000 events over 6 months. 0.1% are real threats."
       },
       {
-        "title": "Calcular baseline de comportamiento",
-        "desc": "Perfil normal por usuario y sistema.",
-        "prompt": "Crea vista BASELINE_USUARIOS que por usuario calcule: hora_login_habitual, sistemas_habituales, volumen_datos_diario_medio, ip_habituales, patron_semanal. Crea vista BASELINE_SISTEMAS: trafico_normal_por_hora, accesos_por_dia, errores_normales_pct. Cualquier desviación >2σ es candidata a anomalía."
+        "title": "Calculate behavior baseline",
+        "desc": "Normal profile per user and system.",
+        "prompt": "Create view USER_BASELINE that per user calculates: typical_login_hour, usual_systems, avg_daily_data_volume, usual_ips, weekly_pattern. Create view SYSTEM_BASELINE: normal_traffic_per_hour, accesses_per_day, normal_error_pct. Any deviation >2 sigma is an anomaly candidate."
       },
       {
-        "title": "Detectar amenazas",
-        "desc": "ML.CLASSIFICATION sobre eventos.",
-        "prompt": "Usa ML.CLASSIFICATION para clasificar eventos como: normal, sospechoso, amenaza. Variables: hora_vs_habitual, sistema_vs_habitual, volumen_vs_normal, ip_reputacion, fallos_consecutivos, patron_secuencial. Tipos de amenaza: fuerza_bruta, exfiltración, lateral_movement, privilege_escalation, malware_C2."
+        "title": "Detect threats",
+        "desc": "ML.CLASSIFICATION on events.",
+        "prompt": "Use ML.CLASSIFICATION to classify events as: normal, suspicious, threat. Variables: hour_vs_typical, system_vs_typical, volume_vs_normal, ip_reputation, consecutive_failures, sequential_pattern. Threat types: brute_force, exfiltration, lateral_movement, privilege_escalation, malware_C2."
       },
       {
-        "title": "Correlacionar eventos",
-        "desc": "Detección de ataques multi-fase.",
-        "prompt": "Crea vista INCIDENTES_CORRELACIONADOS que agrupe eventos sospechosos por: ventana_temporal (30 min), usuario o IP, secuencia de acciones. Detectar patrones de ataque multi-fase: reconocimiento → acceso_inicial → movimiento_lateral → exfiltración. Asigna severidad al incidente."
+        "title": "Correlate events",
+        "desc": "Multi-phase attack detection.",
+        "prompt": "Create view CORRELATED_INCIDENTS that groups suspicious events by: time_window (30 min), user or IP, action sequence. Detect multi-phase attack patterns: reconnaissance -> initial_access -> lateral_movement -> exfiltration. Assign severity to the incident."
       },
       {
-        "title": "Automatizar respuesta",
-        "desc": "Playbooks de respuesta a incidentes.",
-        "prompt": "Crea función RESPUESTA_INCIDENTE(incidente_id) que según tipo y severidad genere: acciones_automaticas (bloquear_ip, deshabilitar_cuenta, aislar_sistema), acciones_manuales, escalado_necesario, evidencias_a_preservar, comunicaciones (CCN-CERT si aplica). Usa CORTEX.COMPLETE para generar informe del incidente."
+        "title": "Automate response",
+        "desc": "Incident response playbooks.",
+        "prompt": "Create function INCIDENT_RESPONSE(incident_id) that based on type and severity generates: automatic_actions (block_ip, disable_account, isolate_system), manual_actions, escalation_needed, evidence_to_preserve, communications (national CERT if applicable). Use CORTEX.COMPLETE to generate incident report."
       },
       {
-        "title": "Dashboard de SOC",
-        "desc": "Streamlit de centro de operaciones.",
-        "prompt": "Genera código Streamlit con:\n1. Feed de eventos en tiempo real con scoring de amenaza\n2. Incidentes correlacionados con timeline de ataque\n3. Mapa de sistemas con estado de seguridad\n4. Métricas: amenazas detectadas, falsos positivos, MTTD, MTTR\n5. Baseline de usuarios: desviaciones actuales\n6. Cumplimiento ENS/NIS2: estado de controles"
+        "title": "SOC dashboard",
+        "desc": "Streamlit security operations center.",
+        "prompt": "Generate Streamlit code with:\n1. Real-time event feed with threat scoring\n2. Correlated incidents with attack timeline\n3. System map with security status\n4. Metrics: threats detected, false positives, MTTD, MTTR\n5. User baseline: current deviations\n6. Cybersecurity framework/NIS2 compliance: control status"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar detección.",
-        "prompt": "Crea Tasks:\n1. INGESTAR_LOGS: cada 5 min desde SIEM\n2. SCORING_EVENTOS: cada 15 min, clasifica nuevos eventos\n3. CORRELACIONAR: cada 30 min, agrupa en incidentes\n4. ACTUALIZAR_BASELINE: semanal, recalcula perfiles normales\n5. Documenta. Objetivo: MTTD <10 min, falsos positivos <3%."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate detection.",
+        "prompt": "Create Tasks:\n1. INGEST_LOGS: every 5 min from SIEM\n2. SCORE_EVENTS: every 15 min, classify new events\n3. CORRELATE: every 30 min, group into incidents\n4. UPDATE_BASELINE: weekly, recalculate normal profiles\n5. Document. Target: MTTD <10 min, false positives <3%."
       }
     ]
   },
   "UC16": {
-    "title": "Control de Incompatibilidades y Conflictos de Interés",
-    "intro": "Sistema ML de detección de conflictos de interés cruzando registros de personal, mercantiles y contratación pública.",
+    "title": "Conflict of Interest and Incompatibility Control",
+    "intro": "ML system for detecting conflicts of interest by cross-referencing personnel, corporate registries, and public procurement records.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para integridad.",
-        "prompt": "Crea la base de datos SP_INTEGRIDAD_DB con esquema ANALYTICS y warehouse SP_WH. Comentarios del proyecto de control de incompatibilidades y conflictos de interés."
+        "title": "Configure environment",
+        "desc": "Create database for integrity.",
+        "prompt": "Create database SP_INTEGRITY_DB with schema ANALYTICS and warehouse SP_WH. Include project comments for conflict of interest and incompatibility control."
       },
       {
-        "title": "Crear datos de personal público",
-        "desc": "Registro de empleados y cargos.",
-        "prompt": "Crea la tabla PERSONAL_PUBLICO con: empleado_id, nombre_hash, cargo, organismo, nivel (Alto_Cargo, Directivo, Tecnico, Administrativo), fecha_alta DATE, fecha_baja DATE, funciones TEXT, tiene_declaracion_bienes BOOLEAN, participa_en_contratacion BOOLEAN. Genera 50,000 empleados públicos."
+        "title": "Create public personnel data",
+        "desc": "Employee and position registry.",
+        "prompt": "Create table PUBLIC_PERSONNEL with: employee_id, name_hash, position, agency, level (Senior_Official, Director, Technical, Administrative), start_date DATE, end_date DATE, responsibilities TEXT, has_asset_declaration BOOLEAN, participates_in_procurement BOOLEAN. Generate 50,000 public employees."
       },
       {
-        "title": "Crear registros mercantiles",
-        "desc": "Sociedades y administradores.",
-        "prompt": "Crea la tabla REGISTRO_MERCANTIL con: sociedad_nif, nombre_sociedad, administrador_hash, cargo_societario (Administrador, Consejero, Socio_Mayoritario, Apoderado), participacion_pct FLOAT, fecha_nombramiento DATE, sector_actividad, cifra_negocio_eur FLOAT. Genera 100,000 registros. Incluir cruces con personal público (5% tiene vinculación societaria)."
+        "title": "Create corporate registries",
+        "desc": "Companies and directors.",
+        "prompt": "Create table CORPORATE_REGISTRY with: company_id, company_name, director_hash, corporate_role (Director, Board_Member, Majority_Shareholder, Authorized_Representative), ownership_pct FLOAT, appointment_date DATE, business_sector, revenue_eur FLOAT. Generate 100,000 records. Include cross-references with public personnel (5% have corporate links)."
       },
       {
-        "title": "Cruzar datos y detectar conflictos",
-        "desc": "ML.CLASSIFICATION para scoring de riesgo.",
-        "prompt": "Crea vista CONFLICTOS_DETECTADOS que cruce PERSONAL_PUBLICO con REGISTRO_MERCANTIL y LICITACIONES (de UC09). Tipos de conflicto:\n- incompatibilidad: empleado público con cargo societario activo\n- revolving_door: exfuncionario en empresa que contrató con su organismo (<2 años)\n- contratacion_vinculada: empresa del familiar adjudicataria\n- nepotismo: familiares en cadena de mando\nScoring: riesgo_alto, riesgo_medio, riesgo_bajo."
+        "title": "Cross-reference and detect conflicts",
+        "desc": "ML.CLASSIFICATION for risk scoring.",
+        "prompt": "Create view DETECTED_CONFLICTS that cross-references PUBLIC_PERSONNEL with CORPORATE_REGISTRY and TENDERS (from UC09). Conflict types:\n- incompatibility: public employee with active corporate role\n- revolving_door: former official at company that contracted with their agency (<2 years)\n- linked_procurement: family member's company awarded contract\n- nepotism: relatives in chain of command\nScoring: high_risk, medium_risk, low_risk."
       },
       {
-        "title": "Analizar redes de influencia",
-        "desc": "Grafos de vinculaciones.",
-        "prompt": "Crea vista REDES_INFLUENCIA que construya grafos: nodos = empleados + sociedades, aristas = vinculaciones (societaria, familiar, contractual). Identifica clústeres de influencia: grupo de empleados vinculados a empresas que licitan con sus organismos. Calcula centralidad y betweenness de cada nodo."
+        "title": "Analyze influence networks",
+        "desc": "Link graphs.",
+        "prompt": "Create view INFLUENCE_NETWORKS that builds graphs: nodes = employees + companies, edges = links (corporate, family, contractual). Identify influence clusters: group of employees linked to companies that bid with their agencies. Calculate centrality and betweenness for each node."
       },
       {
-        "title": "Generar alertas priorizadas",
-        "desc": "Lista de casos para investigar.",
-        "prompt": "Crea vista ALERTAS_INTEGRIDAD con: empleado_id, tipo_conflicto, severidad, descripcion TEXT, importe_contratos_vinculados_eur, evidencia TEXT, recomendacion TEXT. Ordena por severidad × importe. Genera top 50 alertas para la oficina de conflictos."
+        "title": "Generate prioritized alerts",
+        "desc": "Case list for investigation.",
+        "prompt": "Create view INTEGRITY_ALERTS with: employee_id, conflict_type, severity, description TEXT, linked_contract_amount_eur, evidence TEXT, recommendation TEXT. Order by severity x amount. Generate top 50 alerts for the integrity office."
       },
       {
-        "title": "Dashboard de integridad",
-        "desc": "Streamlit de control.",
-        "prompt": "Genera código Streamlit con:\n1. Alertas priorizadas con detalle de cada conflicto\n2. Grafo de vinculaciones para caso seleccionado\n3. Métricas: conflictos detectados por tipo, importe vinculado\n4. Evolución de revolving doors por organismo\n5. Estado de declaraciones de bienes: cumplimiento\n6. Búsqueda de empleado con análisis de vinculaciones"
+        "title": "Integrity dashboard",
+        "desc": "Streamlit control dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. Prioritized alerts with conflict details\n2. Link graph for selected case\n3. Metrics: conflicts detected by type, linked amount\n4. Revolving door evolution by agency\n5. Asset declaration compliance status\n6. Employee search with link analysis"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar detección.",
-        "prompt": "Crea Tasks:\n1. ACTUALIZAR_PERSONAL: mensual con altas/bajas\n2. ACTUALIZAR_MERCANTIL: trimestral con registros mercantiles\n3. CRUCE_CONFLICTOS: trimestral, ejecuta detección\n4. ALERTAR_NUEVOS: semanal, detecta nuevas vinculaciones\n5. Documenta. Nota: alertas son indicios, no pruebas. Presunción de inocencia."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate detection.",
+        "prompt": "Create Tasks:\n1. UPDATE_PERSONNEL: monthly with new hires/departures\n2. UPDATE_CORPORATE: quarterly with corporate registry\n3. DETECT_CONFLICTS: quarterly, run detection\n4. ALERT_NEW: weekly, detect new links\n5. Document. Note: alerts are indicators, not proof. Presumption of innocence."
       }
     ]
   },
   "UC17": {
-    "title": "NLP sobre Normativa y Generación de Resúmenes Legales",
-    "intro": "Pipeline NLP que analiza normativa automáticamente, genera resúmenes ejecutivos y crea normativa consolidada usando RAG.",
+    "title": "NLP on Regulations and Legal Summary Generation",
+    "intro": "NLP pipeline that automatically analyzes regulations, generates executive summaries, and creates consolidated legislation using RAG.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para inteligencia normativa.",
-        "prompt": "Crea la base de datos SP_NORMATIVA_DB con esquema RAG y warehouse SP_WH. Comentarios del proyecto de NLP sobre normativa y generación de resúmenes legales."
+        "title": "Configure environment",
+        "desc": "Create database for regulatory intelligence.",
+        "prompt": "Create database SP_REGULATIONS_DB with schema RAG and warehouse SP_WH. Include project comments for NLP on regulations and legal summary generation."
       },
       {
-        "title": "Crear corpus normativo",
-        "desc": "Generar base de normativa vigente.",
-        "prompt": "Crea la tabla NORMATIVA con: norma_id, tipo (Ley_Organica, Ley, Real_Decreto, Orden, Resolucion, Directiva_UE), titulo, preambulo TEXT, articulado TEXT, disposiciones_adicionales TEXT, fecha_publicacion DATE, boe_referencia, materia, ambito (Estatal, Autonomico, Local), vigente BOOLEAN, modifica_norma_id, deroga_norma_id. Genera 2,000 normas con textos realistas en castellano jurídico."
+        "title": "Create regulatory corpus",
+        "desc": "Generate active legislation database.",
+        "prompt": "Create table REGULATIONS with: regulation_id, type (Organic_Law, Law, Decree, Order, Resolution, EU_Directive), title, preamble TEXT, articles TEXT, additional_provisions TEXT, publication_date DATE, official_gazette_ref, subject, scope (National, State, Local), active BOOLEAN, amends_regulation_id, repeals_regulation_id. Generate 2,000 regulations with realistic legal text."
       },
       {
-        "title": "Indexar con Cortex Search",
-        "desc": "Crear servicio de búsqueda sobre normativa.",
-        "prompt": "Crea un Cortex Search Service sobre NORMATIVA indexando: titulo + preambulo + articulado + disposiciones. Filtros: tipo, materia, ambito, vigente. Demuestra con consultas: '¿qué dice la ley de transparencia sobre acceso a información?', 'regulación de contratos menores', 'protección de datos en administraciones públicas'."
+        "title": "Index with Cortex Search",
+        "desc": "Create search service over regulations.",
+        "prompt": "Create a Cortex Search Service over REGULATIONS indexing: title + preamble + articles + additional_provisions. Filters: type, subject, scope, active. Demonstrate with queries: 'what does the transparency law say about information access?', 'minor contract regulations', 'data protection in public administration'."
       },
       {
-        "title": "Generar resúmenes de nueva normativa",
-        "desc": "LLM para síntesis ejecutiva.",
-        "prompt": "Crea función RESUMIR_NORMA(norma_id) que use CORTEX.COMPLETE para generar:\n- Resumen ejecutivo (200 palabras)\n- Principales novedades y cambios\n- Normas que modifica o deroga\n- Procedimientos administrativos afectados\n- Plazos de entrada en vigor y transitoriedad\nDemuestra con 3 normas complejas."
+        "title": "Generate summaries of new regulations",
+        "desc": "LLM for executive synthesis.",
+        "prompt": "Create function SUMMARIZE_REGULATION(regulation_id) that uses CORTEX.COMPLETE to generate:\n- Executive summary (200 words)\n- Key changes and novelties\n- Regulations it amends or repeals\n- Administrative procedures affected\n- Effective dates and transitional provisions\nDemonstrate with 3 complex regulations."
       },
       {
-        "title": "Identificar impacto en procedimientos",
-        "desc": "Cruzar cambios normativos con procesos.",
-        "prompt": "Crea tabla PROCEDIMIENTOS_ADMIN con: procedimiento_id, nombre, normativa_base, organismo_responsable. Crea función IMPACTO_NORMATIVO(norma_id) que use RAG para identificar qué procedimientos se ven afectados por la nueva norma, qué cambios requieren y plazo de adaptación."
+        "title": "Identify procedure impact",
+        "desc": "Cross-reference regulatory changes with processes.",
+        "prompt": "Create table ADMIN_PROCEDURES with: procedure_id, name, base_regulation, responsible_agency. Create function REGULATORY_IMPACT(regulation_id) that uses RAG to identify which procedures are affected by the new regulation, what changes are required, and adaptation deadline."
       },
       {
-        "title": "Crear normativa consolidada",
-        "desc": "Integrar modificaciones en texto único.",
-        "prompt": "Crea función CONSOLIDAR_NORMA(norma_id) que use CORTEX.COMPLETE + Cortex Search para generar texto consolidado incorporando todas las modificaciones posteriores. Marcar: [modificado por X], [derogado por Y], [añadido por Z]. Demuestra con 2 normas frecuentemente modificadas."
+        "title": "Create consolidated legislation",
+        "desc": "Integrate amendments into a single text.",
+        "prompt": "Create function CONSOLIDATE_REGULATION(regulation_id) that uses CORTEX.COMPLETE + Cortex Search to generate consolidated text incorporating all subsequent amendments. Mark: [amended by X], [repealed by Y], [added by Z]. Demonstrate with 2 frequently amended regulations."
       },
       {
-        "title": "Dashboard de inteligencia normativa",
-        "desc": "Streamlit de gestión.",
-        "prompt": "Genera código Streamlit con:\n1. Feed de nueva normativa con resúmenes automáticos\n2. Buscador RAG sobre corpus legal vigente\n3. Análisis de impacto: procedimientos afectados por norma\n4. Normativa consolidada con tracking de cambios\n5. Alertas por materia y unidad administrativa\n6. Métricas: normas analizadas, impactos detectados, tiempo ahorrado"
+        "title": "Regulatory intelligence dashboard",
+        "desc": "Streamlit management dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. New regulation feed with automatic summaries\n2. RAG search over active legal corpus\n3. Impact analysis: procedures affected by regulation\n4. Consolidated legislation with change tracking\n5. Alerts by subject and administrative unit\n6. Metrics: regulations analyzed, impacts detected, time saved"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar análisis normativo.",
-        "prompt": "Crea Tasks:\n1. INGESTAR_BOE: diario, carga nuevas disposiciones\n2. RESUMIR_NUEVAS: diario, genera resúmenes automáticos\n3. ANALIZAR_IMPACTO: diario, cruza con procedimientos\n4. CONSOLIDAR: semanal, actualiza textos consolidados\n5. Documenta. Objetivo: análisis <1h vs 4h manual."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate regulatory analysis.",
+        "prompt": "Create Tasks:\n1. INGEST_GAZETTE: daily, load new publications\n2. SUMMARIZE_NEW: daily, generate automatic summaries\n3. ANALYZE_IMPACT: daily, cross-reference with procedures\n4. CONSOLIDATE: weekly, update consolidated texts\n5. Document. Target: analysis <1h vs 4h manual."
       }
     ]
   },
   "UC18": {
-    "title": "Análisis Predictivo de Vulnerabilidad Social",
-    "intro": "Motor predictivo que integra indicadores socioeconómicos para identificar personas y zonas en riesgo de vulnerabilidad antes de la crisis.",
+    "title": "Social Vulnerability Predictive Analysis",
+    "intro": "Predictive engine that integrates socioeconomic indicators to identify at-risk individuals and areas before crisis occurs.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para vulnerabilidad social.",
-        "prompt": "Crea la base de datos SP_VULNERABILIDAD_DB con esquema ANALYTICS y warehouse SP_WH. Comentarios del proyecto de análisis predictivo de vulnerabilidad social."
+        "title": "Configure environment",
+        "desc": "Create database for social vulnerability.",
+        "prompt": "Create database SP_VULNERABILITY_DB with schema ANALYTICS and warehouse SP_WH. Include project comments for social vulnerability predictive analysis."
       },
       {
-        "title": "Crear indicadores por zona",
-        "desc": "Datos socioeconómicos y de servicios.",
-        "prompt": "Crea la tabla INDICADORES_ZONA con: zona_id (barrio/municipio), fecha_mes DATE, tasa_desempleo_pct FLOAT, renta_media_eur FLOAT, precio_alquiler_m2 FLOAT, desahucios_mes INT, solicitudes_bono_social INT, cortes_suministro INT, solicitudes_servicios_sociales INT, indice_envejecimiento FLOAT, pob_inmigrante_pct FLOAT, denuncias_violencia INT. Genera datos mensuales para 500 zonas × 3 años."
+        "title": "Create zone indicators",
+        "desc": "Socioeconomic and service data.",
+        "prompt": "Create table ZONE_INDICATORS with: zone_id (neighborhood/municipality), month_date DATE, unemployment_rate_pct FLOAT, avg_income_eur FLOAT, rent_price_sqm FLOAT, evictions_month INT, social_tariff_applications INT, utility_cutoffs INT, social_services_applications INT, aging_index FLOAT, immigrant_population_pct FLOAT, domestic_violence_reports INT. Generate monthly data for 500 zones x 3 years."
       },
       {
-        "title": "Crear perfiles individuales",
-        "desc": "Indicadores a nivel de persona (anonimizado).",
-        "prompt": "Crea la tabla PERFILES_RIESGO con: citizen_id_hash, zona_id, edad_grupo, genero, situacion_laboral, meses_desempleo INT, prestacion_activa BOOLEAN, tipo_prestacion, renta_grupo, tipo_vivienda (Propiedad, Alquiler, Social, Sin_Hogar), composicion_familiar, indicador_salud_cronico BOOLEAN, acceso_digital BOOLEAN. Genera 200,000 perfiles. El 8% en situación de vulnerabilidad real."
+        "title": "Create individual profiles",
+        "desc": "Person-level indicators (anonymized).",
+        "prompt": "Create table RISK_PROFILES with: citizen_id_hash, zone_id, age_group, gender, employment_status, months_unemployed INT, receiving_benefits BOOLEAN, benefit_type, income_group, housing_type (Owner, Rental, Social, Homeless), family_composition, chronic_health_indicator BOOLEAN, digital_access BOOLEAN. Generate 200,000 profiles. 8% in actual vulnerability."
       },
       {
-        "title": "Calcular scoring de vulnerabilidad",
+        "title": "Calculate vulnerability scoring",
         "desc": "ML.CLASSIFICATION multidimensional.",
-        "prompt": "Usa ML.CLASSIFICATION para scoring de vulnerabilidad en 5 dimensiones:\n- Económica: renta, desempleo, deudas\n- Habitacional: riesgo desahucio, vivienda inadecuada\n- Sanitaria: enfermedad crónica, salud mental, dependencia\n- Social: aislamiento, violencia, discriminación\n- Energética: pobreza energética, cortes de suministro\nScoring global: sin_riesgo, riesgo_bajo, riesgo_medio, riesgo_alto, riesgo_critico."
+        "prompt": "Use ML.CLASSIFICATION for vulnerability scoring across 5 dimensions:\n- Economic: income, unemployment, debts\n- Housing: eviction risk, inadequate housing\n- Health: chronic illness, mental health, dependency\n- Social: isolation, violence, discrimination\n- Energy: energy poverty, utility cutoffs\nOverall scoring: no_risk, low_risk, medium_risk, high_risk, critical_risk."
       },
       {
-        "title": "Crear mapa de riesgo",
-        "desc": "Visualización territorial de vulnerabilidad.",
-        "prompt": "Crea vista MAPA_VULNERABILIDAD por zona con: indice_vulnerabilidad_global, vulnerabilidad_economica, habitacional, sanitaria, social, energetica, personas_riesgo_alto INT, personas_riesgo_critico INT, tendencia_3m (mejorando, estable, empeorando), alerta_temprana TEXT. Identificar zonas con deterioro acelerado."
+        "title": "Create risk map",
+        "desc": "Territorial vulnerability visualization.",
+        "prompt": "Create view VULNERABILITY_MAP per zone with: global_vulnerability_index, economic_vulnerability, housing, health, social, energy, high_risk_persons INT, critical_risk_persons INT, 3m_trend (improving, stable, worsening), early_warning TEXT. Identify zones with accelerating deterioration."
       },
       {
-        "title": "Generar recomendaciones de intervención",
-        "desc": "Priorizar actuaciones por perfil.",
-        "prompt": "Crea vista PLAN_INTERVENCION que por persona en riesgo alto/crítico genere: dimension_principal, actuaciones_recomendadas (servicio social, empleo, vivienda, salud), urgencia, servicio_responsable, coste_estimado_intervencion_eur, probabilidad_cronificacion_sin_intervencion. Usa CORTEX.COMPLETE para personalizar recomendación."
+        "title": "Generate intervention recommendations",
+        "desc": "Prioritize actions by profile.",
+        "prompt": "Create view INTERVENTION_PLAN that per high/critical risk person generates: primary_dimension, recommended_actions (social_services, employment, housing, health), urgency, responsible_service, estimated_intervention_cost_eur, chronification_probability_without_intervention. Use CORTEX.COMPLETE to personalize recommendation."
       },
       {
-        "title": "Dashboard de prevención social",
-        "desc": "Streamlit de gestión.",
-        "prompt": "Genera código Streamlit con:\n1. Mapa de vulnerabilidad por zona con semáforo\n2. Perfil de riesgo por persona (anonimizado) con scoring\n3. Plan de intervención priorizado\n4. Tendencias: zonas que empeoran con alertas\n5. Métricas: personas en riesgo, intervenciones, éxito preventivo\n6. Comparativa de zonas y evolución temporal"
+        "title": "Social prevention dashboard",
+        "desc": "Streamlit management dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. Vulnerability map by zone with traffic light\n2. Risk profile per person (anonymized) with scoring\n3. Prioritized intervention plan\n4. Trends: worsening zones with alerts\n5. Metrics: persons at risk, interventions, preventive success\n6. Zone comparison and temporal evolution"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar prevención.",
-        "prompt": "Crea Tasks:\n1. ACTUALIZAR_INDICADORES: mensual, carga datos socioeconómicos\n2. SCORING_VULNERABILIDAD: mensual, recalcula riesgo\n3. ALERTAS_DETERIORO: semanal, detecta empeoramiento rápido\n4. PLAN_INTERVENCION: mensual, genera recomendaciones\n5. Documenta. Cumplimiento RGPD estricto. Objetivo: prevenir 70% de crisis."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate prevention.",
+        "prompt": "Create Tasks:\n1. UPDATE_INDICATORS: monthly, load socioeconomic data\n2. VULNERABILITY_SCORING: monthly, recalculate risk\n3. DETERIORATION_ALERTS: weekly, detect rapid worsening\n4. INTERVENTION_PLAN: monthly, generate recommendations\n5. Document. Strict data protection compliance. Target: prevent 70% of crises."
       }
     ]
   },
   "UC19": {
-    "title": "Análisis de Sentimiento en Participación Ciudadana",
-    "intro": "Pipeline NLP de análisis de participación ciudadana que clasifica aportaciones, detecta temas emergentes y genera informes para decisores.",
+    "title": "Sentiment Analysis in Citizen Participation",
+    "intro": "NLP citizen participation analysis pipeline that classifies submissions, detects emerging topics, and generates synthesis reports for decision makers.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para participación.",
-        "prompt": "Crea la base de datos SP_PARTICIPACION_DB con esquema ANALYTICS y warehouse SP_WH. Comentarios del proyecto de análisis de sentimiento en participación ciudadana."
+        "title": "Configure environment",
+        "desc": "Create database for participation.",
+        "prompt": "Create database SP_PARTICIPATION_DB with schema ANALYTICS and warehouse SP_WH. Include project comments for sentiment analysis in citizen participation."
       },
       {
-        "title": "Crear datos de participación",
-        "desc": "Aportaciones ciudadanas sintéticas.",
-        "prompt": "Crea la tabla APORTACIONES con: aportacion_id, proceso_id, tipo_proceso (Consulta_Publica, Presupuesto_Participativo, Sugerencia, Queja, Pleno_Abierto), titulo TEXT, texto TEXT, autor_hash, fecha TIMESTAMP, idioma (es, ca, eu, gl), canal (Web, App, Presencial, Email), distrito, tema_declarado. Genera 50,000 aportaciones para 100 procesos. Temas: movilidad, zonas verdes, seguridad, cultura, limpieza, vivienda."
+        "title": "Create participation data",
+        "desc": "Synthetic citizen submissions.",
+        "prompt": "Create table SUBMISSIONS with: submission_id, process_id, process_type (Public_Consultation, Participatory_Budget, Suggestion, Complaint, Open_Session), title TEXT, content TEXT, author_hash, date TIMESTAMP, language (en, es, fr, de), channel (Web, App, In_Person, Email), district, declared_topic. Generate 50,000 submissions for 100 processes. Topics: mobility, green spaces, safety, culture, cleanliness, housing."
       },
       {
-        "title": "Analizar sentimiento",
-        "desc": "CORTEX.SENTIMENT sobre aportaciones.",
-        "prompt": "Crea la vista SENTIMIENTO_PARTICIPACION que use CORTEX.SENTIMENT sobre cada aportación para extraer: sentimiento_score (-1 a 1), sentimiento_label (Positivo, Neutro, Negativo). Agrega por proceso: sentimiento_medio, distribucion (% pos/neu/neg), evolución temporal. Identifica procesos con sentimiento mayoritariamente negativo."
+        "title": "Analyze sentiment",
+        "desc": "CORTEX.SENTIMENT on submissions.",
+        "prompt": "Create view PARTICIPATION_SENTIMENT that uses CORTEX.SENTIMENT on each submission to extract: sentiment_score (-1 to 1), sentiment_label (Positive, Neutral, Negative). Aggregate by process: avg_sentiment, distribution (% pos/neu/neg), temporal evolution. Identify processes with predominantly negative sentiment."
       },
       {
-        "title": "Clasificar por tema",
-        "desc": "CORTEX.COMPLETE para categorización.",
-        "prompt": "Crea la vista CLASIFICACION_TEMATICA que use CORTEX.COMPLETE para clasificar cada aportación en: tema_principal (movilidad, zonas_verdes, seguridad, cultura, limpieza, vivienda, educacion, salud, economia, otro), subtema, es_propuesta BOOLEAN, es_queja BOOLEAN, es_pregunta BOOLEAN, viabilidad_estimada (alta, media, baja, no_aplica)."
+        "title": "Classify by topic",
+        "desc": "CORTEX.COMPLETE for categorization.",
+        "prompt": "Create view TOPIC_CLASSIFICATION that uses CORTEX.COMPLETE to classify each submission into: main_topic (mobility, green_spaces, safety, culture, cleanliness, housing, education, health, economy, other), subtopic, is_proposal BOOLEAN, is_complaint BOOLEAN, is_question BOOLEAN, estimated_feasibility (high, medium, low, not_applicable)."
       },
       {
-        "title": "Detectar temas emergentes",
-        "desc": "Clustering de propuestas similares.",
-        "prompt": "Crea vista TEMAS_EMERGENTES que agrupe aportaciones similares: cluster_id, tema_comun, num_aportaciones, sentimiento_medio, ejemplo_representativo, es_tema_nuevo BOOLEAN (no previsto en la consulta), tendencia (creciente, estable, decreciente). Identificar temas que emergen espontáneamente."
+        "title": "Detect emerging topics",
+        "desc": "Clustering of similar proposals.",
+        "prompt": "Create view EMERGING_TOPICS that groups similar submissions: cluster_id, common_topic, num_submissions, avg_sentiment, representative_example, is_new_topic BOOLEAN (not anticipated in consultation), trend (growing, stable, declining). Identify topics that emerge spontaneously."
       },
       {
-        "title": "Generar informe de síntesis",
-        "desc": "LLM para consolidar resultados.",
-        "prompt": "Crea función INFORME_PARTICIPACION(proceso_id) que use CORTEX.COMPLETE para generar:\n- Resumen ejecutivo: participación, sentimiento general\n- Top 5 temas con sentimiento y propuestas principales\n- Temas emergentes no anticipados\n- Propuestas más viables y más apoyadas\n- Recomendaciones para decisores\nFormato profesional para presentar al pleno municipal."
+        "title": "Generate synthesis report",
+        "desc": "LLM to consolidate results.",
+        "prompt": "Create function PARTICIPATION_REPORT(process_id) that uses CORTEX.COMPLETE to generate:\n- Executive summary: participation, overall sentiment\n- Top 5 topics with sentiment and main proposals\n- Unanticipated emerging topics\n- Most feasible and most supported proposals\n- Recommendations for decision makers\nProfessional format for council presentation."
       },
       {
-        "title": "Dashboard de participación",
-        "desc": "Streamlit de gestión.",
-        "prompt": "Genera código Streamlit con:\n1. Resumen de proceso: participación, sentimiento, temas\n2. Nube de temas con sentimiento por color\n3. Timeline de aportaciones con evolución de sentimiento\n4. Propuestas agrupadas por tema y viabilidad\n5. Comparativa entre procesos participativos\n6. Generador de informes para pleno municipal"
+        "title": "Participation dashboard",
+        "desc": "Streamlit management dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. Process summary: participation, sentiment, topics\n2. Topic cloud with sentiment by color\n3. Submission timeline with sentiment evolution\n4. Proposals grouped by topic and feasibility\n5. Comparison between participatory processes\n6. Report generator for council presentation"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar análisis.",
-        "prompt": "Crea Tasks:\n1. INGESTAR_APORTACIONES: continuo durante procesos abiertos\n2. ANALIZAR_SENTIMIENTO: diario durante proceso\n3. CLASIFICAR_TEMAS: diario\n4. DETECTAR_EMERGENTES: semanal\n5. Documenta. Objetivo: análisis <24h vs semanas manual."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate analysis.",
+        "prompt": "Create Tasks:\n1. INGEST_SUBMISSIONS: continuous during open processes\n2. ANALYZE_SENTIMENT: daily during process\n3. CLASSIFY_TOPICS: daily\n4. DETECT_EMERGING: weekly\n5. Document. Target: analysis <24h vs weeks manually."
       }
     ]
   },
   "UC20": {
-    "title": "Gestión Inteligente de Residuos Urbanos",
-    "intro": "Motor de optimización de residuos que predice llenado, optimiza rutas, detecta contaminación y predice comportamiento de reciclaje.",
+    "title": "Intelligent Urban Waste Management",
+    "intro": "Waste management optimization engine that predicts fill levels, optimizes collection routes, detects fraction contamination, and predicts recycling behavior.",
     "steps": [
       {
-        "title": "Configurar entorno",
-        "desc": "Crear base de datos para residuos.",
-        "prompt": "Crea la base de datos SP_RESIDUOS_DB con esquema ANALYTICS y warehouse SP_WH. Comentarios del proyecto de gestión inteligente de residuos urbanos."
+        "title": "Configure environment",
+        "desc": "Create database for waste management.",
+        "prompt": "Create database SP_WASTE_DB with schema ANALYTICS and warehouse SP_WH. Include project comments for intelligent urban waste management."
       },
       {
-        "title": "Crear inventario de contenedores",
-        "desc": "Catálogo de contenedores con sensores.",
-        "prompt": "Crea la tabla CONTENEDORES con: contenedor_id, ubicacion_lat FLOAT, ubicacion_lng FLOAT, zona (Centro, Residencial, Comercial, Industrial), fraccion (Organica, Envases, Papel, Vidrio, Resto), capacidad_litros INT, tiene_sensor BOOLEAN, fecha_instalacion DATE. Genera 10,000 contenedores en una ciudad tipo. El 40% tiene sensor IoT."
+        "title": "Create container inventory",
+        "desc": "Container catalog with sensors.",
+        "prompt": "Create table CONTAINERS with: container_id, location_lat FLOAT, location_lng FLOAT, zone (Center, Residential, Commercial, Industrial), fraction (Organic, Packaging, Paper, Glass, Residual), capacity_liters INT, has_sensor BOOLEAN, installation_date DATE. Generate 10,000 containers in a typical city. 40% have IoT sensors."
       },
       {
-        "title": "Cargar datos de sensores",
-        "desc": "Lecturas de nivel de llenado.",
-        "prompt": "Crea la tabla LECTURAS_SENSOR con: contenedor_id, fecha_hora TIMESTAMP, nivel_pct FLOAT, temperatura_c FLOAT, inclinacion_grados FLOAT, bateria_pct FLOAT. Genera lecturas cada 4h para contenedores con sensor × 1 año. Patrones: orgánica llenado rápido, vidrio lento, comercial más rápido que residencial."
+        "title": "Load sensor data",
+        "desc": "Fill level readings.",
+        "prompt": "Create table SENSOR_READINGS with: container_id, timestamp TIMESTAMP, fill_level_pct FLOAT, temperature_c FLOAT, tilt_degrees FLOAT, battery_pct FLOAT. Generate readings every 4h for sensor-equipped containers x 1 year. Patterns: organic fills fast, glass slow, commercial faster than residential."
       },
       {
-        "title": "Predecir llenado",
-        "desc": "ML.FORECAST para cada contenedor.",
-        "prompt": "Usa ML.FORECAST para predecir nivel_pct por contenedor a 24h, 48h y 72h vista. Variables: zona, fraccion, dia_semana, festivo, eventos_cercanos. Crea vista PREDICCION_LLENADO: contenedor_id, hora_prevista_lleno, prioridad_recogida (urgente >90%, alta 75-90%, normal 50-75%, baja <50%)."
+        "title": "Predict fill levels",
+        "desc": "ML.FORECAST per container.",
+        "prompt": "Use ML.FORECAST to predict fill_level_pct per container at 24h, 48h, and 72h horizons. Variables: zone, fraction, day_of_week, holiday, nearby_events. Create view FILL_PREDICTION: container_id, predicted_full_time, collection_priority (urgent >90%, high 75-90%, normal 50-75%, low <50%)."
       },
       {
-        "title": "Optimizar rutas",
-        "desc": "Generar rutas de recogida eficientes.",
-        "prompt": "Crea vista RUTAS_OPTIMIZADAS que agrupe contenedores a recoger por: vehiculo, orden de recogida, km_estimados, tiempo_estimado_min, contenedores_en_ruta INT. Restricciones: capacidad vehículo, horario permitido por zona, frecuencia mínima por fracción. Calcula ahorro_km vs ruta fija."
+        "title": "Optimize routes",
+        "desc": "Generate efficient collection routes.",
+        "prompt": "Create view OPTIMIZED_ROUTES that groups containers to collect by: vehicle, collection_order, estimated_km, estimated_time_min, containers_in_route INT. Constraints: vehicle capacity, permitted schedule by zone, minimum frequency per fraction. Calculate km_savings vs fixed route."
       },
       {
-        "title": "Detectar contaminación",
-        "desc": "ML.CLASSIFICATION sobre fracciones.",
-        "prompt": "Usa ML.CLASSIFICATION sobre datos de planta de tratamiento para detectar contaminación de fracciones: contenedor con >30% de material incorrecto. Variables: zona, tipo_vivienda, historial_contaminacion, campañas_informativas. Genera lista de zonas con alta contaminación para campañas educativas."
+        "title": "Detect contamination",
+        "desc": "ML.CLASSIFICATION on fractions.",
+        "prompt": "Use ML.CLASSIFICATION on treatment plant data to detect fraction contamination: container with >30% incorrect material. Variables: zone, housing_type, contamination_history, awareness_campaigns. Generate list of high-contamination zones for educational campaigns."
       },
       {
-        "title": "Dashboard de residuos",
-        "desc": "Streamlit de gestión.",
-        "prompt": "Genera código Streamlit con:\n1. Mapa de contenedores con nivel actual y predicción\n2. Rutas optimizadas del día con ahorro estimado\n3. Alertas de desbordamiento próximo\n4. Métricas: tasa reciclaje por zona, contaminación, km ahorrados\n5. Comparativa rutas optimizadas vs fijas\n6. Evolución de reciclaje por zona y fracción"
+        "title": "Waste management dashboard",
+        "desc": "Streamlit management dashboard.",
+        "prompt": "Generate Streamlit code with:\n1. Container map with current level and prediction\n2. Optimized routes for the day with estimated savings\n3. Upcoming overflow alerts\n4. Metrics: recycling rate by zone, contamination, km saved\n5. Optimized vs fixed route comparison\n6. Recycling evolution by zone and fraction"
       },
       {
-        "title": "Pipeline y limpieza",
-        "desc": "Automatizar gestión.",
-        "prompt": "Crea Tasks:\n1. INGESTAR_SENSORES: cada 4h, carga lecturas IoT\n2. PREDECIR_LLENADO: cada 6h, genera predicciones\n3. OPTIMIZAR_RUTAS: diario a las 4:00, genera rutas del día\n4. DETECTAR_CONTAMINACION: semanal, analiza plantas de tratamiento\n5. Documenta. Objetivo: reducir viajes 25%, desbordamientos 90%."
+        "title": "Pipeline and cleanup",
+        "desc": "Automate management.",
+        "prompt": "Create Tasks:\n1. INGEST_SENSORS: every 4h, load IoT readings\n2. PREDICT_FILL: every 6h, generate predictions\n3. OPTIMIZE_ROUTES: daily at 4:00am, generate daily routes\n4. DETECT_CONTAMINATION: weekly, analyze treatment plants\n5. Document. Target: reduce trips 25%, overflows 90%."
       }
     ]
   }
